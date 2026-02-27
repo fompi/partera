@@ -183,9 +183,9 @@ test-legacy: ## Ejecuta tests de regresión de compatibilidad legacy
 CHAIN ?=
 
 .PHONY: chain
-chain: ## Ejecuta un chain mostrando cada paso. Requiere CHAIN=<nombre> [ADAPTER=<adaptador>]
+chain: ## Ejecuta un chain mostrando cada paso. Requiere CHAIN=<nombre> [ADAPTER=<adaptador>] [STEPS=<dir>]
 	@test -n "$(CHAIN)" || { echo "Error: CHAIN requerido (nl-to-code, full-audit, idea-to-project, content-pipeline)"; exit 1; }
-	@$(PROMPTS_DIR)scripts/run_chain.sh "$(CHAIN)" "$(ADAPTER)"
+	@$(PROMPTS_DIR)scripts/run_chain.sh "$(CHAIN)" "$(ADAPTER)" $(if $(STEPS),--steps $(STEPS))
 
 .PHONY: list-chains
 list-chains: ## Lista los chains disponibles

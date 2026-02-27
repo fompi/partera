@@ -58,3 +58,12 @@ Para análisis en profundidad, usa estas técnicas como extensiones (`EXT=`):
 ## Plantilla de hallazgo
 
 Usa la plantilla de hallazgo del archivo base.
+
+## Interfaz
+
+**INPUT**: Código a analizar con foco en correctitud lógica.
+
+**OUTPUT**:
+- Bugs y edge cases no manejados (hallazgos BUG-)
+- Flujo de propagación de errores por hallazgo
+- Propuesta de corrección con impacto en estado del sistema

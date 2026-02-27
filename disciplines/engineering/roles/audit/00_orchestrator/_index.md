@@ -84,3 +84,14 @@ Cuando corresponda, genera contenido para:
 - `improvements/05_testing_observability_upgrade.md`
 
 Cada archivo debe incluir: contexto, objetivo, pasos, riesgos/mitigaciones, checklist de validación, definición de Done y criterios de rollback.
+
+## Interfaz
+
+**INPUT**: Repositorio o codebase completo a auditar.
+
+**OUTPUT**:
+- Resumen ejecutivo del estado del proyecto
+- Diagrama de arquitectura (texto o mermaid)
+- Matriz de triage priorizada por rol
+- Top 10 acciones con impacto estimado
+- Plan por fases (quick wins, medio plazo, estructural)

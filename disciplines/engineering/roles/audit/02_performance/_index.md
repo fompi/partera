@@ -78,3 +78,12 @@ Para análisis en profundidad, usa estas técnicas como extensiones (`EXT=`):
 ## Plantilla de hallazgo
 
 Usa la plantilla definida en el archivo base. No la dupliques aquí.
+
+## Interfaz
+
+**INPUT**: Código o sistema a analizar, con métricas de baseline si disponibles.
+
+**OUTPUT**:
+- Cuellos de botella identificados por área (algorítmica, I/O, memoria, concurrencia)
+- Propuestas con métricas esperadas (latencia, throughput, CPU/RAM)
+- Marco de trade-offs por propuesta
