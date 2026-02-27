@@ -1,0 +1,59 @@
+graph LR
+
+    %% Disciplina: engineering
+    %% Generado por scripts/generate_discipline_graph.sh
+    %% task_type: audit=azul | generate=verde | plan=amarillo
+
+    subgraph audit
+        engineering_audit_00_orchestrator["Orquestador de Auditoría"]
+        engineering_audit_01_security["Analista de Seguridad"]
+        engineering_audit_02_performance["Ingeniero de Rendimiento"]
+        engineering_audit_03_architecture["Revisor de Arquitectura"]
+        engineering_audit_04_correctness["Cazador de Bugs y Edge Cases"]
+    end
+
+    subgraph plan
+        engineering_plan_00_tech_estimator["Estimador Técnico"]
+    end
+
+    subgraph generate
+        engineering_generate_00_spec_writer["Redactor de Especificaciones"]
+        engineering_generate_01_tech_advisor["Asesor Tecnológico"]
+        engineering_generate_02_implementer["Desarrollador Senior"]
+        engineering_generate_03_reviewer["Revisor de Código"]
+        engineering_generate_04_documenter["Documentador Técnico"]
+        engineering_generate_05_frontend_dev["Desarrollador Frontend"]
+    end
+
+    %% Conexiones entre roles
+    engineering_audit_00_orchestrator --> engineering_audit_01_security
+    engineering_audit_00_orchestrator --> engineering_audit_02_performance
+    engineering_audit_00_orchestrator --> engineering_audit_03_architecture
+    engineering_audit_00_orchestrator --> engineering_audit_04_correctness
+    engineering_audit_01_security --> engineering_audit_00_orchestrator
+    engineering_audit_02_performance --> engineering_audit_00_orchestrator
+    engineering_audit_03_architecture --> engineering_audit_00_orchestrator
+    engineering_audit_04_correctness --> engineering_audit_00_orchestrator
+    engineering_generate_00_spec_writer --> engineering_generate_01_tech_advisor
+    engineering_generate_00_spec_writer --> engineering_generate_02_implementer
+    engineering_generate_01_tech_advisor --> engineering_generate_02_implementer
+    engineering_generate_02_implementer --> engineering_generate_03_reviewer
+    engineering_generate_02_implementer --> engineering_generate_04_documenter
+    engineering_generate_03_reviewer --> engineering_generate_02_implementer
+    engineering_generate_05_frontend_dev --> engineering_generate_03_reviewer
+    engineering_generate_05_frontend_dev --> engineering_generate_04_documenter
+    engineering_plan_00_tech_estimator --> engineering_generate_00_spec_writer
+
+    %% Estilos
+    style engineering_audit_00_orchestrator fill:#dbeafe,stroke:#6b7280,color:#111827
+    style engineering_audit_01_security fill:#dbeafe,stroke:#6b7280,color:#111827
+    style engineering_audit_02_performance fill:#dbeafe,stroke:#6b7280,color:#111827
+    style engineering_audit_03_architecture fill:#dbeafe,stroke:#6b7280,color:#111827
+    style engineering_audit_04_correctness fill:#dbeafe,stroke:#6b7280,color:#111827
+    style engineering_generate_00_spec_writer fill:#dcfce7,stroke:#6b7280,color:#111827
+    style engineering_generate_01_tech_advisor fill:#dcfce7,stroke:#6b7280,color:#111827
+    style engineering_generate_02_implementer fill:#dcfce7,stroke:#6b7280,color:#111827
+    style engineering_generate_03_reviewer fill:#dcfce7,stroke:#6b7280,color:#111827
+    style engineering_generate_04_documenter fill:#dcfce7,stroke:#6b7280,color:#111827
+    style engineering_generate_05_frontend_dev fill:#dcfce7,stroke:#6b7280,color:#111827
+    style engineering_plan_00_tech_estimator fill:#fef9c3,stroke:#6b7280,color:#111827
