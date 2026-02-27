@@ -134,10 +134,10 @@ fi
 # MODO LEGACY
 # ============================================================
 if [[ "$MODE" == "legacy" ]]; then
-  lang_file="$SCRIPT_DIR/lang/${ADAPTER}.md"
-  role_file="$SCRIPT_DIR/${ROLE}"
+  lang_file="$SCRIPT_DIR/_deprecated/lang/${ADAPTER}.md"
+  role_file="$SCRIPT_DIR/_deprecated/${ROLE}"
   [[ "$role_file" != *.md ]] && role_file="${role_file}.md"
-  base_file="$SCRIPT_DIR/_base_audit.md"
+  base_file="$SCRIPT_DIR/_deprecated/_base_audit.md"
 
   for f in "$base_file" "$lang_file" "$role_file"; do
     if [[ ! -f "$f" ]]; then
@@ -172,8 +172,8 @@ fi
 # Base universal
 base_file="$SCRIPT_DIR/_base.md"
 if [[ ! -f "$base_file" ]]; then
-  # Fallback a _base_audit.md si _base.md no existe aún
-  base_file="$SCRIPT_DIR/_base_audit.md"
+  # Fallback a _deprecated/_base_audit.md si _base.md no existe aún
+  base_file="$SCRIPT_DIR/_deprecated/_base_audit.md"
 fi
 
 # Base de la disciplina (opcional)

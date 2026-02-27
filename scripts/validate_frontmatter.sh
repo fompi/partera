@@ -36,7 +36,7 @@ log_ok()    { printf "${GREEN}OK${RESET}     %s\n" "$1"; }
 get_field() {
   local file="$1" field="$2"
   awk '/^---$/{found++; next} found==1{print} found==2{exit}' "$file" \
-    | grep "^${field}:" | head -1 | sed 's/^[^:]*: *//'
+    | grep "^${field}:" | head -1 | sed 's/^[^:]*: *//' || true
 }
 
 has_frontmatter() {

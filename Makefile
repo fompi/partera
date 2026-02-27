@@ -35,10 +35,10 @@ ifeq ($(ADAPTER),)
   ADAPTER   := $(LANG)
 endif
 
-BASE        := $(PROMPTS_DIR)_base_audit.md
-LANG_FILE   := $(PROMPTS_DIR)lang/$(LANG).md
+BASE        := $(PROMPTS_DIR)_deprecated/_base_audit.md
+LANG_FILE   := $(PROMPTS_DIR)_deprecated/lang/$(LANG).md
 ROLE_CLEAN  := $(ROLE:%.md=%)
-ROLE_FILE   := $(PROMPTS_DIR)$(ROLE_CLEAN).md
+ROLE_FILE   := $(PROMPTS_DIR)_deprecated/$(ROLE_CLEAN).md
 PROJECT     ?= $(CURDIR)
 OUT         ?= $(PROJECT)/.audit_output
 
@@ -92,10 +92,16 @@ help: ## Muestra esta ayuda
 	@echo "  make full-audit LANG=python CODE=~/my-project/src/ PLATFORM=claude"
 
 .PHONY: compose
-compose: ## Compone base + lang + rol y lo imprime a stdout
+compose: ## Compone base + lang + rol y lo imprime a stdout (DISC= para modo nuevo)
+ifdef DISC
+	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido (python, bash, ...)"; exit 1; }
+	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido (audit/01_security/_index, ...)"; exit 1; }
+	@DISC=$(DISC) $(PROMPTS_DIR)compose.sh "$(ADAPTER)" "$(ROLE)"
+else
 	$(check_lang)
 	$(check_role)
 	@cat "$(BASE)" <(printf '\n---\n\n') "$(LANG_FILE)" <(printf '\n---\n\n') "$(ROLE_FILE)"
+endif
 
 .PHONY: clipboard
 clipboard: ## Compone y copia al portapapeles
