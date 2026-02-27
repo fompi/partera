@@ -48,7 +48,7 @@ git clone https://github.com/<tu-usuario>/audit-prompts.git ~/audit-prompts
 # Usar desde cualquier proyecto
 cd ~/audit-prompts
 make claude LANG=python ROLE=01_security/_index CODE=~/my-project/src/
-make cursor LANG=python ROLE=03_architecture PROJECT=~/my-project
+make cursor LANG=python ROLE=03_architecture/_index PROJECT=~/my-project
 ```
 
 **B) Como subdirectorio**: clona dentro del proyecto para tener todo junto.
@@ -80,7 +80,7 @@ make antigravity LANG=python ROLE=01_security/_index PROJECT=~/my-project
 ./compose.sh python 01_security/_index --clipboard
 
 # Componer y redirigir a fichero
-./compose.sh bash 03_architecture > /tmp/audit_prompt.md
+./compose.sh bash 03_architecture/_index > /tmp/audit_prompt.md
 
 # Usar el Makefile (recomendado)
 make compose LANG=python ROLE=01_security/_index
@@ -99,7 +99,8 @@ make ollama  LANG=bash   ROLE=04_correctness/_index CODE=~/my-project/scripts/
 ├── compose.sh                         ← ensamblador de prompts
 ├── .gitignore
 ├── _base_audit.md                     ← contrato universal
-├── 00_orchestrator.md                 ← mapa + triage + síntesis
+├── 00_orchestrator/                   ← mapa + triage + síntesis
+│   └── _index.md
 ├── 01_security/                       ← auditoría de seguridad
 │   ├── _index.md                      ← modo quick (1 pass)
 │   ├── 01a_injection_surfaces.md      ← inyección, path traversal, SSRF
@@ -111,7 +112,8 @@ make ollama  LANG=bash   ROLE=04_correctness/_index CODE=~/my-project/scripts/
 │   ├── 02a_algorithmic_complexity.md  ← Big-O, estructuras de datos
 │   ├── 02b_io_network_concurrency.md  ← I/O, N+1, async, locks
 │   └── 02c_memory_resources.md        ← memoria, leaks, caching
-├── 03_architecture.md                 ← arquitectura (no subdividido)
+├── 03_architecture/                   ← arquitectura
+│   └── _index.md
 ├── 04_correctness/                    ← caza de bugs y edge cases
 │   ├── _index.md                      ← modo quick
 │   ├── 04a_edge_cases_contracts.md    ← contratos, boundaries
@@ -125,6 +127,12 @@ make ollama  LANG=bash   ROLE=04_correctness/_index CODE=~/my-project/scripts/
 ├── lang/                              ← adaptadores idiomáticos
 │   ├── python.md
 │   └── bash.md
+├── meta/                              ← prompts de automejora
+│   ├── _base_meta.md                  ← contrato base para meta-prompts
+│   ├── improve_prompt.md              ← mejorar un prompt existente
+│   ├── evaluate_coverage.md           ← evaluar gaps de cobertura
+│   ├── generate_lang_adapter.md       ← generar adaptador idiomático
+│   └── generate_role.md              ← generar nuevo rol
 └── _archive/                          ← prompts originales (histórico)
 ```
 
@@ -134,7 +142,7 @@ make ollama  LANG=bash   ROLE=04_correctness/_index CODE=~/my-project/scripts/
 
 | Modo | Cuándo usarlo | Composición | Passes |
 |------|---------------|-------------|--------|
-| Triage rápido | Evaluar un repo nuevo | base + lang + `00_orchestrator` | 1 |
+| Triage rápido | Evaluar un repo nuevo | base + lang + `00_orchestrator/_index` | 1 |
 | Auditoría dirigida | Foco en un área concreta | base + lang + `0N_role/_index` | 1 |
 | Deep-dive | Máxima profundidad en un sub-área | base + lang + `0N_role/0Na_subtask` | 1 por subtask |
 | Auditoría completa | Revisión exhaustiva | Orchestrator primero, luego cada rol | 6-15 |
@@ -154,7 +162,7 @@ make ollama  LANG=bash   ROLE=04_correctness/_index CODE=~/my-project/scripts/
 Objetivo: entender la arquitectura y decidir qué auditar primero.
 
 ```bash
-make compose LANG=python ROLE=00_orchestrator > /tmp/triage.md
+make compose LANG=python ROLE=00_orchestrator/_index > /tmp/triage.md
 ```
 
 Resultado del prompt compuesto (~220 líneas, ~3.500 tokens):
@@ -164,7 +172,7 @@ Resultado del prompt compuesto (~220 líneas, ~3.500 tokens):
 ---
 [lang/python.md]     — detección de versión, PEPs, tooling Python
 ---
-[00_orchestrator.md] — mapeo, superficies de riesgo, triage, plan por fases
+[00_orchestrator/_index.md] — mapeo, superficies de riesgo, triage, plan por fases
 ```
 
 Cómo usarlo: pega el prompt como system/instrucción + el código en el chat.
@@ -214,10 +222,10 @@ de hotspots, Big-O y trade-offs.
 make full-audit LANG=python CODE=~/my-project/src/ PLATFORM=claude
 
 # Ejecutar uno a uno (o en paralelo si el modelo lo permite)
-make claude LANG=python ROLE=00_orchestrator           CODE=~/my-project/src/
+make claude LANG=python ROLE=00_orchestrator/_index     CODE=~/my-project/src/
 make claude LANG=python ROLE=01_security/_index        CODE=~/my-project/src/
 make claude LANG=python ROLE=02_performance/_index     CODE=~/my-project/src/
-make claude LANG=python ROLE=03_architecture           CODE=~/my-project/src/
+make claude LANG=python ROLE=03_architecture/_index    CODE=~/my-project/src/
 make claude LANG=python ROLE=04_correctness/_index     CODE=~/my-project/src/
 make claude LANG=python ROLE=05_quality/_index         CODE=~/my-project/src/
 ```
@@ -362,7 +370,7 @@ se facturan como output — tenerlo en cuenta en el coste.
 **API**:
 
 ```bash
-make gemini LANG=python ROLE=03_architecture CODE=~/my-project/src/
+make gemini LANG=python ROLE=03_architecture/_index CODE=~/my-project/src/
 ```
 
 **Docs**: [ai.google.dev/gemini-api/docs](https://ai.google.dev/gemini-api/docs) |
@@ -428,7 +436,7 @@ O si lo prefieres, compón el prompt con `make compose` y pégalo directamente.
 **Auditoría completa en Cursor** (6 prompts secuenciales):
 
 ```
-@audit-prompts/_base_audit.md @audit-prompts/lang/python.md @audit-prompts/00_orchestrator.md
+@audit-prompts/_base_audit.md @audit-prompts/lang/python.md @audit-prompts/00_orchestrator/_index.md
 Haz triage de @src/ e indica qué roles activar.
 ```
 
@@ -491,7 +499,7 @@ llm install llm-gemini        # Google
 llm install llm-ollama         # modelos locales via Ollama
 
 # Auditoría con Claude
-PROMPT=$(./compose.sh python 03_architecture)
+PROMPT=$(./compose.sh python 03_architecture/_index)
 cat ~/my-project/src/*.py | llm -s "$PROMPT" -m claude-sonnet-4.6
 
 # Auditoría con modelo local
@@ -642,6 +650,7 @@ usar ambos en paralelo maximiza cobertura.
 make help              # Muestra todos los targets y variables
 make list-roles        # Lista roles y subtasks disponibles
 make list-langs        # Lista adaptadores idiomáticos
+make list-meta         # Lista meta-prompts disponibles
 
 make compose    LANG=<lang> ROLE=<rol>                    # Imprime prompt compuesto
 make clipboard  LANG=<lang> ROLE=<rol>                    # Copia al portapapeles
@@ -655,6 +664,9 @@ make antigravity LANG=<lang> ROLE=<rol> PROJECT=<proyecto>      # Genera Skill .
 
 make full-audit LANG=<lang> CODE=<ruta> PLATFORM=<plat>         # Auditoría completa (6 passes)
 make token-estimate LANG=<lang> ROLE=<rol>                # Estima tokens del prompt
+
+make meta       PROMPT=<meta> [TARGET=<rol>]              # Compone un meta-prompt (automejora)
+make meta-clipboard PROMPT=<meta>                         # Copia meta-prompt al portapapeles
 make clean                                                 # Limpia archivos generados
 ```
 
@@ -666,12 +678,64 @@ make clean                                                 # Limpia archivos gen
 2. Ningún otro fichero necesita cambios.
 3. Usar: `make compose LANG=<lenguaje> ROLE=<rol>`.
 
+O usar el meta-prompt para generarlo automáticamente:
+
+```bash
+make meta PROMPT=generate_lang_adapter > /tmp/meta_prompt.md
+# Pegar en un LLM junto con la instrucción: "Genera un adaptador para TypeScript"
+```
+
 ## Añadir un nuevo rol
 
 1. Crear `0N_<nombre>/` con `_index.md` y subtasks opcionales.
 2. Seguir la estructura: Persona → Alcance → Metodología → Checklist.
 3. Referenciar `_base_audit.md` para la plantilla de hallazgo (no duplicarla).
 4. El Makefile lo detecta automáticamente.
+
+O usar el meta-prompt para generarlo automáticamente:
+
+```bash
+make meta PROMPT=generate_role > /tmp/meta_prompt.md
+# Pegar en un LLM junto con la instrucción: "Genera un rol para auditoría de compliance GDPR"
+```
+
+## Automejora
+
+El directorio `meta/` contiene prompts para evaluar y mejorar el propio sistema de prompts.
+Se componen como: `meta/_base_meta.md + meta/<prompt>.md`.
+
+```bash
+# Listar meta-prompts disponibles
+make list-meta
+
+# Componer un meta-prompt
+make meta PROMPT=improve_prompt
+
+# Componer un meta-prompt con un prompt objetivo incluido
+make meta PROMPT=improve_prompt TARGET=01_security/_index
+
+# Copiar al portapapeles
+make meta-clipboard PROMPT=evaluate_coverage
+
+# Usando compose.sh directamente
+./compose.sh --meta improve_prompt --clipboard
+```
+
+### Meta-prompts disponibles
+
+| Meta-prompt | Qué hace | Input |
+|-------------|----------|-------|
+| `improve_prompt` | Analiza debilidades de un prompt y propone mejoras con diff | Un prompt existente del sistema |
+| `evaluate_coverage` | Evalúa gaps de cobertura y prioriza qué añadir | Todos los prompts del sistema |
+| `generate_lang_adapter` | Genera un adaptador idiomático completo | Nombre del lenguaje objetivo |
+| `generate_role` | Genera un rol nuevo con `_index.md` y subtasks | Área de auditoría a cubrir |
+
+### Flujo de automejora recomendado
+
+1. **Evaluar cobertura**: `make meta PROMPT=evaluate_coverage` → pegar con todos los prompts en un LLM → obtener lista de gaps priorizada.
+2. **Generar componentes faltantes**: usar `generate_lang_adapter` o `generate_role` para crear los componentes que falten.
+3. **Mejorar prompts existentes**: `make meta PROMPT=improve_prompt TARGET=<rol>` → obtener diff de mejora → aplicar.
+4. **Iterar**: repetir periódicamente o cuando cambien las mejores prácticas.
 
 ---
 

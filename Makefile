@@ -4,14 +4,14 @@
 #   make help                              — muestra todos los targets
 #   make compose LANG=python ROLE=01_security/_index
 #   make ollama  LANG=python ROLE=01_security/_index CODE=~/my-project/src/
-#   make claude  LANG=python ROLE=03_architecture CODE=~/my-project/src/app.py
+#   make claude  LANG=python ROLE=03_architecture/_index CODE=~/my-project/src/app.py
 #   make cursor  LANG=bash   ROLE=05_quality/_index PROJECT=~/my-project
 #   make antigravity LANG=python ROLE=01_security/_index PROJECT=~/my-project
 #   make full-audit  LANG=python CODE=~/my-project/src/ PLATFORM=claude
 #
 # Variables:
 #   LANG      — adaptador idiomático (python, bash, ...)
-#   ROLE      — rol o subtask (00_orchestrator, 01_security/_index, 01_security/01a_injection_surfaces, ...)
+#   ROLE      — rol o subtask (00_orchestrator/_index, 01_security/_index, 01_security/01a_injection_surfaces, ...)
 #   CODE      — ruta al código a analizar (fichero, directorio o glob)
 #   PLATFORM  — plataforma para full-audit (claude, chatgpt, gemini, ollama)
 #   MODEL     — modelo a usar (override del default por plataforma)
@@ -42,7 +42,7 @@ define check_lang
 endef
 
 define check_role
-	@test -n "$(ROLE)" || { echo "Error: ROLE requerido (00_orchestrator, 01_security/_index, ...)"; exit 1; }
+	@test -n "$(ROLE)" || { echo "Error: ROLE requerido (00_orchestrator/_index, 01_security/_index, ...)"; exit 1; }
 	@test -f "$(ROLE_FILE)" || test -f "$(PROMPTS_DIR)$(ROLE)" || { echo "Error: no existe $(ROLE_FILE)"; exit 1; }
 endef
 
@@ -72,7 +72,7 @@ help: ## Muestra esta ayuda
 	@echo "  make compose LANG=python ROLE=01_security/_index"
 	@echo "  make claude  LANG=python ROLE=01_security/_index CODE=~/my-project/src/"
 	@echo "  make ollama  LANG=bash ROLE=04_correctness/_index CODE=~/my-project/scripts/"
-	@echo "  make cursor  LANG=python ROLE=03_architecture PROJECT=~/my-project"
+	@echo "  make cursor  LANG=python ROLE=03_architecture/_index PROJECT=~/my-project"
 	@echo "  make antigravity LANG=python ROLE=01_security/_index PROJECT=~/my-project"
 	@echo "  make full-audit LANG=python CODE=~/my-project/src/ PLATFORM=claude"
 
@@ -92,7 +92,7 @@ clipboard: ## Compone y copia al portapapeles
 list-roles: ## Lista todos los roles y subtasks disponibles
 	@echo "Roles disponibles:"
 	@echo ""
-	@echo "  00_orchestrator              — Mapa del sistema + triage"
+	@echo "  00_orchestrator/_index       — Mapa del sistema + triage"
 	@echo "  01_security/_index           — Seguridad (quick, 1 pass)"
 	@echo "  01_security/01a_injection_surfaces"
 	@echo "  01_security/01b_auth_access_control"
@@ -102,7 +102,7 @@ list-roles: ## Lista todos los roles y subtasks disponibles
 	@echo "  02_performance/02a_algorithmic_complexity"
 	@echo "  02_performance/02b_io_network_concurrency"
 	@echo "  02_performance/02c_memory_resources"
-	@echo "  03_architecture              — Arquitectura (rol completo)"
+	@echo "  03_architecture/_index       — Arquitectura (quick, 1 pass)"
 	@echo "  04_correctness/_index        — Correctitud (quick, 1 pass)"
 	@echo "  04_correctness/04a_edge_cases_contracts"
 	@echo "  04_correctness/04b_concurrency_state"
@@ -279,8 +279,8 @@ ollama: ## Ejecuta la auditoría directamente con Ollama local
 
 # --- Auditoría completa ----------------------------------------------------
 
-QUICK_ROLES := 00_orchestrator 01_security/_index 02_performance/_index \
-               03_architecture 04_correctness/_index 05_quality/_index
+QUICK_ROLES := 00_orchestrator/_index 01_security/_index 02_performance/_index \
+               03_architecture/_index 04_correctness/_index 05_quality/_index
 
 .PHONY: full-audit
 full-audit: ## Ejecuta auditoría completa (6 passes secuenciales). Requiere PLATFORM.
@@ -303,6 +303,44 @@ full-audit: ## Ejecuta auditoría completa (6 passes secuenciales). Requiere PLA
 	@for role in $(QUICK_ROLES); do \
 		echo "  make $(PLATFORM) LANG=$(LANG) ROLE=$$role CODE=$(CODE)"; \
 	done
+
+# --- Meta-prompts (automejora) ---------------------------------------------
+
+META_BASE    := $(PROMPTS_DIR)meta/_base_meta.md
+META_FILE    := $(PROMPTS_DIR)meta/$(PROMPT).md
+
+define check_prompt
+	@test -n "$(PROMPT)" || { echo "Error: PROMPT requerido (improve_prompt, evaluate_coverage, generate_lang_adapter, generate_role)"; exit 1; }
+	@test -f "$(META_FILE)" || { echo "Error: no existe $(META_FILE)"; exit 1; }
+endef
+
+.PHONY: meta
+meta: ## Compone un meta-prompt (automejora). Requiere PROMPT, opcionalmente TARGET.
+	$(check_prompt)
+	@if [ -n "$(TARGET)" ]; then \
+		cat "$(META_BASE)" <(printf '\n---\n\n') "$(META_FILE)" <(printf '\n---\n\nA continuación el prompt a analizar:\n\n---\n\n') "$(PROMPTS_DIR)$(TARGET).md"; \
+	else \
+		cat "$(META_BASE)" <(printf '\n---\n\n') "$(META_FILE)"; \
+	fi
+
+.PHONY: meta-clipboard
+meta-clipboard: ## Compone un meta-prompt y lo copia al portapapeles
+	$(check_prompt)
+	@$(PROMPTS_DIR)compose.sh --meta "$(PROMPT)" --clipboard
+
+.PHONY: list-meta
+list-meta: ## Lista los meta-prompts disponibles (automejora)
+	@echo "Meta-prompts disponibles:"
+	@echo ""
+	@echo "  improve_prompt         — Analizar debilidades de un prompt existente"
+	@echo "  evaluate_coverage      — Evaluar gaps de cobertura del sistema"
+	@echo "  generate_lang_adapter  — Generar adaptador idiomático para un nuevo lenguaje"
+	@echo "  generate_role          — Generar un nuevo rol de auditoría"
+	@echo ""
+	@echo "Uso:"
+	@echo "  make meta PROMPT=improve_prompt TARGET=01_security/_index"
+	@echo "  make meta PROMPT=evaluate_coverage"
+	@echo "  make meta-clipboard PROMPT=improve_prompt"
 
 # --- Utilidades ------------------------------------------------------------
 
