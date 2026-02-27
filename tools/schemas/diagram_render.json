@@ -1,0 +1,25 @@
+{
+  "name": "render_diagram",
+  "description": "Render a diagram from code (Mermaid, PlantUML)",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "diagram_code": {
+        "type": "string",
+        "description": "Diagram code (Mermaid or PlantUML)"
+      },
+      "format": {
+        "type": "string",
+        "enum": ["mermaid", "plantuml", "graphviz"],
+        "description": "Diagram format"
+      },
+      "output_format": {
+        "type": "string",
+        "enum": ["png", "svg", "pdf"],
+        "description": "Output image format",
+        "default": "svg"
+      }
+    },
+    "required": ["diagram_code", "format"]
+  }
+}

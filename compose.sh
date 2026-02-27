@@ -21,14 +21,20 @@ Compone un prompt concatenando: base + adaptador + rol [+ extensiones].
 === Modo nuevo (disciplines/) ===
   DISC=<disciplina> ./compose.sh <adapter> <rol> [--clipboard]
   DISC=<disciplina> EXT="<ext1> <ext2>" ./compose.sh <adapter> <rol>
+  DISC=<disciplina> RUNTIME=<runtime> ./compose.sh <adapter> <rol>
 
   Ejemplos:
     DISC=engineering ./compose.sh python audit/01_security/_index
     DISC=engineering EXT="techniques/security/injection-analysis" ./compose.sh python audit/01_security/_index
+    DISC=engineering RUNTIME=claude ./compose.sh python generate/02_implementer/_index
+    DISC=engineering RUNTIME=crewai ./compose.sh python generate/02_implementer/_index
 
 === Flags ===
-  --legacy    Fuerza modo legacy aunque DISC esté definido
-  --clipboard Copia al portapapeles en vez de imprimir a stdout
+  --legacy          Fuerza modo legacy aunque DISC esté definido
+  --clipboard       Copia al portapapeles en vez de imprimir a stdout
+  --runtime <name>  Añade instrucciones del runtime al prompt compuesto
+                    Runtimes: claude|openai|gemini|ollama|crewai|langchain|autogen
+                    Equivalente: RUNTIME=<name> como variable de entorno
 
 Lenguajes/adaptadores:
   Legacy:  ficheros en lang/ (sin extensión)
@@ -66,11 +72,20 @@ get_frontmatter_field() {
 # --- Detectar flags globales ---
 FORCE_LEGACY=0
 CLIPBOARD=""
+RUNTIME="${RUNTIME:-}"
 NEW_ARGS=()
+_next_is_runtime=0
 for arg in "$@"; do
+  if [[ $_next_is_runtime -eq 1 ]]; then
+    RUNTIME="$arg"
+    _next_is_runtime=0
+    continue
+  fi
   case "$arg" in
     --legacy)    FORCE_LEGACY=1 ;;
     --clipboard) CLIPBOARD="--clipboard" ;;
+    --runtime)   _next_is_runtime=1 ;;
+    --runtime=*) RUNTIME="${arg#--runtime=}" ;;
     *)           NEW_ARGS+=("$arg") ;;
   esac
 done
@@ -226,6 +241,29 @@ if [[ -n "$EXT" ]]; then
   done
 fi
 
+# --- Runtime (opcional) ---
+runtime_file=""
+if [[ -n "$RUNTIME" ]]; then
+  runtime_file="$SCRIPT_DIR/runtimes/${RUNTIME}.md"
+  if [[ ! -f "$runtime_file" ]]; then
+    echo "Error: runtime '$RUNTIME' no encontrado ($runtime_file)" >&2
+    echo "Runtimes disponibles:" >&2
+    ls "$SCRIPT_DIR/runtimes/" 2>/dev/null | grep '\.md$' | sed 's/\.md$//' | sed 's/^/  /' >&2
+    exit 1
+  fi
+  # Verificar compatibilidad de capabilities (advertencia si role requiere lo que runtime no soporta)
+  role_caps=$(get_frontmatter_field "$role_file" "capabilities_required" 2>/dev/null | tr -d '[]"' | tr ',' ' ' || true)
+  runtime_caps=$(get_frontmatter_field "$runtime_file" "supports_capabilities" 2>/dev/null | tr -d '[]"' | tr ',' ' ' || true)
+  if [[ -n "$role_caps" ]] && [[ "$runtime_caps" != *"all"* ]]; then
+    for cap in $role_caps; do
+      cap=$(echo "$cap" | tr -d ' ')
+      if [[ -n "$cap" ]] && [[ "$runtime_caps" != *"$cap"* ]]; then
+        echo "Warning: capability '$cap' requerida por el rol no es nativa en runtime '$RUNTIME' (requiere wrapper)" >&2
+      fi
+    done
+  fi
+fi
+
 # Concatenar todo
 {
   cat "$base_file"
@@ -261,6 +299,10 @@ fi
     printf '\n---\n\n'
     cat "$ext_file"
   done
+  if [[ -n "$runtime_file" ]]; then
+    printf '\n---\n\n'
+    cat "$runtime_file"
+  fi
 } | {
   output=$(cat)
   if [[ -n "$CLIPBOARD" ]]; then

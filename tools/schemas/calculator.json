@@ -1,0 +1,19 @@
+{
+  "name": "calculate",
+  "description": "Perform precise mathematical calculations",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "expression": {
+        "type": "string",
+        "description": "Mathematical expression to evaluate"
+      },
+      "precision": {
+        "type": "integer",
+        "description": "Decimal precision",
+        "default": 10
+      }
+    },
+    "required": ["expression"]
+  }
+}

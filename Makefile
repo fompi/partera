@@ -192,6 +192,97 @@ list-chains: ## Lista los chains disponibles
 	@echo ""
 	@echo "Uso: make chain CHAIN=<nombre> ADAPTER=<adaptador>"
 
+# --- Runtime-aware composition (Fase 7) -----------------------------------
+#
+# Uso: make runtime-claude DISC=engineering ADAPTER=python ROLE=generate/02_implementer/_index
+#      make runtime-crewai  DISC=engineering ADAPTER=python ROLE=generate/02_implementer/_index
+#
+# Diferencia con los targets claude/openai/gemini/ollama (que generan curl):
+# Estos targets componen el prompt con instrucciones del runtime incluidas.
+
+RUNTIME ?=
+
+.PHONY: list-runtimes
+list-runtimes: ## Lista los runtimes disponibles
+	@echo "Runtimes disponibles:"
+	@for f in $(PROMPTS_DIR)runtimes/*.md; do \
+		name=$$(basename "$$f" .md); \
+		desc=$$(awk '/^---$$/{found++; next} found==1 && /^description:/{sub(/^description: */, ""); gsub(/"/, ""); print; exit} found==2{exit}' "$$f"); \
+		printf "  \033[36m%-15s\033[0m %s\n" "$$name" "$$desc"; \
+	done
+	@echo ""
+	@echo "Uso: make runtime-claude DISC=<disc> ADAPTER=<adapter> ROLE=<rol>"
+
+.PHONY: runtime-claude
+runtime-claude: ## Compone prompt con instrucciones runtime Claude. Requiere DISC, ADAPTER, ROLE.
+	@test -n "$(DISC)"    || { echo "Error: DISC requerido (engineering, content, ...)"; exit 1; }
+	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido (python, bash, ...)"; exit 1; }
+	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido"; exit 1; }
+	@DISC=$(DISC) RUNTIME=claude $(PROMPTS_DIR)compose.sh $(ADAPTER) $(ROLE) $(if $(CLIPBOARD),--clipboard)
+
+.PHONY: runtime-openai
+runtime-openai: ## Compone prompt con instrucciones runtime OpenAI. Requiere DISC, ADAPTER, ROLE.
+	@test -n "$(DISC)"    || { echo "Error: DISC requerido"; exit 1; }
+	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido"; exit 1; }
+	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido"; exit 1; }
+	@DISC=$(DISC) RUNTIME=openai $(PROMPTS_DIR)compose.sh $(ADAPTER) $(ROLE) $(if $(CLIPBOARD),--clipboard)
+
+.PHONY: runtime-gemini
+runtime-gemini: ## Compone prompt con instrucciones runtime Gemini. Requiere DISC, ADAPTER, ROLE.
+	@test -n "$(DISC)"    || { echo "Error: DISC requerido"; exit 1; }
+	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido"; exit 1; }
+	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido"; exit 1; }
+	@DISC=$(DISC) RUNTIME=gemini $(PROMPTS_DIR)compose.sh $(ADAPTER) $(ROLE) $(if $(CLIPBOARD),--clipboard)
+
+.PHONY: runtime-ollama
+runtime-ollama: ## Compone prompt con instrucciones runtime Ollama. Requiere DISC, ADAPTER, ROLE.
+	@test -n "$(DISC)"    || { echo "Error: DISC requerido"; exit 1; }
+	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido"; exit 1; }
+	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido"; exit 1; }
+	@DISC=$(DISC) RUNTIME=ollama $(PROMPTS_DIR)compose.sh $(ADAPTER) $(ROLE) $(if $(CLIPBOARD),--clipboard)
+
+.PHONY: runtime-crewai
+runtime-crewai: ## Compone prompt con instrucciones runtime CrewAI. Requiere DISC, ADAPTER, ROLE.
+	@test -n "$(DISC)"    || { echo "Error: DISC requerido"; exit 1; }
+	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido"; exit 1; }
+	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido"; exit 1; }
+	@DISC=$(DISC) RUNTIME=crewai $(PROMPTS_DIR)compose.sh $(ADAPTER) $(ROLE) $(if $(CLIPBOARD),--clipboard)
+	@echo ""
+	@echo "Tip: make generate-crewai DISC=$(DISC) ADAPTER=$(ADAPTER) ROLE=$(ROLE)"
+	@echo "     para generar código Python de CrewAI directamente."
+
+.PHONY: runtime-langchain
+runtime-langchain: ## Compone prompt con instrucciones runtime LangChain. Requiere DISC, ADAPTER, ROLE.
+	@test -n "$(DISC)"    || { echo "Error: DISC requerido"; exit 1; }
+	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido"; exit 1; }
+	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido"; exit 1; }
+	@DISC=$(DISC) RUNTIME=langchain $(PROMPTS_DIR)compose.sh $(ADAPTER) $(ROLE) $(if $(CLIPBOARD),--clipboard)
+
+.PHONY: runtime-autogen
+runtime-autogen: ## Compone prompt con instrucciones runtime AutoGen. Requiere DISC, ADAPTER, ROLE.
+	@test -n "$(DISC)"    || { echo "Error: DISC requerido"; exit 1; }
+	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido"; exit 1; }
+	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido"; exit 1; }
+	@DISC=$(DISC) RUNTIME=autogen $(PROMPTS_DIR)compose.sh $(ADAPTER) $(ROLE) $(if $(CLIPBOARD),--clipboard)
+
+.PHONY: generate-crewai
+generate-crewai: ## Genera código Python de CrewAI desde un rol. Requiere DISC, ADAPTER, ROLE.
+	@test -n "$(DISC)"    || { echo "Error: DISC requerido"; exit 1; }
+	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido"; exit 1; }
+	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido"; exit 1; }
+	@$(PROMPTS_DIR)scripts/generate_crewai.sh "$(DISC)" "$(ADAPTER)" "$(ROLE)"
+
+.PHONY: list-patterns
+list-patterns: ## Lista los patterns de razonamiento disponibles
+	@echo "Patterns de razonamiento disponibles:"
+	@for f in $(PROMPTS_DIR)patterns/*.md; do \
+		name=$$(basename "$$f" .md); \
+		desc=$$(awk '/^---$$/{found++; next} found==1 && /^description:/{sub(/^description: */, ""); gsub(/"/, ""); print; exit} found==2{exit}' "$$f"); \
+		printf "  \033[36m%-20s\033[0m %s\n" "$$name" "$$desc"; \
+	done
+	@echo ""
+	@echo "Uso: DISC=<disc> EXT=\"patterns/<name>\" ./compose.sh <adapter> <rol>"
+
 # Aliases de compatibilidad (legacy → nueva arquitectura)
 # Uso: make compose-legacy ADAPTER=python ROLE=01_security/_index
 .PHONY: compose-legacy

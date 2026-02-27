@@ -1,0 +1,19 @@
+{
+  "name": "analyze_image",
+  "description": "Analyze visual content of an image",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "image_url": {
+        "type": "string",
+        "description": "URL or base64 of the image"
+      },
+      "analysis_type": {
+        "type": "string",
+        "enum": ["general", "ocr", "ui-elements", "diagram"],
+        "description": "Type of analysis to perform"
+      }
+    },
+    "required": ["image_url"]
+  }
+}
