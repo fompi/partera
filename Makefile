@@ -3,6 +3,7 @@
 # Uso:
 #   make help                              — muestra todos los targets
 #   make compose LANG=python ROLE=01_security/_index
+#   make compose ADAPTER=python ROLE=01_security/_index    (alias de LANG)
 #   make ollama  LANG=python ROLE=01_security/_index CODE=~/my-project/src/
 #   make claude  LANG=python ROLE=03_architecture/_index CODE=~/my-project/src/app.py
 #   make cursor  LANG=bash   ROLE=05_quality/_index PROJECT=~/my-project
@@ -10,18 +11,30 @@
 #   make full-audit  LANG=python CODE=~/my-project/src/ PLATFORM=claude
 #
 # Variables:
-#   LANG      — adaptador idiomático (python, bash, ...)
-#   ROLE      — rol o subtask (00_orchestrator/_index, 01_security/_index, 01_security/01a_injection_surfaces, ...)
+#   LANG      — adaptador idiomático (python, bash, ...) — alias: ADAPTER
+#   ADAPTER   — alias de LANG para la nueva arquitectura
+#   DISC      — disciplina para modo nuevo (engineering, content, ...)
+#   ROLE      — rol o subtask (00_orchestrator/_index, 01_security/_index, ...)
 #   CODE      — ruta al código a analizar (fichero, directorio o glob)
 #   PLATFORM  — plataforma para full-audit (claude, chatgpt, gemini, ollama)
 #   MODEL     — modelo a usar (override del default por plataforma)
 #   PROJECT   — raíz del proyecto a auditar (default: directorio actual de trabajo)
 #   OUT       — directorio de salida (default: .audit_output)
+#   DISC      — variable de entorno para modo nuevo (disciplines/)
 
 SHELL       := /bin/bash
 .DEFAULT_GOAL := help
 
 PROMPTS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
+# ADAPTER es el nuevo nombre; LANG es el alias legacy. ADAPTER tiene precedencia.
+ADAPTER     ?=
+LANG        ?= $(ADAPTER)
+# Si ADAPTER no está definido pero LANG sí, usar LANG como ADAPTER.
+ifeq ($(ADAPTER),)
+  ADAPTER   := $(LANG)
+endif
+
 BASE        := $(PROMPTS_DIR)_base_audit.md
 LANG_FILE   := $(PROMPTS_DIR)lang/$(LANG).md
 ROLE_CLEAN  := $(ROLE:%.md=%)
@@ -39,7 +52,7 @@ OLLAMA_MODEL   ?= qwen2.5-coder:32b
 # --- Validación -----------------------------------------------------------
 
 define check_lang
-	@test -n "$(LANG)" || { echo "Error: LANG requerido (python, bash, ...)"; exit 1; }
+	@test -n "$(LANG)" || { echo "Error: LANG (o ADAPTER) requerido (python, bash, ...)"; exit 1; }
 	@test -f "$(LANG_FILE)" || { echo "Error: no existe $(LANG_FILE)"; exit 1; }
 endef
 
@@ -90,9 +103,33 @@ clipboard: ## Compone y copia al portapapeles
 	$(check_role)
 	@$(PROMPTS_DIR)compose.sh "$(LANG)" "$(ROLE)" --clipboard
 
+.PHONY: list-langs
+list-langs: ## Lista los adaptadores idiomáticos disponibles (legacy)
+	@echo "Lenguajes/adaptadores disponibles (legacy lang/):"
+	@for f in $(PROMPTS_DIR)lang/*.md; do echo "  $$(basename $$f .md)"; done
+
+# --- Targets nueva arquitectura -------------------------------------------
+
+DISC ?=
+
+.PHONY: validate-frontmatter
+validate-frontmatter: ## Valida front-matter YAML de todos los archivos .md
+	@$(PROMPTS_DIR)scripts/validate_frontmatter.sh "$(PROMPTS_DIR)"
+
+.PHONY: list-disciplines
+list-disciplines: ## Lista todas las disciplinas disponibles
+	@$(PROMPTS_DIR)scripts/list_by_type.sh disciplines
+
+.PHONY: list-adapters
+list-adapters: ## Lista adaptadores (DISC=<disciplina> para filtrar)
+	@$(PROMPTS_DIR)scripts/list_by_type.sh adapters $(DISC)
+
 .PHONY: list-roles
-list-roles: ## Lista todos los roles y subtasks disponibles
-	@echo "Roles disponibles:"
+list-roles: ## Lista roles (DISC=<disciplina> para filtrar; sin DISC: legacy)
+ifdef DISC
+	@$(PROMPTS_DIR)scripts/list_by_type.sh roles $(DISC)
+else
+	@echo "Roles legacy disponibles:"
 	@echo ""
 	@echo "  00_orchestrator/_index       — Mapa del sistema + triage"
 	@echo "  01_security/_index           — Seguridad (quick, 1 pass)"
@@ -113,11 +150,29 @@ list-roles: ## Lista todos los roles y subtasks disponibles
 	@echo "  05_quality/05a_testing_quality"
 	@echo "  05_quality/05b_observability_ops"
 	@echo "  05_quality/05c_code_maintainability"
+	@echo ""
+	@echo "Tip: make list-roles DISC=engineering  (para disciplinas nuevas)"
+endif
 
-.PHONY: list-langs
-list-langs: ## Lista los adaptadores idiomáticos disponibles
-	@echo "Lenguajes disponibles:"
-	@for f in $(PROMPTS_DIR)lang/*.md; do echo "  $$(basename $$f .md)"; done
+.PHONY: list-techniques
+list-techniques: ## Lista técnicas disponibles
+	@$(PROMPTS_DIR)scripts/list_by_type.sh techniques
+
+.PHONY: list-sources
+list-sources: ## Lista fuentes disponibles
+	@$(PROMPTS_DIR)scripts/list_by_type.sh sources
+
+.PHONY: list-protocols
+list-protocols: ## Lista protocolos disponibles
+	@$(PROMPTS_DIR)scripts/list_by_type.sh protocols
+
+.PHONY: list-capabilities
+list-capabilities: ## Lista capabilities disponibles
+	@$(PROMPTS_DIR)scripts/list_by_type.sh capabilities
+
+.PHONY: test-legacy
+test-legacy: ## Ejecuta tests de regresión de compatibilidad legacy
+	@$(PROMPTS_DIR)scripts/test_compose_legacy.sh
 
 # --- Plataformas de pago ---------------------------------------------------
 
