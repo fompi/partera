@@ -1,0 +1,86 @@
+---
+id: chain.nl-to-code
+type: chain
+name: "Natural Language to Code"
+version: 1.0.0
+description: "Workflow completo desde idea en lenguaje natural hasta código implementado"
+tags: [chain, workflow, code-generation, end-to-end]
+disciplines: [engineering]
+steps:
+  - role: engineering.generate.00_spec-writer
+    name: "Escritor de Especificaciones"
+    input_from: user
+    input_description: "idea o requisito en lenguaje natural"
+    output_to: next
+    output_description: "especificación formal con casos de uso y criterios de aceptación"
+  - role: engineering.generate.01_tech-advisor
+    name: "Asesor Tecnológico"
+    input_from: previous
+    input_description: "especificación formal"
+    output_to: next
+    output_description: "stack tecnológico recomendado con justificación"
+  - role: engineering.generate.02_implementer
+    name: "Implementador"
+    input_from: previous
+    input_description: "especificación + stack tecnológico"
+    output_to: next
+    output_description: "código funcional con tests"
+  - role: engineering.generate.03_reviewer
+    name: "Revisor de Código"
+    input_from: previous
+    input_description: "código implementado"
+    output_to: next
+    output_description: "feedback de calidad con cambios sugeridos"
+  - role: engineering.generate.04_documenter
+    name: "Documentador"
+    input_from: previous
+    input_description: "código revisado + feedback de revisión"
+    output_to: user
+    output_description: "documentación completa (README, API docs, guías)"
+estimated_tokens: 2200
+---
+
+# Chain: Natural Language to Code
+
+## Descripción
+
+Workflow completo desde requisitos en lenguaje natural hasta código funcional documentado. Cada paso toma el output del anterior, refinando progresivamente la solución.
+
+## Pasos
+
+### PASO 1: Especificación
+**Rol**: engineering.generate.00_spec-writer
+**Recibe**: idea o requisito en lenguaje natural del usuario
+**Produce**: especificación formal con casos de uso y criterios de aceptación
+
+### PASO 2: Asesoría Tecnológica
+**Rol**: engineering.generate.01_tech-advisor
+**Recibe**: especificación formal del Paso 1
+**Produce**: stack tecnológico recomendado con justificación técnica y de negocio
+
+### PASO 3: Implementación
+**Rol**: engineering.generate.02_implementer
+**Recibe**: especificación (Paso 1) + stack tecnológico (Paso 2)
+**Produce**: código funcional con tests unitarios
+
+### PASO 4: Revisión
+**Rol**: engineering.generate.03_reviewer
+**Recibe**: código del Paso 3
+**Produce**: feedback de calidad, seguridad y mantenibilidad con cambios sugeridos
+
+### PASO 5: Documentación
+**Rol**: engineering.generate.04_documenter
+**Recibe**: código revisado (Paso 3) + feedback (Paso 4)
+**Produce**: documentación completa (README, referencia de API, guías de uso)
+
+## Uso
+
+```bash
+make chain CHAIN=nl-to-code ADAPTER=python
+```
+
+## Notas
+
+- El humano puede intervenir entre pasos para validar o ajustar el output antes de continuar.
+- El Paso 4 (revisión) puede generar una iteración al Paso 3 si los cambios son sustanciales.
+- El Paso 5 toma tanto el código como el feedback de revisión para documentar el estado final.

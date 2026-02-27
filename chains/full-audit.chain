@@ -1,0 +1,81 @@
+---
+id: chain.full-audit
+type: chain
+name: "Full Code Audit"
+version: 1.0.0
+description: "Auditoría completa de código (security, performance, architecture, correctness)"
+tags: [chain, audit, code-review, comprehensive]
+disciplines: [engineering]
+steps:
+  - role: engineering.audit.01_security
+    name: "Auditor de Seguridad"
+    input_from: user
+    input_description: "código a auditar"
+    output_to: orchestrator
+    output_description: "hallazgos de seguridad"
+  - role: engineering.audit.02_performance
+    name: "Auditor de Performance"
+    input_from: user
+    input_description: "código a auditar"
+    output_to: orchestrator
+    output_description: "hallazgos de rendimiento"
+  - role: engineering.audit.03_architecture
+    name: "Auditor de Arquitectura"
+    input_from: user
+    input_description: "código a auditar"
+    output_to: orchestrator
+    output_description: "hallazgos de arquitectura"
+  - role: engineering.audit.04_correctness
+    name: "Auditor de Correctitud"
+    input_from: user
+    input_description: "código a auditar"
+    output_to: orchestrator
+    output_description: "hallazgos de correctitud"
+  - role: engineering.audit.00_orchestrator
+    name: "Orquestador"
+    input_from: previous_all
+    input_description: "hallazgos de todos los auditores especializados"
+    output_to: user
+    output_description: "informe consolidado con priorización y plan de acción"
+estimated_tokens: 1950
+---
+
+# Chain: Full Code Audit
+
+## Descripción
+
+Auditoría completa de código ejecutando cuatro auditores especializados en paralelo, seguidos de un orquestador que consolida y prioriza los hallazgos.
+
+## Pasos
+
+### PASOS 1–4: Auditorías especializadas (paralelas)
+Cada auditor recibe el **mismo código** del usuario y produce hallazgos independientes:
+
+- **PASO 1 — Auditor de Seguridad** (`engineering.audit.01_security`)
+  Vulnerabilidades, superficies de ataque, secretos expuestos, autenticación/autorización.
+
+- **PASO 2 — Auditor de Performance** (`engineering.audit.02_performance`)
+  Complejidad algorítmica, I/O ineficiente, cuellos de botella, uso de memoria.
+
+- **PASO 3 — Auditor de Arquitectura** (`engineering.audit.03_architecture`)
+  Separación de responsabilidades, acoplamiento, deuda técnica estructural, escalabilidad.
+
+- **PASO 4 — Auditor de Correctitud** (`engineering.audit.04_correctness`)
+  Bugs lógicos, edge cases no manejados, condiciones de carrera, manejo de errores.
+
+### PASO 5: Orquestación
+**Rol**: engineering.audit.00_orchestrator
+**Recibe**: hallazgos de los 4 auditores anteriores
+**Produce**: informe consolidado con hallazgos priorizados por severidad y plan de acción
+
+## Uso
+
+```bash
+make chain CHAIN=full-audit ADAPTER=python
+```
+
+## Notas
+
+- Los pasos 1–4 pueden ejecutarse en paralelo si la plataforma lo soporta.
+- El orquestador elimina duplicados, resuelve contradicciones y asigna prioridades globales.
+- Para auditorías rápidas de un solo aspecto, usar el rol especializado directamente con `make compose`.

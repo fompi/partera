@@ -198,8 +198,12 @@ parts+=(/dev/stdin <(printf '\n---\n\n') "$adapter_file")
 parts+=(/dev/stdin <(printf '\n---\n\n') "$role_file")
 
 # Extensiones (EXT="path1 path2 ...")
+# Orden de composición:
+#   base universal → base disciplina → adaptador → knowledge → rol → técnicas → modifiers
 EXT="${EXT:-}"
-ext_files=()
+knowledge_files=()
+technique_files=()
+modifier_files=()
 if [[ -n "$EXT" ]]; then
   for ext_path in $EXT; do
     ext_file="$SCRIPT_DIR/${ext_path}"
@@ -208,7 +212,11 @@ if [[ -n "$EXT" ]]; then
       echo "Error: extensión '$ext_path' no encontrada ($ext_file)" >&2
       exit 1
     fi
-    ext_files+=("$ext_file")
+    case "$ext_path" in
+      knowledge/*)  knowledge_files+=("$ext_file") ;;
+      modifiers/*)  modifier_files+=("$ext_file") ;;
+      *)            technique_files+=("$ext_file") ;;
+    esac
   done
 fi
 
@@ -221,9 +229,17 @@ fi
   fi
   printf '\n---\n\n'
   cat "$adapter_file"
+  for ext_file in "${knowledge_files[@]+"${knowledge_files[@]}"}"; do
+    printf '\n---\n\n'
+    cat "$ext_file"
+  done
   printf '\n---\n\n'
   cat "$role_file"
-  for ext_file in "${ext_files[@]:-}"; do
+  for ext_file in "${technique_files[@]+"${technique_files[@]}"}"; do
+    printf '\n---\n\n'
+    cat "$ext_file"
+  done
+  for ext_file in "${modifier_files[@]+"${modifier_files[@]}"}"; do
     printf '\n---\n\n'
     cat "$ext_file"
   done

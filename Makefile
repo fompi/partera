@@ -174,6 +174,24 @@ list-capabilities: ## Lista capabilities disponibles
 test-legacy: ## Ejecuta tests de regresión de compatibilidad legacy
 	@$(PROMPTS_DIR)scripts/test_compose_legacy.sh
 
+CHAIN ?=
+
+.PHONY: chain
+chain: ## Ejecuta un chain mostrando cada paso. Requiere CHAIN=<nombre> [ADAPTER=<adaptador>]
+	@test -n "$(CHAIN)" || { echo "Error: CHAIN requerido (nl-to-code, full-audit, idea-to-project, content-pipeline)"; exit 1; }
+	@$(PROMPTS_DIR)scripts/run_chain.sh "$(CHAIN)" "$(ADAPTER)"
+
+.PHONY: list-chains
+list-chains: ## Lista los chains disponibles
+	@echo "Chains disponibles:"
+	@for f in $(PROMPTS_DIR)chains/*.chain; do \
+		name=$$(basename "$$f" .chain); \
+		desc=$$(awk '/^---$$/{found++; next} found==1 && /^description:/{sub(/^description: */, ""); gsub(/"/, ""); print; exit} found==2{exit}' "$$f"); \
+		printf "  \033[36m%-25s\033[0m %s\n" "$$name" "$$desc"; \
+	done
+	@echo ""
+	@echo "Uso: make chain CHAIN=<nombre> ADAPTER=<adaptador>"
+
 # Aliases de compatibilidad (legacy → nueva arquitectura)
 # Uso: make compose-legacy ADAPTER=python ROLE=01_security/_index
 .PHONY: compose-legacy

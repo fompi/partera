@@ -1,0 +1,64 @@
+---
+id: chain.idea-to-project
+type: chain
+name: "Idea to Project Plan"
+version: 1.0.0
+description: "De idea de negocio a plan de proyecto ejecutable (cross-disciplinar)"
+tags: [chain, cross-discipline, business, engineering, management]
+disciplines: [business, engineering, management]
+steps:
+  - role: business.plan.00_presales
+    name: "Consultor de Preventa"
+    input_from: user
+    input_description: "idea de negocio o producto"
+    output_to: next
+    output_description: "business case con análisis de viabilidad comercial y ROI"
+  - role: engineering.plan.00_tech-estimator
+    name: "Estimador Técnico"
+    input_from: previous
+    input_description: "business case del Paso 1"
+    output_to: next
+    output_description: "estimación técnica con stack, arquitectura y esfuerzo"
+  - role: management.plan.00_project-manager
+    name: "Project Manager"
+    input_from: previous
+    input_description: "business case (Paso 1) + estimación técnica (Paso 2)"
+    output_to: user
+    output_description: "plan de proyecto con milestones, recursos, riesgos y cronograma"
+estimated_tokens: 1420
+---
+
+# Chain: Idea to Project Plan
+
+## Descripción
+
+Workflow cross-disciplinar que toma una idea de negocio y la valida en tres dimensiones: viabilidad comercial, viabilidad técnica y viabilidad de ejecución. El resultado es un plan de proyecto ejecutable.
+
+## Pasos
+
+### PASO 1: Validación Comercial
+**Rol**: business.plan.00_presales
+**Recibe**: idea de negocio o descripción del producto/servicio
+**Produce**: business case con propuesta de valor, mercado objetivo, modelo de ingresos, análisis competitivo y ROI esperado
+
+### PASO 2: Estimación Técnica
+**Rol**: engineering.plan.00_tech-estimator
+**Recibe**: business case del Paso 1
+**Produce**: estimación técnica con stack recomendado, arquitectura propuesta, dependencias, riesgos técnicos y estimación de esfuerzo por componente
+
+### PASO 3: Plan de Proyecto
+**Rol**: management.plan.00_project-manager
+**Recibe**: business case (Paso 1) + estimación técnica (Paso 2)
+**Produce**: plan de proyecto completo con milestones, recursos necesarios, risk register, presupuesto y cronograma
+
+## Uso
+
+```bash
+make chain CHAIN=idea-to-project ADAPTER=saas
+```
+
+## Notas
+
+- Este es el único chain verdaderamente cross-disciplinar; cada paso proviene de una disciplina diferente.
+- El humano debe revisar el output del Paso 1 antes de continuar, ya que el negocio define las restricciones de los pasos siguientes.
+- El Paso 2 puede revelar que la viabilidad técnica requiere revisar el scope del Paso 1.
