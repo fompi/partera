@@ -193,7 +193,7 @@ Para listarlos:
 make list-langs
 ```
 
-Si tu proyecto es otro lenguaje (TypeScript, Go, etc.), más adelante puedes usar **automejora** para generar un adaptador nuevo (ver sección [Automejora](#automejora)).
+Si tu proyecto es otro lenguaje (TypeScript, Go, etc.), más adelante puedes usar **automejora** para generar un adaptador nuevo (ver sección [Automejora](#automejora-mejorar-y-ampliar-este-repositorio)).
 
 ---
 
@@ -214,7 +214,7 @@ Si tu proyecto es otro lenguaje (TypeScript, Go, etc.), más adelante puedes usa
    `make full-audit LANG=python CODE=~/mi-proyecto/src/ PLATFORM=claude`
 
 5. **Mejorar o ampliar este repo**  
-   Usa los **meta-prompts** (automejora): evaluar cobertura, mejorar un prompt, generar un nuevo lenguaje o un nuevo rol. Ver sección [Automejora](#automejora).
+   Usa los **meta-prompts** (automejora): evaluar cobertura, mejorar un prompt, generar un nuevo lenguaje o un nuevo rol. Ver sección [Automejora](#automejora-mejorar-y-ampliar-este-repositorio).
 
 ---
 

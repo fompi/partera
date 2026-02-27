@@ -24,11 +24,13 @@ SHELL       := /bin/bash
 PROMPTS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 BASE        := $(PROMPTS_DIR)_base_audit.md
 LANG_FILE   := $(PROMPTS_DIR)lang/$(LANG).md
-ROLE_FILE   := $(PROMPTS_DIR)$(ROLE).md
+ROLE_CLEAN  := $(ROLE:%.md=%)
+ROLE_FILE   := $(PROMPTS_DIR)$(ROLE_CLEAN).md
 PROJECT     ?= $(CURDIR)
 OUT         ?= $(PROJECT)/.audit_output
 
-# Modelos por defecto (feb 2026)
+# Modelos por defecto (feb 2026). Override con: make claude MODEL=<modelo> ...
+# Para actualizar: consultar docs de cada proveedor y cambiar aquí.
 CLAUDE_MODEL   ?= claude-sonnet-4-20260217
 CHATGPT_MODEL  ?= gpt-5.2
 GEMINI_MODEL   ?= gemini-3.1-pro
@@ -43,7 +45,7 @@ endef
 
 define check_role
 	@test -n "$(ROLE)" || { echo "Error: ROLE requerido (00_orchestrator/_index, 01_security/_index, ...)"; exit 1; }
-	@test -f "$(ROLE_FILE)" || test -f "$(PROMPTS_DIR)$(ROLE)" || { echo "Error: no existe $(ROLE_FILE)"; exit 1; }
+	@test -f "$(ROLE_FILE)" || { echo "Error: no existe $(ROLE_FILE)"; exit 1; }
 endef
 
 define check_code
@@ -274,7 +276,7 @@ ollama: ## Ejecuta la auditoría directamente con Ollama local
 	echo "Prompt: $(LANG) + $(ROLE) ($$(echo "$$PROMPT" | wc -l | tr -d ' ') líneas)"; \
 	echo "Código: $(CODE)"; \
 	echo "---"; \
-	CODE_CONTENT=$$(find $(CODE) -type f \( -name '*.py' -o -name '*.sh' -o -name '*.js' -o -name '*.ts' -o -name '*.go' -o -name '*.rs' \) -exec cat {} + 2>/dev/null || cat $(CODE)); \
+	CODE_CONTENT=$$(find "$(CODE)" -type f \( -name '*.py' -o -name '*.sh' -o -name '*.js' -o -name '*.ts' -o -name '*.go' -o -name '*.rs' \) -exec cat {} + 2>/dev/null || cat "$(CODE)"); \
 	echo "$$CODE_CONTENT" | ollama run "$$MODEL" --system "$$PROMPT" "Ejecuta la auditoría sobre este código:"
 
 # --- Auditoría completa ----------------------------------------------------

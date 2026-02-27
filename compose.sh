@@ -53,7 +53,7 @@ if [[ "$1" == "--meta" ]]; then
   clipboard="${3:-}"
 
   base_file="$SCRIPT_DIR/meta/_base_meta.md"
-  meta_file="$SCRIPT_DIR/meta/${meta_prompt}.md"
+  meta_file="$SCRIPT_DIR/meta/${meta_prompt}"
   [[ "$meta_file" != *.md ]] && meta_file="${meta_file}.md"
 
   for f in "$base_file" "$meta_file"; do
@@ -80,7 +80,7 @@ role="$2"
 clipboard="${3:-}"
 
 lang_file="$SCRIPT_DIR/lang/${lang}.md"
-role_file="$SCRIPT_DIR/${role}.md"
+role_file="$SCRIPT_DIR/${role}"
 [[ "$role_file" != *.md ]] && role_file="${role_file}.md"
 base_file="$SCRIPT_DIR/_base_audit.md"
 
