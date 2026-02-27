@@ -1,1 +1,7 @@
 .audit_output/
+
+# Migration staging
+.migration/
+
+# Migration staging
+.migration/
