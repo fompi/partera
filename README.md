@@ -14,6 +14,7 @@
 - [Qué rol y qué lenguaje usar](#qué-rol-y-qué-lenguaje-usar)
 - [Cómo sacar el máximo partido](#cómo-sacar-el-máximo-partido-rutas-de-uso)
 - [Estructura del repositorio](#estructura-del-repositorio)
+- [Auditoría de sistemas de prompts modulares](#auditoría-de-sistemas-de-prompts-modulares)
 - [Guía por plataforma](#guía-por-plataforma) (Claude, ChatGPT, Gemini, Cursor, Ollama, etc.)
 - [Automejora](#automejora-mejorar-y-ampliar-este-repositorio) (mejorar y ampliar los prompts del repo)
 - [Preguntas frecuentes](#preguntas-frecuentes-y-problemas-habituales)
@@ -277,8 +278,24 @@ make ollama  LANG=bash   ROLE=04_correctness/_index CODE=~/my-project/scripts/
 │   ├── evaluate_coverage.md           ← evaluar gaps de cobertura
 │   ├── generate_lang_adapter.md       ← generar adaptador idiomático
 │   └── generate_role.md              ← generar nuevo rol
+├── prompt_system_audit/               ← auditoría de cualquier sistema de prompts modular
+│   ├── deep_analysis.md               ← análisis profundo (informe en prosa)
+│   └── automated_json.md             ← análisis automatizado (salida JSON para pipelines)
 └── _archive/                          ← prompts originales (histórico)
 ```
+
+---
+
+## Auditoría de sistemas de prompts modulares
+
+Además de auditar *código*, puedes usar dos prompts autocontenidos para **analizar cualquier sistema de prompts modular** (incluido este repositorio u otro): rationale, coherencia, mejoras, verificación, métricas, riesgos.
+
+| Archivo | Para qué | Salida |
+|---------|----------|--------|
+| [prompt_system_audit/deep_analysis.md](prompt_system_audit/deep_analysis.md) | Análisis profundo con evidencia y plan de mejora | Informe en prosa (9 secciones) |
+| [prompt_system_audit/automated_json.md](prompt_system_audit/automated_json.md) | Análisis listo para pipelines automáticos | JSON estructurado |
+
+**Uso:** Son prompts **standalone** (no se componen con `_base_meta.md` ni con `make meta`). Copia el contenido del `.md` en el LLM y pega a continuación la descripción o listado de módulos del sistema a analizar. Para el JSON, la entrada esperada es una lista de módulos con nombre, descripción, dependencias y propósito.
 
 ---
 
