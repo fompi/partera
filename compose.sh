@@ -199,11 +199,14 @@ parts+=(/dev/stdin <(printf '\n---\n\n') "$role_file")
 
 # Extensiones (EXT="path1 path2 ...")
 # Orden de composición:
-#   base universal → base disciplina → adaptador → knowledge → rol → técnicas → modifiers
+#   base universal → base disciplina → adaptador → knowledge → rol → técnicas → modifiers → sources → protocols → capabilities
 EXT="${EXT:-}"
 knowledge_files=()
 technique_files=()
 modifier_files=()
+source_files=()
+protocol_files=()
+capability_files=()
 if [[ -n "$EXT" ]]; then
   for ext_path in $EXT; do
     ext_file="$SCRIPT_DIR/${ext_path}"
@@ -213,9 +216,12 @@ if [[ -n "$EXT" ]]; then
       exit 1
     fi
     case "$ext_path" in
-      knowledge/*)  knowledge_files+=("$ext_file") ;;
-      modifiers/*)  modifier_files+=("$ext_file") ;;
-      *)            technique_files+=("$ext_file") ;;
+      knowledge/*)     knowledge_files+=("$ext_file") ;;
+      modifiers/*)     modifier_files+=("$ext_file") ;;
+      sources/*)       source_files+=("$ext_file") ;;
+      protocols/*)     protocol_files+=("$ext_file") ;;
+      capabilities/*)  capability_files+=("$ext_file") ;;
+      *)               technique_files+=("$ext_file") ;;
     esac
   done
 fi
@@ -240,6 +246,18 @@ fi
     cat "$ext_file"
   done
   for ext_file in "${modifier_files[@]+"${modifier_files[@]}"}"; do
+    printf '\n---\n\n'
+    cat "$ext_file"
+  done
+  for ext_file in "${source_files[@]+"${source_files[@]}"}"; do
+    printf '\n---\n\n'
+    cat "$ext_file"
+  done
+  for ext_file in "${protocol_files[@]+"${protocol_files[@]}"}"; do
+    printf '\n---\n\n'
+    cat "$ext_file"
+  done
+  for ext_file in "${capability_files[@]+"${capability_files[@]}"}"; do
     printf '\n---\n\n'
     cat "$ext_file"
   done
