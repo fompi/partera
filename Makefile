@@ -174,6 +174,15 @@ list-capabilities: ## Lista capabilities disponibles
 test-legacy: ## Ejecuta tests de regresión de compatibilidad legacy
 	@$(PROMPTS_DIR)scripts/test_compose_legacy.sh
 
+# Aliases de compatibilidad (legacy → nueva arquitectura)
+# Uso: make compose-legacy ADAPTER=python ROLE=01_security/_index
+.PHONY: compose-legacy
+compose-legacy: ## [Legacy] Mapea sintaxis vieja a nueva (disciplina: engineering)
+	@echo "⚠️  Usando sintaxis legacy. Nueva sintaxis equivalente:"
+	@echo "   DISC=engineering $(PROMPTS_DIR)compose.sh $(ADAPTER) audit/$(ROLE)"
+	@echo ""
+	@DISC=engineering $(PROMPTS_DIR)compose.sh "$(ADAPTER)" "audit/$(ROLE)"
+
 # --- Plataformas de pago ---------------------------------------------------
 
 .PHONY: claude
