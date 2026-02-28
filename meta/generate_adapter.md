@@ -17,13 +17,13 @@ Actúa como **Experto en el dominio objetivo** y como **Ingeniero de Prompts**. 
 
 ## Tipos de adaptador por disciplina
 
-| Disciplina   | Tipo de adaptador           | Ejemplos                          |
-|-------------|----------------------------|-----------------------------------|
-| engineering | Lenguaje de programación    | python, bash, typescript, go      |
-| content     | Tipo / canal de contenido   | technical, marketing, news, internal |
-| design      | Plataforma / medio          | web, mobile, print, brand         |
-| business    | Modelo de negocio           | saas, ecommerce, marketplace      |
-| management  | Metodología de gestión      | agile, waterfall, kanban          |
+| Disciplina   | Tipo de adaptador           | Ejemplos                               |
+| ------------ | --------------------------- | -------------------------------------- |
+| engineering  | Lenguaje de programación    | python, bash, typescript, go           |
+| content      | Tipo / canal de contenido   | technical, marketing, news, internal   |
+| design       | Plataforma / medio          | web, mobile, print, brand              |
+| business     | Modelo de negocio           | saas, ecommerce, marketplace           |
+| management   | Metodología de gestión      | agile, waterfall, kanban               |
 
 ## Input esperado
 
