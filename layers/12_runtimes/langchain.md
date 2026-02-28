@@ -16,17 +16,20 @@ estimated_tokens: 235
 # Runtime: LangChain
 
 ## Características
+
 - Framework modular para pipelines LLM
 - Soporte para múltiples backends (OpenAI, Anthropic, Ollama, HuggingFace)
 - LangChain Expression Language (LCEL) para chains declarativos
 - Integración nativa con vectorstores y retrieval
 
 ## Mapeo
+
 - System prompt compuesto → `SystemMessage` o `ChatPromptTemplate`
 - Roles del sistema → Chains o Agents individuales
 - Chains del sistema → LangChain LCEL chains o `SequentialChain`
 
 ## Ejemplo de uso
+
 ```python
 from langchain_anthropic import ChatAnthropic
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
@@ -44,6 +47,7 @@ result = chain.invoke({"input": "Analiza este código: ..."})
 ```
 
 ## Uso con tools
+
 ```python
 from langchain.tools import tool
 from langchain.agents import create_tool_calling_agent, AgentExecutor
@@ -58,11 +62,13 @@ executor = AgentExecutor(agent=agent, tools=[web_search])
 ```
 
 ## Instalación
+
 ```bash
 pip install langchain langchain-anthropic langchain-openai
 ```
 
 ## Notas
+
 - Los prompts compuestos son compatibles directamente como `SystemMessage`
 - LCEL permite componer pipelines de forma declarativa
 - Soporta streaming, callbacks y observabilidad

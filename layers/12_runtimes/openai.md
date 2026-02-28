@@ -17,6 +17,7 @@ estimated_tokens: 230
 # Runtime: OpenAI
 
 ## Características
+
 - System prompt: Sí (rol `system` en messages)
 - Tool calling: Sí (via function calling)
 - Vision: GPT-4o y GPT-4-turbo
@@ -24,16 +25,19 @@ estimated_tokens: 230
 - Streaming: Sí
 
 ## Capacidades nativas
+
 - `vision`: Análisis de imágenes (GPT-4o)
 - `code-execution`: Code Interpreter (Assistants API)
 - `file-analysis`: Assistants API con file retrieval
 
 ## Formato de composición
+
 - System prompt en `messages[0]` con `role: system`
 - Tool definitions con `parameters` (JSON Schema)
 - Function calling devuelve `tool_calls` en respuesta
 
 ## Uso via API
+
 ```python
 from openai import OpenAI
 
@@ -50,6 +54,7 @@ response = client.chat.completions.create(
 ```
 
 ## Diferencias vs Claude
+
 - Tool schema: usa `parameters` en vez de `input_schema`
 - System prompt: va en `messages` (no campo separado)
 - Streaming: `stream=True` en create()

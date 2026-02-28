@@ -16,17 +16,20 @@ estimated_tokens: 225
 # Runtime: AutoGen
 
 ## Características
+
 - Framework multi-agente de Microsoft basado en conversación
 - Agents que se comunican entre sí vía mensajes
 - Soporte para ejecución de código en sandbox
 - Integración con Azure OpenAI y OpenAI
 
 ## Mapeo
+
 - System prompt compuesto → `system_message` del AssistantAgent
 - Roles del sistema → AssistantAgents individuales
 - Chains → GroupChat con múltiples agentes
 
 ## Ejemplo de uso
+
 ```python
 import autogen
 
@@ -59,6 +62,7 @@ user_proxy.initiate_chat(
 ```
 
 ## Multi-agente (chain como GroupChat)
+
 ```python
 groupchat = autogen.GroupChat(
     agents=[spec_writer, implementer, reviewer],
@@ -69,11 +73,13 @@ manager = autogen.GroupChatManager(groupchat=groupchat, llm_config=llm_config)
 ```
 
 ## Instalación
+
 ```bash
 pip install pyautogen
 ```
 
 ## Notas
+
 - Principalmente orientado a OpenAI / Azure OpenAI
 - Soporte experimental para otros backends via LiteLLM
 - Ideal para workflows que requieren ejecución de código y feedback loops

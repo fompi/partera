@@ -17,6 +17,7 @@ estimated_tokens: 220
 # Runtime: Claude
 
 ## Características
+
 - System prompt: Sí (recomendado)
 - Tool calling: Sí (via function calling)
 - Vision: Nativa en Claude 3+
@@ -24,17 +25,20 @@ estimated_tokens: 220
 - Streaming: Sí
 
 ## Capacidades nativas
+
 - `vision`: Análisis de imágenes
 - `web-search`: Con extensión habilitada
 - `code-execution`: Con feature habilitada
 - `file-analysis`: Múltiples archivos, PDFs
 
 ## Formato de composición
+
 - Incluir system prompt completo
 - Tool definitions en formato JSON (Anthropic schema)
 - Capabilities nativas no requieren wrapper
 
 ## Uso via API
+
 ```python
 import anthropic
 
@@ -49,6 +53,7 @@ response = client.messages.create(
 ```
 
 ## Notas
+
 - El system prompt compuesto va en el campo `system`
 - Los tool schemas usan `input_schema` (no `parameters` como OpenAI)
 - Streaming disponible con `stream=True`

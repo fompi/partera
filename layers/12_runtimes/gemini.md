@@ -17,6 +17,7 @@ estimated_tokens: 210
 # Runtime: Gemini
 
 ## Características
+
 - System prompt: Sí (`system_instruction`)
 - Tool calling: Sí (function declarations)
 - Vision: Nativa en todos los modelos Gemini
@@ -24,15 +25,18 @@ estimated_tokens: 210
 - Streaming: Sí
 
 ## Capacidades nativas
+
 - `vision`: Análisis de imágenes y video
 - `file-analysis`: Documentos, PDFs, audio, video
 
 ## Formato de composición
+
 - System prompt en `system_instruction.parts[0].text`
 - Tool definitions en `tools[0].function_declarations`
 - Formato de schema similar a OpenAI
 
 ## Uso via API
+
 ```python
 import google.generativeai as genai
 
@@ -46,6 +50,7 @@ response = model.generate_content("...")
 ```
 
 ## Notas
+
 - `system_instruction` es un campo separado del historial
 - Soporta multimodal nativo (imagen, video, audio)
 - Context window de 1M es ideal para análisis de repositorios completos

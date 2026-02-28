@@ -17,6 +17,7 @@ estimated_tokens: 195
 # Runtime: Ollama
 
 ## Características
+
 - System prompt: Sí (campo `system`)
 - Tool calling: No (depende del modelo; algunos soportan experimentalmente)
 - Vision: Solo modelos multimodales (llava, bakllava)
@@ -25,18 +26,22 @@ estimated_tokens: 195
 - Privacidad: 100% local, sin envío de datos
 
 ## Capacidades nativas
+
 - `vision`: Solo con modelos LLaVA o similares (requiere wrapper)
 
 ## Limitaciones
+
 - Sin tool calling nativo en la mayoría de modelos
 - Sin web-search, code-execution ni file-analysis nativos
 - Rendimiento dependiente del hardware local
 
 ## Formato de composición
+
 - System prompt en `system` de la API REST local
 - Sin tool definitions (ignorar si el prompt las incluye)
 
 ## Uso via CLI
+
 ```bash
 ollama run qwen2.5-coder:32b \
   --system "$(cat composed_prompt.md)" \
@@ -44,6 +49,7 @@ ollama run qwen2.5-coder:32b \
 ```
 
 ## Uso via API REST
+
 ```python
 import requests
 
@@ -56,6 +62,7 @@ response = requests.post("http://localhost:11434/api/generate", json={
 ```
 
 ## Recomendaciones para prompts
+
 - Mantener prompts concisos (los modelos locales tienen menos capacidad de seguir instrucciones largas)
 - Evitar capabilities que requieran tool calling
 - Usar modelos especializados en código (qwen2.5-coder, codellama) para auditorías

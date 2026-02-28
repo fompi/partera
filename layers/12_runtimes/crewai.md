@@ -16,11 +16,13 @@ estimated_tokens: 240
 # Runtime: CrewAI
 
 ## Características
+
 - Framework multi-agente basado en roles y tareas
 - Cada rol del sistema → Agent en CrewAI
 - Cada chain → Crew con múltiples agents
 
 ## Mapeo
+
 - `disciplines/X/roles/Y/Z/_index.md` → CrewAI Agent con:
   - `role`: name del rol
   - `goal`: description del rol
@@ -28,6 +30,7 @@ estimated_tokens: 240
   - `tools`: Capabilities requeridas
 
 ## Ejemplo de generación
+
 ```python
 from crewai import Agent, Task, Crew
 
@@ -50,17 +53,20 @@ result = crew.kickoff()
 ```
 
 ## Instalación
+
 ```bash
 pip install crewai crewai-tools
 ```
 
 ## Generación automática
+
 ```bash
 # Generar código CrewAI desde un rol
 ./scripts/generate_crewai.sh engineering python generate/0002_implementer/_index
 ```
 
 ## Notas
+
 - Usar `generate_crewai.sh` para generar código Python automáticamente
 - Los chains de `chains/` se mapean directamente a Crews
 - Soporta cualquier modelo como backend (OpenAI, Anthropic, Ollama)
