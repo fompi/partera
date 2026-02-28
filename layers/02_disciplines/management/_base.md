@@ -10,6 +10,8 @@ sfia_category: "Delivery and Operation"
 estimated_tokens: 590
 ---
 
+# Base de Gestión de Proyectos
+
 ## Alcance de la disciplina Management
 
 Esta disciplina cubre la planificación, coordinación y ejecución de proyectos y programas, desde la definición inicial hasta el cierre. Los ejes de calidad en orden de prioridad:
@@ -31,16 +33,19 @@ Esta disciplina cubre la planificación, coordinación y ejecución de proyectos
 ## Metodologías de gestión
 
 ### Agile / Scrum
+
 - Iteraciones cortas (sprints de 1-4 semanas) con entregables funcionando.
 - Priorización continua del backlog.
 - Retrospectivas como mecanismo de mejora continua.
 - Adecuado para: proyectos con requisitos evolutivos, alto riesgo técnico, necesidad de feedback rápido.
 
 ### Waterfall / En cascada
+
 - Fases secuenciales: requisitos → diseño → desarrollo → testing → despliegue.
 - Adecuado para: proyectos con requisitos estables, entornos regulados, contratos de precio fijo.
 
 ### Hybrid
+
 - Combinación: fases de alto nivel en waterfall, ejecución interna en sprints.
 - Adecuado para: proyectos complejos con componentes independientes de distintas naturalezas.
 

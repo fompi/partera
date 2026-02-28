@@ -34,7 +34,7 @@ Documentación de software, guías de integración, tutoriales, referencias de A
 ## Tipos de documentación (Diátaxis)
 
 | Tipo | Propósito | Ejemplo |
-|------|-----------|---------|
+| ------ | ----------- | --------- |
 | Tutorial | Aprender haciendo | "Crea tu primer proyecto en 5 minutos" |
 | How-to | Resolver tarea concreta | "Cómo configurar autenticación OAuth" |
 | Reference | Consulta técnica precisa | "Referencia de la API REST" |

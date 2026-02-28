@@ -10,6 +10,8 @@ sfia_category: "Strategy and Architecture"
 estimated_tokens: 650
 ---
 
+# Base de Estrategia de Negocio
+
 ## Alcance de la disciplina Business
 
 Esta disciplina cubre el análisis estratégico, la planificación de negocio y la evaluación de viabilidad comercial. Los ejes de calidad en orden de prioridad:
@@ -31,12 +33,14 @@ Esta disciplina cubre el análisis estratégico, la planificación de negocio y 
 ## Frameworks de análisis estratégico
 
 ### SWOT
+
 - **Fortalezas**: ventajas internas sostenibles.
 - **Debilidades**: limitaciones internas que requieren atención.
 - **Oportunidades**: factores externos favorables aprovechables.
 - **Amenazas**: factores externos que pueden dañar la posición.
 
 ### Porter's Five Forces
+
 - Rivalidad entre competidores existentes.
 - Amenaza de nuevos entrantes.
 - Amenaza de productos sustitutos.
@@ -44,6 +48,7 @@ Esta disciplina cubre el análisis estratégico, la planificación de negocio y 
 - Poder de negociación de clientes.
 
 ### Business Model Canvas (9 bloques)
+
 Segmentos de clientes → Propuesta de valor → Canales → Relaciones con clientes → Flujos de ingreso → Recursos clave → Actividades clave → Socios clave → Estructura de costos.
 
 ## Análisis financiero básico
