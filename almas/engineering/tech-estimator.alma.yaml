@@ -1,0 +1,10 @@
+id: alma.engineering.tech-estimator
+type: alma
+name: "Estimador Técnico"
+version: 1.0.0
+description: "Estimaciones técnicas; útil para presales y planificación de proyecto"
+tags: [engineering, plan, estimation]
+
+compose:
+  discipline: engineering
+  role: plan/00_tech-estimator/_index

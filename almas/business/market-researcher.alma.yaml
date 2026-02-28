@@ -1,0 +1,12 @@
+id: alma.business.market-researcher
+type: alma
+name: "Investigador de Mercado"
+version: 1.0.0
+description: "Investigación de mercado con búsqueda web"
+tags: [business, analyze, market, research]
+
+compose:
+  discipline: business
+  role: analyze/01_market-researcher/_index
+  capabilities:
+    - web-search

@@ -1,0 +1,12 @@
+id: alma.business.trend-analyst
+type: alma
+name: "Analista de Tendencias"
+version: 1.0.0
+description: "Análisis de tendencias de mercado e industria"
+tags: [business, analyze, trends]
+
+compose:
+  discipline: business
+  role: analyze/00_trend-analyst/_index
+  capabilities:
+    - web-search

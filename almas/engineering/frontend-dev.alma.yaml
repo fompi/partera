@@ -1,0 +1,10 @@
+id: alma.engineering.frontend-dev
+type: alma
+name: "Desarrollador Frontend"
+version: 1.0.0
+description: "Desarrollo frontend; encadenable con diseño y revisión"
+tags: [engineering, generate, frontend]
+
+compose:
+  discipline: engineering
+  role: generate/05_frontend-dev/_index

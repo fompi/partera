@@ -1,0 +1,14 @@
+id: alma.content.doc-writer-official-sources
+type: alma
+name: "Redactor de Documentación — Fuentes Oficiales"
+version: 1.0.0
+description: "Documentación técnica priorizando solo fuentes oficiales y análisis profundo"
+tags: [content, generate, documentation, official]
+
+compose:
+  discipline: content
+  role: generate/01_doc-writer/_index
+  sources:
+    - official-docs-only
+  modifiers:
+    - depth/deep

@@ -1,0 +1,10 @@
+id: alma.management.project-manager
+type: alma
+name: "Gestor de Proyectos"
+version: 1.0.0
+description: "Planificación de proyectos, hitos y backlog (adaptador agile/waterfall al invocar)"
+tags: [management, plan, project]
+
+compose:
+  discipline: management
+  role: plan/00_project-manager/_index

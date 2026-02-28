@@ -1,0 +1,14 @@
+id: alma.content.doc-writer-junior
+type: alma
+name: "Redactor de Documentación — Junior"
+version: 1.0.0
+description: "Documentación técnica orientada a desarrolladores junior con explicaciones didácticas"
+tags: [content, generate, documentation, junior, teaching]
+
+compose:
+  discipline: content
+  role: generate/01_doc-writer/_index
+  modifiers:
+    - audience/junior
+  protocols:
+    - teaching

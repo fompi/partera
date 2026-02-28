@@ -1,0 +1,10 @@
+id: alma.engineering.spec-writer
+type: alma
+name: "Escritor de Especificaciones"
+version: 1.0.0
+description: "Genera especificaciones técnicas desde requisitos; entrada ideal para cadenas NL→código"
+tags: [engineering, generate, spec, nl-to-code]
+
+compose:
+  discipline: engineering
+  role: generate/00_spec-writer/_index

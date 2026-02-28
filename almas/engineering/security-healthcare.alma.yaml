@@ -1,0 +1,20 @@
+id: alma.engineering.security-healthcare
+type: alma
+name: "Auditoría de Seguridad — Healthcare"
+version: 1.0.0
+description: "Auditoría profunda de seguridad para entornos healthcare regulados"
+tags: [engineering, audit, security, healthcare]
+
+extends: v02/security-deep
+
+compose:
+  modifiers:
+    - depth/deep
+    - industry/healthcare
+  sources:
+    - official-docs-only
+  techniques:
+    - security/injection-analysis
+    - security/auth-access-control
+    - security/secrets-crypto
+    - security/supply-chain

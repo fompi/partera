@@ -1,0 +1,15 @@
+id: alma.engineering.security-quick
+type: alma
+name: "Auditoría de Seguridad — Rápida"
+version: 1.0.0
+description: "Revisión rápida de seguridad para checks pre-commit o pipelines"
+tags: [engineering, audit, security, quick]
+
+compose:
+  discipline: engineering
+  role: audit/01_security/_index
+  modifiers:
+    - depth/quick
+  techniques:
+    - security/injection-analysis
+    - security/auth-access-control

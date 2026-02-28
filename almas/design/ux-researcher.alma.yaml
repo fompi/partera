@@ -1,0 +1,10 @@
+id: alma.design.ux-researcher
+type: alma
+name: "Investigador UX"
+version: 1.0.0
+description: "Investigación de usabilidad y experiencia de usuario"
+tags: [design, ux, research]
+
+compose:
+  discipline: design
+  role: create/01_ux-researcher/_index

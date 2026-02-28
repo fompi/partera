@@ -1,0 +1,10 @@
+id: alma.business.presales
+type: alma
+name: "Presales"
+version: 1.0.0
+description: "Propuestas comerciales y soporte presales"
+tags: [business, presales, sales]
+
+compose:
+  discipline: business
+  role: plan/00_presales/_index

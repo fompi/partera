@@ -1,0 +1,10 @@
+id: alma.content.doc-writer
+type: alma
+name: "Redactor de Documentación"
+version: 1.0.0
+description: "Genera documentación técnica clara desde código o especificación"
+tags: [content, generate, documentation]
+
+compose:
+  discipline: content
+  role: generate/01_doc-writer/_index

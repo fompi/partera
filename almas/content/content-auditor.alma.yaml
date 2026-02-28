@@ -1,0 +1,10 @@
+id: alma.content.content-auditor
+type: alma
+name: "Auditor de Contenido"
+version: 1.0.0
+description: "Auditoría de calidad y consistencia de contenido"
+tags: [content, audit]
+
+compose:
+  discipline: content
+  role: audit/00_content-auditor/_index

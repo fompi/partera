@@ -1,0 +1,12 @@
+id: alma.management.project-manager-executive
+type: alma
+name: "Gestor de Proyectos — Informe Ejecutivo"
+version: 1.0.0
+description: "Planificación con resumen ejecutivo y métricas para dirección"
+tags: [management, plan, project, executive]
+
+compose:
+  discipline: management
+  role: plan/00_project-manager/_index
+  modifiers:
+    - audience/executive

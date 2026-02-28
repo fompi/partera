@@ -1,0 +1,10 @@
+id: alma.design.web-designer
+type: alma
+name: "Diseñador Web"
+version: 1.0.0
+description: "Diseño web y criterios de interfaz"
+tags: [design, web, ui]
+
+compose:
+  discipline: design
+  role: create/00_web-designer/_index

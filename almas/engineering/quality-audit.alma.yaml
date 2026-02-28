@@ -1,0 +1,14 @@
+id: alma.engineering.quality-audit
+type: alma
+name: "Auditoría de Calidad"
+version: 1.0.0
+description: "Auditoría general de calidad de código: deuda técnica, estándares y mantenibilidad"
+tags: [engineering, audit, quality]
+
+compose:
+  discipline: engineering
+  role: audit/05_quality/_index
+  techniques:
+    - maintainability/tech-debt
+    - maintainability/documentation-standards
+    - maintainability/code-organization

@@ -1,0 +1,19 @@
+id: alma.engineering.implementer-ollama
+type: alma
+name: "Implementador — Ollama"
+version: 1.0.0
+description: "Implementador de código optimizado para runtimes locales (Ollama)"
+tags: [engineering, generate, implementer, ollama]
+
+compose:
+  discipline: engineering
+  role: generate/02_implementer/_index
+  protocols:
+    - autonomous
+  capabilities:
+    - code-execution
+  runtime: ollama
+
+model:
+  suggested: "codellama"
+  temperature: 0.2

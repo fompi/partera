@@ -1,0 +1,12 @@
+id: alma.business.content-strategist
+type: alma
+name: "Estratega de Contenido"
+version: 1.0.0
+description: "Estrategia de contenido y planificación editorial con búsqueda web"
+tags: [business, analyze, content, strategy]
+
+compose:
+  discipline: business
+  role: analyze/02_content-strategist/_index
+  capabilities:
+    - web-search

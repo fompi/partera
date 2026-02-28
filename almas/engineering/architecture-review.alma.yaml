@@ -1,0 +1,13 @@
+id: alma.engineering.architecture-review
+type: alma
+name: "Revisión de Arquitectura"
+version: 1.0.0
+description: "Auditoría de arquitectura de software: patrones, acoplamiento, escalabilidad y decisiones técnicas"
+tags: [engineering, audit, architecture]
+
+compose:
+  discipline: engineering
+  role: audit/03_architecture/_index
+  techniques:
+    - scalability/horizontal-vertical-scaling
+    - maintainability/code-organization

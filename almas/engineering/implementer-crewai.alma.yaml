@@ -1,0 +1,13 @@
+id: alma.engineering.implementer-crewai
+type: alma
+name: "Implementador — CrewAI"
+version: 1.0.0
+description: "Implementador de código para runtime CrewAI con ejecución de código"
+tags: [engineering, generate, implementer, crewai]
+
+compose:
+  discipline: engineering
+  role: generate/02_implementer/_index
+  capabilities:
+    - code-execution
+  runtime: crewai

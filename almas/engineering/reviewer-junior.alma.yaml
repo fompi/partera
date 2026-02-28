@@ -1,0 +1,14 @@
+id: alma.engineering.reviewer-junior
+type: alma
+name: "Revisor de Código — Junior"
+version: 1.0.0
+description: "Revisión de código con feedback didáctico para desarrolladores junior"
+tags: [engineering, generate, review, junior, teaching]
+
+compose:
+  discipline: engineering
+  role: generate/03_reviewer/_index
+  modifiers:
+    - audience/junior
+  protocols:
+    - teaching

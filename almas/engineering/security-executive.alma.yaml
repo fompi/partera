@@ -1,0 +1,18 @@
+id: alma.engineering.security-executive
+type: alma
+name: "Auditoría de Seguridad — Informe Ejecutivo"
+version: 1.0.0
+description: "Auditoría de seguridad con informe orientado a dirección y stakeholders no técnicos"
+tags: [engineering, audit, security, executive]
+
+extends: v02/security-deep
+
+compose:
+  modifiers:
+    - depth/deep
+    - audience/executive
+  techniques:
+    - security/injection-analysis
+    - security/auth-access-control
+    - security/secrets-crypto
+    - security/supply-chain

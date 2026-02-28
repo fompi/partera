@@ -1,0 +1,14 @@
+id: alma.engineering.spec-writer-pedagogical
+type: alma
+name: "Escritor de Especificaciones — Pedagógico"
+version: 1.0.0
+description: "Especificaciones técnicas con explicaciones didácticas para desarrolladores junior"
+tags: [engineering, generate, spec, teaching, junior]
+
+compose:
+  discipline: engineering
+  role: generate/00_spec-writer/_index
+  protocols:
+    - teaching
+  modifiers:
+    - audience/junior

@@ -1,0 +1,12 @@
+id: alma.content.copywriter-marketing
+type: alma
+name: "Copywriter — Marketing"
+version: 1.0.0
+description: "Copy con análisis profundo para contenidos de marketing"
+tags: [content, generate, copywriter, marketing]
+
+compose:
+  discipline: content
+  role: generate/03_copywriter/_index
+  modifiers:
+    - depth/deep

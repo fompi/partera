@@ -1,0 +1,12 @@
+id: alma.engineering.audit-orchestrator
+type: alma
+name: "Orquestador de Auditoría"
+version: 1.0.0
+description: "Coordina auditorías completas (security → performance → architecture → correctness); núcleo del swarm de auditoría"
+tags: [engineering, audit, orchestrator, swarm]
+
+compose:
+  discipline: engineering
+  role: audit/00_orchestrator/_index
+  protocols:
+    - autonomous

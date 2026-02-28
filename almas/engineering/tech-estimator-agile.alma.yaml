@@ -1,0 +1,12 @@
+id: alma.engineering.tech-estimator-agile
+type: alma
+name: "Estimador Técnico — Ágil"
+version: 1.0.0
+description: "Estimaciones técnicas en formato ágil (story points, backlog)"
+tags: [engineering, plan, estimation, agile]
+
+compose:
+  discipline: engineering
+  role: plan/00_tech-estimator/_index
+  knowledge:
+    - management-basics

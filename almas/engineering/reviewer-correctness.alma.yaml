@@ -1,0 +1,14 @@
+id: alma.engineering.reviewer-correctness
+type: alma
+name: "Revisor de Código — Correctness"
+version: 1.0.0
+description: "Revisión de código con técnicas de corrección: edge cases, concurrencia y manejo de errores"
+tags: [engineering, generate, review, correctness]
+
+compose:
+  discipline: engineering
+  role: generate/03_reviewer/_index
+  techniques:
+    - correctness/edge-cases-contracts
+    - correctness/concurrency-state
+    - correctness/error-handling

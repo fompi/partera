@@ -1,0 +1,10 @@
+id: alma.content.clickbait-writer
+type: alma
+name: "Redactor de Titulares y Engagement"
+version: 1.0.0
+description: "Genera titulares y contenido orientado a engagement"
+tags: [content, generate, headlines, engagement]
+
+compose:
+  discipline: content
+  role: generate/00_clickbait-writer/_index

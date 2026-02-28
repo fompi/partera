@@ -1,0 +1,12 @@
+id: alma.engineering.documenter
+type: alma
+name: "Documentador Técnico"
+version: 1.0.0
+description: "Genera documentación técnica a partir de código; encadenable tras implementer"
+tags: [engineering, generate, documentation]
+
+compose:
+  discipline: engineering
+  role: generate/04_documenter/_index
+  techniques:
+    - maintainability/documentation-standards

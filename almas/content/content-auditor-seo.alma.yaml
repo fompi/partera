@@ -1,0 +1,22 @@
+id: alma.content.content-auditor-seo
+type: alma
+name: "Auditor de Contenido — SEO"
+version: 1.0.0
+description: "Auditoría de contenido con criterios SEO: titular, meta, estructura H1–H3, keywords"
+tags: [content, audit, seo]
+
+compose:
+  discipline: content
+  role: audit/00_content-auditor/_index
+  modifiers:
+    - depth/deep
+
+inject:
+  before_role: |
+    ## Criterios SEO
+    Evalúa y sugiere mejoras para:
+    - Titular principal (H1): único, descriptivo, keyword principal
+    - Meta description: bajo 160 caracteres, llamada a la acción
+    - Estructura H2/H3 semánticamente coherente
+    - Densidad natural de keywords (evitar keyword stuffing)
+    - URLs amigables y descriptivas

@@ -1,0 +1,12 @@
+id: alma.content.ops-procedures
+type: alma
+name: "Procedimientos Operativos"
+version: 1.0.0
+description: "Genera procedimientos operativos y runbooks para equipos de operaciones"
+tags: [content, generate, ops, runbooks]
+
+compose:
+  discipline: content
+  role: generate/02_ops-procedures/_index
+  sources:
+    - internal-only

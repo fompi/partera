@@ -299,18 +299,67 @@ make validate-almas
 
 ### Almas incluidas
 
-| Alma | Disciplina | Feature destacada |
-| ---- | ---------- | ----------------- |
-| `v02/security-deep` | engineering | Technique bundle (4 técnicas de seguridad) |
-| `v02/performance-deep` | engineering | Technique bundle (3 técnicas de rendimiento) |
-| `v02/correctness-deep` | engineering | Technique bundle (3 técnicas de correctness) |
-| `engineering/security-fintech` | engineering | Herencia + modifiers + sources |
-| `engineering/implementer-claude` | engineering | Runtime + capabilities + protocol |
-| `engineering/architecture-teaching` | engineering | Protocol + audience modifier |
-| `engineering/security-deep-ollama` | engineering | Model hints + runtime vía herencia |
-| `content/copywriter-deep` | content | Inject + modifier |
-| `design/web-with-eng` | design | Knowledge packs cross-disciplina |
-| `business/presales-research` | business | Capabilities + sources |
+**Engineering (audit)** — `v02/security-deep`, `v02/performance-deep`, `v02/correctness-deep`, `engineering/audit-orchestrator`, `engineering/security-executive`, `engineering/security-fintech`, `engineering/security-healthcare`, `engineering/security-quick`, `engineering/architecture-review`, `engineering/architecture-teaching`, `engineering/quality-audit`
+
+**Engineering (generate)** — `engineering/spec-writer`, `engineering/spec-writer-pedagogical`, `engineering/tech-advisor`, `engineering/implementer-claude`, `engineering/implementer-ollama`, `engineering/implementer-crewai`, `engineering/reviewer`, `engineering/reviewer-correctness`, `engineering/reviewer-junior`, `engineering/documenter`, `engineering/frontend-dev`
+
+**Engineering (plan)** — `engineering/tech-estimator`, `engineering/tech-estimator-agile`
+
+**Content** — `content/doc-writer`, `content/doc-writer-official-sources`, `content/doc-writer-junior`, `content/ops-procedures`, `content/content-auditor`, `content/content-auditor-seo`, `content/clickbait-writer`, `content/copywriter-deep`, `content/copywriter-marketing`
+
+**Design** — `design/web-designer`, `design/web-with-eng`, `design/ux-researcher`, `design/ux-researcher-accessibility`
+
+**Business** — `business/presales`, `business/presales-research`, `business/presales-fintech`, `business/market-researcher`, `business/trend-analyst`, `business/content-strategist`
+
+**Management** — `management/project-manager`, `management/project-manager-executive`
+
+| Alma | Feature destacada |
+| ---- | ----------------- |
+| `v02/security-deep` | 4 técnicas de seguridad |
+| `v02/performance-deep` | 3 técnicas de rendimiento |
+| `v02/correctness-deep` | 3 técnicas de correctness |
+| `engineering/audit-orchestrator` | Protocol autonomous, coordina auditoría completa |
+| `engineering/security-executive` | Informe para dirección (audience/executive) |
+| `engineering/security-fintech` | Herencia v02 + industry/fintech + official-docs-only |
+| `engineering/security-healthcare` | industry/healthcare + official-docs-only |
+| `engineering/security-quick` | depth/quick + 2 técnicas |
+| `engineering/architecture-review` | Técnicas scalability + maintainability |
+| `engineering/architecture-teaching` | Protocol teaching + audience/junior |
+| `engineering/quality-audit` | tech-debt, documentation-standards, code-organization |
+| `engineering/spec-writer` | Base NL→código |
+| `engineering/spec-writer-pedagogical` | teaching + audience/junior |
+| `engineering/tech-advisor` | Protocol collaborative |
+| `engineering/implementer-claude` | Runtime Claude + code-execution + autonomous |
+| `engineering/implementer-ollama` | Runtime Ollama + model hint codellama |
+| `engineering/implementer-crewai` | Runtime CrewAI + code-execution |
+| `engineering/reviewer` | Protocol collaborative |
+| `engineering/reviewer-correctness` | 3 técnicas correctness |
+| `engineering/reviewer-junior` | audience/junior + teaching |
+| `engineering/documenter` | maintainability/documentation-standards |
+| `engineering/frontend-dev` | Base frontend |
+| `engineering/tech-estimator` | Base estimación |
+| `engineering/tech-estimator-agile` | knowledge/management-basics |
+| `content/doc-writer` | Base documentación |
+| `content/doc-writer-official-sources` | official-docs-only + depth/deep |
+| `content/doc-writer-junior` | audience/junior + teaching |
+| `content/ops-procedures` | internal-only |
+| `content/content-auditor` | Base auditoría contenido |
+| `content/content-auditor-seo` | depth/deep + inject criterios SEO |
+| `content/clickbait-writer` | Base titulares/engagement |
+| `content/copywriter-deep` | depth/deep + inject SEO |
+| `content/copywriter-marketing` | depth/deep |
+| `design/web-designer` | Base diseño web |
+| `design/web-with-eng` | knowledge engineering-basics + security-awareness |
+| `design/ux-researcher` | Base investigación UX |
+| `design/ux-researcher-accessibility` | design-basics + inject WCAG/accesibilidad |
+| `business/presales` | Base presales |
+| `business/presales-research` | Capabilities + sources |
+| `business/presales-fintech` | industry/fintech + official-docs-only |
+| `business/market-researcher` | web-search |
+| `business/trend-analyst` | web-search |
+| `business/content-strategist` | web-search |
+| `management/project-manager` | Base planificación |
+| `management/project-manager-executive` | audience/executive |
 
 ### Crear un alma nueva
 
