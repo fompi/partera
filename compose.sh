@@ -208,11 +208,15 @@ if [[ -n "$adapter_disc" ]] && [[ -n "$role_disc" ]] && [[ "$adapter_disc" != "$
   exit 1
 fi
 
+# Base del rol de auditor (si el rol está bajo audit/): contrato de salida compartido
+audit_base_file="$disc_dir/06_roles/audit/_base.md"
+
 # Construir lista de archivos a concatenar
 parts=()
 parts+=("$base_file")
 [[ -f "$disc_base_file" ]] && parts+=(/dev/stdin <(printf '\n---\n\n') "$disc_base_file")
 parts+=(/dev/stdin <(printf '\n---\n\n') "$adapter_file")
+[[ "$ROLE" == audit/* ]] && [[ -f "$audit_base_file" ]] && parts+=(/dev/stdin <(printf '\n---\n\n') "$audit_base_file")
 parts+=(/dev/stdin <(printf '\n---\n\n') "$role_file")
 
 # Extensiones (EXT="path1 path2 ...") — rutas lógicas; se resuelven a layers/
@@ -293,6 +297,10 @@ fi
   fi
   printf '\n---\n\n'
   cat "$adapter_file"
+  if [[ "$ROLE" == audit/* ]] && [[ -f "$audit_base_file" ]]; then
+    printf '\n---\n\n'
+    cat "$audit_base_file"
+  fi
   for ext_file in "${pattern_files[@]+"${pattern_files[@]}"}"; do
     printf '\n---\n\n'
     cat "$ext_file"
