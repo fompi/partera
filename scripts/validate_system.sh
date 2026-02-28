@@ -204,21 +204,6 @@ else
   fi
 fi
 
-# ─── Paso 7: Compatibilidad legacy ───────────────────────────────────────────
-
-section "Verificando Compatibilidad Legacy"
-
-if [[ -x "$SCRIPT_DIR/test_compose_legacy.sh" ]]; then
-  if "$SCRIPT_DIR/test_compose_legacy.sh" > /tmp/legacy-output.txt 2>&1; then
-    ok "Modo legacy compatible"
-  else
-    error "Modo legacy roto (ver /tmp/legacy-output.txt)"
-    [[ "$QUIET" == false ]] && cat /tmp/legacy-output.txt | head -20
-  fi
-else
-  warn "test_compose_legacy.sh no encontrado"
-fi
-
 # ─── Resumen ─────────────────────────────────────────────────────────────────
 
 section "Resumen de Validación"

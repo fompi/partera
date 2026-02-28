@@ -42,8 +42,8 @@
 ### Instalación
 
 ```bash
-git clone https://github.com/<usuario>/audit-prompts.git
-cd audit-prompts
+git clone https://github.com/<usuario>/partera.git
+cd partera
 ```
 
 Requisitos: `bash`, `make`. Opcional: `jq` para funciones avanzadas.
@@ -178,7 +178,7 @@ Adaptadores: `agile`, `waterfall`
 ## Estructura de directorios
 
 ```
-audit-prompts/
+partera/
 ├── _base.md                    # Capa 1: base universal
 ├── disciplines/                # Capa 2+3: disciplinas y adaptadores
 │   ├── engineering/
@@ -238,8 +238,6 @@ make list-by-type TYPE=technique
 make validate
 make validate-discipline DISC=engineering
 
-# Modo legacy (compatibilidad v1)
-make compose LANG=python ROLE=01_security/_index
 ```
 
 ---

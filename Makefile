@@ -1,44 +1,26 @@
-# Audit Prompts — Makefile multiplataforma
+# Partera — Makefile multiplataforma
 #
 # Uso:
-#   make help                              — muestra todos los targets
-#   make compose LANG=python ROLE=01_security/_index
-#   make compose ADAPTER=python ROLE=01_security/_index    (alias de LANG)
-#   make ollama  LANG=python ROLE=01_security/_index CODE=~/my-project/src/
-#   make claude  LANG=python ROLE=03_architecture/_index CODE=~/my-project/src/app.py
-#   make cursor  LANG=bash   ROLE=05_quality/_index PROJECT=~/my-project
-#   make antigravity LANG=python ROLE=01_security/_index PROJECT=~/my-project
-#   make full-audit  LANG=python CODE=~/my-project/src/ PLATFORM=claude
+#   make compose DISC=engineering ADAPTER=python ROLE=audit/01_security/_index
+#   make ollama  DISC=engineering ADAPTER=python ROLE=audit/01_security/_index CODE=~/my-project/src/
+#   make claude  DISC=engineering ADAPTER=python ROLE=audit/03_architecture/_index CODE=~/my-project/src/app.py
+#   make full-audit DISC=engineering ADAPTER=python CODE=~/my-project/src/ PLATFORM=claude
 #
 # Variables:
-#   LANG      — adaptador idiomático (python, bash, ...) — alias: ADAPTER
-#   ADAPTER   — alias de LANG para la nueva arquitectura
-#   DISC      — disciplina para modo nuevo (engineering, content, ...)
-#   ROLE      — rol o subtask (00_orchestrator/_index, 01_security/_index, ...)
-#   CODE      — ruta al código a analizar (fichero, directorio o glob)
+#   DISC      — disciplina (engineering, content, design, business, management)
+#   ADAPTER   — adaptador (python, bash, technical, marketing, web, agile, ...)
+#   ROLE      — rol (audit/01_security/_index, generate/02_implementer/_index, ...)
+#   CODE      — ruta al código/contenido a analizar
 #   PLATFORM  — plataforma para full-audit (claude, chatgpt, gemini, ollama)
-#   MODEL     — modelo a usar (override del default por plataforma)
-#   PROJECT   — raíz del proyecto a auditar (default: directorio actual de trabajo)
-#   OUT       — directorio de salida (default: .audit_output)
-#   DISC      — variable de entorno para modo nuevo (disciplines/)
 
 SHELL       := /bin/bash
 .DEFAULT_GOAL := help
 
 PROMPTS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-# ADAPTER es el nuevo nombre; LANG es el alias legacy. ADAPTER tiene precedencia.
+DISC        ?= engineering
 ADAPTER     ?=
-LANG        ?= $(ADAPTER)
-# Si ADAPTER no está definido pero LANG sí, usar LANG como ADAPTER.
-ifeq ($(ADAPTER),)
-  ADAPTER   := $(LANG)
-endif
-
-BASE        := $(PROMPTS_DIR)_deprecated/_base_audit.md
-LANG_FILE   := $(PROMPTS_DIR)_deprecated/lang/$(LANG).md
-ROLE_CLEAN  := $(ROLE:%.md=%)
-ROLE_FILE   := $(PROMPTS_DIR)_deprecated/$(ROLE_CLEAN).md
+ROLE        ?=
 PROJECT     ?= $(CURDIR)
 OUT         ?= $(PROJECT)/.audit_output
 
@@ -51,14 +33,10 @@ OLLAMA_MODEL   ?= qwen2.5-coder:32b
 
 # --- Validación -----------------------------------------------------------
 
-define check_lang
-	@test -n "$(LANG)" || { echo "Error: LANG (o ADAPTER) requerido (python, bash, ...)"; exit 1; }
-	@test -f "$(LANG_FILE)" || { echo "Error: no existe $(LANG_FILE)"; exit 1; }
-endef
-
-define check_role
-	@test -n "$(ROLE)" || { echo "Error: ROLE requerido (00_orchestrator/_index, 01_security/_index, ...)"; exit 1; }
-	@test -f "$(ROLE_FILE)" || { echo "Error: no existe $(ROLE_FILE)"; exit 1; }
+define check_compose
+	@test -n "$(DISC)"    || { echo "Error: DISC requerido (engineering, content, ...)"; exit 1; }
+	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido (python, bash, ...)"; exit 1; }
+	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido (audit/01_security/_index, ...)"; exit 1; }
 endef
 
 define check_code
@@ -69,54 +47,38 @@ endef
 
 .PHONY: help
 help: ## Muestra esta ayuda
-	@echo "Audit Prompts — Makefile multiplataforma"
+	@echo "Partera — Sistema de prompts modulares"
 	@echo ""
 	@echo "Targets disponibles:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 	@echo ""
 	@echo "Variables:"
-	@echo "  LANG=python|bash       Adaptador idiomático"
-	@echo "  ROLE=<rol>             Rol o subtask (ver estructura de carpetas)"
-	@echo "  CODE=<ruta>            Código a analizar"
-	@echo "  MODEL=<modelo>         Override del modelo por defecto"
-	@echo "  PROJECT=<dir>          Raíz del proyecto a auditar (default: cwd)"
-	@echo "  OUT=<dir>              Directorio de salida (default: PROJECT/.audit_output)"
+	@echo "  DISC=engineering       Disciplina (default: engineering)"
+	@echo "  ADAPTER=python|bash     Adaptador"
+	@echo "  ROLE=audit/01_security/_index   Rol"
+	@echo "  CODE=<ruta>            Código/contenido a analizar"
 	@echo ""
 	@echo "Ejemplos:"
-	@echo "  make compose LANG=python ROLE=01_security/_index"
-	@echo "  make claude  LANG=python ROLE=01_security/_index CODE=~/my-project/src/"
-	@echo "  make ollama  LANG=bash ROLE=04_correctness/_index CODE=~/my-project/scripts/"
-	@echo "  make cursor  LANG=python ROLE=03_architecture/_index PROJECT=~/my-project"
-	@echo "  make antigravity LANG=python ROLE=01_security/_index PROJECT=~/my-project"
-	@echo "  make full-audit LANG=python CODE=~/my-project/src/ PLATFORM=claude"
+	@echo "  make compose DISC=engineering ADAPTER=python ROLE=audit/01_security/_index"
+	@echo "  make claude  DISC=engineering ADAPTER=python ROLE=audit/01_security/_index CODE=~/src/"
+	@echo "  make full-audit DISC=engineering ADAPTER=python CODE=~/src/ PLATFORM=claude"
 
 .PHONY: compose
-compose: ## Compone base + lang + rol y lo imprime a stdout (DISC= para modo nuevo)
-ifdef DISC
-	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido (python, bash, ...)"; exit 1; }
-	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido (audit/01_security/_index, ...)"; exit 1; }
+compose: ## Compone base + disciplina + adaptador + rol (requiere DISC, ADAPTER, ROLE)
+	$(check_compose)
 	@DISC=$(DISC) $(PROMPTS_DIR)compose.sh "$(ADAPTER)" "$(ROLE)"
-else
-	$(check_lang)
-	$(check_role)
-	@cat "$(BASE)" <(printf '\n---\n\n') "$(LANG_FILE)" <(printf '\n---\n\n') "$(ROLE_FILE)"
-endif
 
 .PHONY: clipboard
 clipboard: ## Compone y copia al portapapeles
-	$(check_lang)
-	$(check_role)
-	@$(PROMPTS_DIR)compose.sh "$(LANG)" "$(ROLE)" --clipboard
+	$(check_compose)
+	@DISC=$(DISC) $(PROMPTS_DIR)compose.sh "$(ADAPTER)" "$(ROLE)" --clipboard
 
-.PHONY: list-langs
-list-langs: ## Lista los adaptadores idiomáticos disponibles (legacy)
-	@echo "Lenguajes/adaptadores disponibles (legacy lang/):"
-	@for f in $(PROMPTS_DIR)lang/*.md; do echo "  $$(basename $$f .md)"; done
+# --- Listados y validación -----------------------------------------------
 
-# --- Targets nueva arquitectura -------------------------------------------
-
-DISC ?=
+.PHONY: validate
+validate: ## Valida todo el sistema (front-matter, referencias, disciplinas)
+	@$(PROMPTS_DIR)scripts/validate_system.sh
 
 .PHONY: validate-frontmatter
 validate-frontmatter: ## Valida front-matter YAML de todos los archivos .md
@@ -131,34 +93,8 @@ list-adapters: ## Lista adaptadores (DISC=<disciplina> para filtrar)
 	@$(PROMPTS_DIR)scripts/list_by_type.sh adapters $(DISC)
 
 .PHONY: list-roles
-list-roles: ## Lista roles (DISC=<disciplina> para filtrar; sin DISC: legacy)
-ifdef DISC
+list-roles: ## Lista roles (DISC=<disciplina> para filtrar)
 	@$(PROMPTS_DIR)scripts/list_by_type.sh roles $(DISC)
-else
-	@echo "Roles legacy disponibles:"
-	@echo ""
-	@echo "  00_orchestrator/_index       — Mapa del sistema + triage"
-	@echo "  01_security/_index           — Seguridad (quick, 1 pass)"
-	@echo "  01_security/01a_injection_surfaces"
-	@echo "  01_security/01b_auth_access_control"
-	@echo "  01_security/01c_secrets_crypto"
-	@echo "  01_security/01d_supply_chain"
-	@echo "  02_performance/_index        — Rendimiento (quick, 1 pass)"
-	@echo "  02_performance/02a_algorithmic_complexity"
-	@echo "  02_performance/02b_io_network_concurrency"
-	@echo "  02_performance/02c_memory_resources"
-	@echo "  03_architecture/_index       — Arquitectura (quick, 1 pass)"
-	@echo "  04_correctness/_index        — Correctitud (quick, 1 pass)"
-	@echo "  04_correctness/04a_edge_cases_contracts"
-	@echo "  04_correctness/04b_concurrency_state"
-	@echo "  04_correctness/04c_error_handling"
-	@echo "  05_quality/_index            — Calidad/DX (quick, 1 pass)"
-	@echo "  05_quality/05a_testing_quality"
-	@echo "  05_quality/05b_observability_ops"
-	@echo "  05_quality/05c_code_maintainability"
-	@echo ""
-	@echo "Tip: make list-roles DISC=engineering  (para disciplinas nuevas)"
-endif
 
 .PHONY: list-techniques
 list-techniques: ## Lista técnicas disponibles
@@ -175,10 +111,6 @@ list-protocols: ## Lista protocolos disponibles
 .PHONY: list-capabilities
 list-capabilities: ## Lista capabilities disponibles
 	@$(PROMPTS_DIR)scripts/list_by_type.sh capabilities
-
-.PHONY: test-legacy
-test-legacy: ## Ejecuta tests de regresión de compatibilidad legacy
-	@$(PROMPTS_DIR)scripts/test_compose_legacy.sh
 
 CHAIN ?=
 
@@ -289,27 +221,17 @@ list-patterns: ## Lista los patterns de razonamiento disponibles
 	@echo ""
 	@echo "Uso: DISC=<disc> EXT=\"patterns/<name>\" ./compose.sh <adapter> <rol>"
 
-# Aliases de compatibilidad (legacy → nueva arquitectura)
-# Uso: make compose-legacy ADAPTER=python ROLE=01_security/_index
-.PHONY: compose-legacy
-compose-legacy: ## [Legacy] Mapea sintaxis vieja a nueva (disciplina: engineering)
-	@echo "⚠️  Usando sintaxis legacy. Nueva sintaxis equivalente:"
-	@echo "   DISC=engineering $(PROMPTS_DIR)compose.sh $(ADAPTER) audit/$(ROLE)"
-	@echo ""
-	@DISC=engineering $(PROMPTS_DIR)compose.sh "$(ADAPTER)" "audit/$(ROLE)"
-
 # --- Plataformas de pago ---------------------------------------------------
 
 .PHONY: claude
 claude: ## Genera comando curl para Claude API (Anthropic)
-	$(check_lang)
-	$(check_role)
+	$(check_compose)
 	$(check_code)
 	@mkdir -p "$(OUT)"
-	@PROMPT=$$(cat "$(BASE)" <(printf '\n---\n\n') "$(LANG_FILE)" <(printf '\n---\n\n') "$(ROLE_FILE)"); \
+	@PROMPT=$$(DISC=$(DISC) $(PROMPTS_DIR)compose.sh "$(ADAPTER)" "$(ROLE)"); \
 	MODEL=$${MODEL:-$(CLAUDE_MODEL)}; \
 	echo "#!/usr/bin/env bash"; \
-	echo "# Claude API — $(LANG) + $(ROLE)"; \
+	echo "# Claude API — $(ADAPTER) + $(ROLE)"; \
 	echo "# Modelo: $$MODEL"; \
 	echo "# Docs: https://docs.anthropic.com/en/api/messages"; \
 	echo "# Pricing: https://www.anthropic.com/pricing"; \
@@ -336,14 +258,13 @@ claude: ## Genera comando curl para Claude API (Anthropic)
 
 .PHONY: chatgpt
 chatgpt: ## Genera comando curl para OpenAI API
-	$(check_lang)
-	$(check_role)
+	$(check_compose)
 	$(check_code)
 	@mkdir -p "$(OUT)"
-	@PROMPT=$$(cat "$(BASE)" <(printf '\n---\n\n') "$(LANG_FILE)" <(printf '\n---\n\n') "$(ROLE_FILE)"); \
+	@PROMPT=$$(DISC=$(DISC) $(PROMPTS_DIR)compose.sh "$(ADAPTER)" "$(ROLE)"); \
 	MODEL=$${MODEL:-$(CHATGPT_MODEL)}; \
 	echo "#!/usr/bin/env bash"; \
-	echo "# OpenAI API — $(LANG) + $(ROLE)"; \
+	echo "# OpenAI API — $(ADAPTER) + $(ROLE)"; \
 	echo "# Modelo: $$MODEL"; \
 	echo "# Docs: https://platform.openai.com/docs/api-reference/chat"; \
 	echo "# Pricing: https://openai.com/api/pricing"; \
@@ -369,14 +290,13 @@ chatgpt: ## Genera comando curl para OpenAI API
 
 .PHONY: gemini
 gemini: ## Genera comando curl para Gemini API (Google AI Studio)
-	$(check_lang)
-	$(check_role)
+	$(check_compose)
 	$(check_code)
 	@mkdir -p "$(OUT)"
-	@PROMPT=$$(cat "$(BASE)" <(printf '\n---\n\n') "$(LANG_FILE)" <(printf '\n---\n\n') "$(ROLE_FILE)"); \
+	@PROMPT=$$(DISC=$(DISC) $(PROMPTS_DIR)compose.sh "$(ADAPTER)" "$(ROLE)"); \
 	MODEL=$${MODEL:-$(GEMINI_MODEL)}; \
 	echo "#!/usr/bin/env bash"; \
-	echo "# Gemini API — $(LANG) + $(ROLE)"; \
+	echo "# Gemini API — $(ADAPTER) + $(ROLE)"; \
 	echo "# Modelo: $$MODEL"; \
 	echo "# Docs: https://ai.google.dev/gemini-api/docs"; \
 	echo "# Pricing: https://ai.google.dev/gemini-api/docs/pricing"; \
@@ -401,12 +321,11 @@ gemini: ## Genera comando curl para Gemini API (Google AI Studio)
 
 .PHONY: cursor
 cursor: ## Genera ficheros .cursor/rules/ en el PROJECT para usar como reglas
-	$(check_lang)
-	$(check_role)
+	$(check_compose)
 	@mkdir -p "$(PROJECT)/.cursor/rules"
 	@ROLE_NAME=$$(echo "$(ROLE)" | sed 's|/_index$$||;s|\.md$$||;s|/|__|g'); \
 	OUT_FILE="$(PROJECT)/.cursor/rules/audit_$${ROLE_NAME}.md"; \
-	cat "$(BASE)" <(printf '\n---\n\n') "$(LANG_FILE)" <(printf '\n---\n\n') "$(ROLE_FILE)" > "$$OUT_FILE"; \
+	DISC=$(DISC) $(PROMPTS_DIR)compose.sh "$(ADAPTER)" "$(ROLE)" > "$$OUT_FILE"; \
 	echo "Creado: $$OUT_FILE"; \
 	echo ""; \
 	echo "Uso en Cursor:"; \
@@ -416,18 +335,17 @@ cursor: ## Genera ficheros .cursor/rules/ en el PROJECT para usar como reglas
 
 .PHONY: antigravity
 antigravity: ## Genera un Skill SKILL.md para Google Antigravity
-	$(check_lang)
-	$(check_role)
+	$(check_compose)
 	@SKILL_NAME="audit-$$(echo '$(ROLE)' | tr '/' '-' | sed 's/_index//;s/--*/-/g;s/-$$//')"; \
 	SKILL_DIR="$(PROJECT)/.agent/skills/$$SKILL_NAME"; \
 	mkdir -p "$$SKILL_DIR"; \
-	ROLE_LABEL=$$(head -1 "$(ROLE_FILE)" | sed 's/^# *//'); \
-	PROMPT=$$(cat "$(BASE)" <(printf '\n---\n\n') "$(LANG_FILE)" <(printf '\n---\n\n') "$(ROLE_FILE)"); \
+	PROMPT=$$(DISC=$(DISC) $(PROMPTS_DIR)compose.sh "$(ADAPTER)" "$(ROLE)"); \
+	ROLE_LABEL=$$(echo "$(ROLE)" | sed 's|.*/||;s/_index//'); \
 	{ echo "---"; \
 	  echo "name: $$SKILL_NAME"; \
 	  echo "description: |"; \
-	  echo "  $$ROLE_LABEL ($(LANG)). Usa este skill cuando el usuario pida auditar"; \
-	  echo "  código $(LANG) enfocándose en $$(echo '$(ROLE)' | tr '_' ' ' | sed 's|/.*||')."; \
+	echo "  $$ROLE_LABEL ($(ADAPTER)). Usa este skill cuando el usuario pida auditar"; \
+	  echo "  código $(ADAPTER) enfocándose en $$(echo '$(ROLE)' | tr '_' ' ' | sed 's|/.*||')."; \
 	  echo "  Actívalo con: \"audita seguridad\", \"revisa rendimiento\", \"analiza arquitectura\"."; \
 	  echo "compatibility:"; \
 	  echo "  - antigravity"; \
@@ -446,13 +364,12 @@ antigravity: ## Genera un Skill SKILL.md para Google Antigravity
 
 .PHONY: ollama
 ollama: ## Ejecuta la auditoría directamente con Ollama local
-	$(check_lang)
-	$(check_role)
+	$(check_compose)
 	$(check_code)
-	@PROMPT=$$(cat "$(BASE)" <(printf '\n---\n\n') "$(LANG_FILE)" <(printf '\n---\n\n') "$(ROLE_FILE)"); \
+	@PROMPT=$$(DISC=$(DISC) $(PROMPTS_DIR)compose.sh "$(ADAPTER)" "$(ROLE)"); \
 	MODEL=$${MODEL:-$(OLLAMA_MODEL)}; \
 	echo "Ejecutando auditoría con Ollama ($$MODEL)..."; \
-	echo "Prompt: $(LANG) + $(ROLE) ($$(echo "$$PROMPT" | wc -l | tr -d ' ') líneas)"; \
+	echo "Prompt: $(ADAPTER) + $(ROLE) ($$(echo "$$PROMPT" | wc -l | tr -d ' ') líneas)"; \
 	echo "Código: $(CODE)"; \
 	echo "---"; \
 	CODE_CONTENT=$$(find "$(CODE)" -type f \( -name '*.py' -o -name '*.sh' -o -name '*.js' -o -name '*.ts' -o -name '*.go' -o -name '*.rs' \) -exec cat {} + 2>/dev/null || cat "$(CODE)"); \
@@ -460,29 +377,29 @@ ollama: ## Ejecuta la auditoría directamente con Ollama local
 
 # --- Auditoría completa ----------------------------------------------------
 
-QUICK_ROLES := 00_orchestrator/_index 01_security/_index 02_performance/_index \
-               03_architecture/_index 04_correctness/_index 05_quality/_index
+QUICK_ROLES := audit/00_orchestrator/_index audit/01_security/_index audit/02_performance/_index \
+               audit/03_architecture/_index audit/04_correctness/_index audit/05_quality/_index
 
 .PHONY: full-audit
-full-audit: ## Ejecuta auditoría completa (6 passes secuenciales). Requiere PLATFORM.
-	$(check_lang)
+full-audit: ## Ejecuta auditoría completa (6 passes). Requiere DISC, ADAPTER, PLATFORM, CODE.
+	$(check_compose)
 	$(check_code)
 	@test -n "$(PLATFORM)" || { echo "Error: PLATFORM requerido (claude, chatgpt, gemini, ollama)"; exit 1; }
 	@mkdir -p "$(OUT)"
-	@echo "=== Auditoría completa: $(LANG) sobre $(CODE) ==="
+	@echo "=== Auditoría completa: $(DISC) + $(ADAPTER) sobre $(CODE) ==="
 	@echo "Plataforma: $(PLATFORM)"
 	@echo "Roles: $(QUICK_ROLES)"
 	@echo ""
 	@for role in $(QUICK_ROLES); do \
 		echo "--- $$role ---"; \
-		$(MAKE) -s compose LANG=$(LANG) ROLE=$$role > "$(OUT)/$${role//\//_}_prompt.md"; \
-		echo "Prompt guardado en $(OUT)/$${role//\//_}_prompt.md"; \
+		$(MAKE) -s compose DISC=$(DISC) ADAPTER=$(ADAPTER) ROLE=$$role > "$(OUT)/$$(echo $$role | tr '/' '_')_prompt.md"; \
+		echo "Prompt guardado en $(OUT)/$$(echo $$role | tr '/' '_')_prompt.md"; \
 	done
 	@echo ""
 	@echo "Prompts generados en $(OUT)/. Para ejecutarlos:"
 	@echo ""
 	@for role in $(QUICK_ROLES); do \
-		echo "  make $(PLATFORM) LANG=$(LANG) ROLE=$$role CODE=$(CODE)"; \
+		echo "  make $(PLATFORM) DISC=$(DISC) ADAPTER=$(ADAPTER) ROLE=$$role CODE=$(CODE)"; \
 	done
 
 # --- Meta-prompts (automejora) ---------------------------------------------
@@ -527,12 +444,12 @@ list-meta: ## Lista los meta-prompts disponibles (automejora)
 
 .PHONY: token-estimate
 token-estimate: ## Estima tokens del prompt compuesto (regla: ~4 chars/token)
-	$(check_lang)
-	$(check_role)
-	@CHARS=$$(cat "$(BASE)" "$(LANG_FILE)" "$(ROLE_FILE)" | wc -c | tr -d ' '); \
-	LINES=$$(cat "$(BASE)" "$(LANG_FILE)" "$(ROLE_FILE)" | wc -l | tr -d ' '); \
+	$(check_compose)
+	@PROMPT_CONTENT=$$(DISC=$(DISC) $(PROMPTS_DIR)compose.sh "$(ADAPTER)" "$(ROLE)"); \
+	CHARS=$$(echo "$$PROMPT_CONTENT" | wc -c | tr -d ' '); \
+	LINES=$$(echo "$$PROMPT_CONTENT" | wc -l | tr -d ' '); \
 	TOKENS=$$((CHARS / 4)); \
-	echo "Prompt compuesto: $(LANG) + $(ROLE)"; \
+	echo "Prompt compuesto: $(DISC) + $(ADAPTER) + $(ROLE)"; \
 	echo "  Líneas:          $$LINES"; \
 	echo "  Caracteres:      $$CHARS"; \
 	echo "  Tokens (est.):   ~$$TOKENS"; \

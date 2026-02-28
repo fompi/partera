@@ -1,24 +1,14 @@
 #!/usr/bin/env bash
-# compose.sh — Compone un prompt concatenando piezas del sistema de auditoría
-# Soporta modo legacy (estructura actual) y modo nuevo (disciplines/).
+# compose.sh — Compone un prompt concatenando piezas del sistema modular
+# Requiere DISC (disciplina). Uso: DISC=<disc> ./compose.sh <adapter> <rol>
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 usage() {
   cat <<'USAGE'
-Compone un prompt concatenando: base + adaptador + rol [+ extensiones].
+Compone un prompt concatenando: base + disciplina + adaptador + rol [+ extensiones].
 
-=== Modo legacy ===
-  ./compose.sh <lang> <rol> [--clipboard]
-  ./compose.sh --meta <meta-prompt> [--clipboard]
-
-  Ejemplos:
-    ./compose.sh python 01_security/_index
-    ./compose.sh bash   03_architecture/_index --clipboard
-    ./compose.sh --meta improve_prompt
-
-=== Modo nuevo (disciplines/) ===
   DISC=<disciplina> ./compose.sh <adapter> <rol> [--clipboard]
   DISC=<disciplina> EXT="<ext1> <ext2>" ./compose.sh <adapter> <rol>
   DISC=<disciplina> RUNTIME=<runtime> ./compose.sh <adapter> <rol>
@@ -27,18 +17,15 @@ Compone un prompt concatenando: base + adaptador + rol [+ extensiones].
     DISC=engineering ./compose.sh python audit/01_security/_index
     DISC=engineering EXT="techniques/security/injection-analysis" ./compose.sh python audit/01_security/_index
     DISC=engineering RUNTIME=claude ./compose.sh python generate/02_implementer/_index
-    DISC=engineering RUNTIME=crewai ./compose.sh python generate/02_implementer/_index
+    DISC=content ./compose.sh technical generate/01_doc-writer/_index
 
-=== Flags ===
-  --legacy          Fuerza modo legacy aunque DISC esté definido
+  Meta-prompts (sin DISC):
+    ./compose.sh --meta improve_prompt [--clipboard]
+
+Flags:
   --clipboard       Copia al portapapeles en vez de imprimir a stdout
-  --runtime <name>  Añade instrucciones del runtime al prompt compuesto
+  --runtime <name>  Añade instrucciones del runtime
                     Runtimes: claude|openai|gemini|ollama|crewai|langchain|autogen
-                    Equivalente: RUNTIME=<name> como variable de entorno
-
-Lenguajes/adaptadores:
-  Legacy:  ficheros en lang/ (sin extensión)
-  Nuevo:   ficheros en disciplines/<DISC>/adapters/ (sin extensión)
 USAGE
   exit 1
 }
@@ -70,7 +57,6 @@ get_frontmatter_field() {
 [[ $# -lt 1 ]] && usage
 
 # --- Detectar flags globales ---
-FORCE_LEGACY=0
 CLIPBOARD=""
 RUNTIME="${RUNTIME:-}"
 NEW_ARGS=()
@@ -82,7 +68,6 @@ for arg in "$@"; do
     continue
   fi
   case "$arg" in
-    --legacy)    FORCE_LEGACY=1 ;;
     --clipboard) CLIPBOARD="--clipboard" ;;
     --runtime)   _next_is_runtime=1 ;;
     --runtime=*) RUNTIME="${arg#--runtime=}" ;;
@@ -122,43 +107,12 @@ fi
 ADAPTER="$1"
 ROLE="$2"
 
-# --- Determinar modo ---
+# --- Validar DISC ---
 DISC="${DISC:-}"
-if [[ $FORCE_LEGACY -eq 1 ]] || [[ -z "$DISC" ]]; then
-  MODE="legacy"
-else
-  MODE="new"
+if [[ -z "$DISC" ]]; then
+  echo "Error: DISC (disciplina) requerido. Ej: DISC=engineering ./compose.sh python audit/01_security/_index" >&2
+  usage
 fi
-
-# ============================================================
-# MODO LEGACY
-# ============================================================
-if [[ "$MODE" == "legacy" ]]; then
-  lang_file="$SCRIPT_DIR/_deprecated/lang/${ADAPTER}.md"
-  role_file="$SCRIPT_DIR/_deprecated/${ROLE}"
-  [[ "$role_file" != *.md ]] && role_file="${role_file}.md"
-  base_file="$SCRIPT_DIR/_deprecated/_base_audit.md"
-
-  for f in "$base_file" "$lang_file" "$role_file"; do
-    if [[ ! -f "$f" ]]; then
-      echo "Error: no existe $f" >&2
-      exit 1
-    fi
-  done
-
-  output=$(cat "$base_file" <(printf '\n---\n\n') "$lang_file" <(printf '\n---\n\n') "$role_file")
-
-  if [[ -n "$CLIPBOARD" ]]; then
-    copy_to_clipboard "$output"
-  else
-    printf '%s\n' "$output"
-  fi
-  exit 0
-fi
-
-# ============================================================
-# MODO NUEVO (disciplines/)
-# ============================================================
 
 # Validar que la disciplina existe
 disc_dir="$SCRIPT_DIR/disciplines/$DISC"
@@ -172,8 +126,8 @@ fi
 # Base universal
 base_file="$SCRIPT_DIR/_base.md"
 if [[ ! -f "$base_file" ]]; then
-  # Fallback a _deprecated/_base_audit.md si _base.md no existe aún
-  base_file="$SCRIPT_DIR/_deprecated/_base_audit.md"
+  echo "Error: no existe _base.md" >&2
+  exit 1
 fi
 
 # Base de la disciplina (opcional)
