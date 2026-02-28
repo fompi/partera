@@ -14,7 +14,7 @@ if [[ -z "$DISCIPLINE" ]]; then
   exit 1
 fi
 
-DISC_DIR="$REPO_DIR/disciplines/$DISCIPLINE"
+DISC_DIR="$REPO_DIR/layers/02_disciplines/$DISCIPLINE"
 if [[ ! -d "$DISC_DIR" ]]; then
   echo "ERROR: Disciplina '$DISCIPLINE' no encontrada en $DISC_DIR" >&2
   exit 1
@@ -68,7 +68,7 @@ collect_role_ids() {
         ALL_ROLE_IDS+=("$id")
       fi
     fi
-  done < <(find "$DISC_DIR/roles" -name "_index.md" -print0 2>/dev/null | sort -z)
+  done < <(find "$DISC_DIR/06_roles" -name "_index.md" -print0 2>/dev/null | sort -z)
 }
 
 id_exists() {
@@ -94,7 +94,7 @@ fi
 echo ""
 log_info "Verificando adaptadores..."
 adapter_count=0
-if [[ -d "$DISC_DIR/adapters" ]]; then
+if [[ -d "$DISC_DIR/03_adapters" ]]; then
   while IFS= read -r -d '' file; do
     rel="${file#$REPO_DIR/}"
     adapter_count=$((adapter_count+1))
@@ -111,10 +111,10 @@ if [[ -d "$DISC_DIR/adapters" ]]; then
       log_warn "$rel — campo 'discipline' ausente"
     fi
     log_ok "$rel"
-  done < <(find "$DISC_DIR/adapters" -name "*.md" -not -name "README.md" -print0 2>/dev/null | sort -z)
+  done < <(find "$DISC_DIR/03_adapters" -name "*.md" -not -name "README.md" -print0 2>/dev/null | sort -z)
 fi
 if [[ $adapter_count -eq 0 ]]; then
-  log_warn "No se encontraron adaptadores en $DISC_DIR/adapters/"
+  log_warn "No se encontraron adaptadores en $DISC_DIR/03_adapters/"
 else
   log_info "$adapter_count adaptador(es) verificado(s)"
 fi
@@ -204,8 +204,8 @@ while IFS= read -r -d '' file; do
     | awk '/^capabilities_required:/{found=1; next} found && /^  - /{print $2; next} found && /^[^ ]/{exit}')
   while IFS= read -r cap; do
     [[ -z "$cap" ]] && continue
-    if [[ ! -f "$REPO_DIR/capabilities/$cap.md" && ! -d "$REPO_DIR/capabilities/$cap" ]]; then
-      log_warn "$rel — capabilities_required '$cap' no encontrado en capabilities/"
+    if [[ ! -f "$REPO_DIR/layers/11_capabilities/$cap.md" && ! -d "$REPO_DIR/layers/11_capabilities/$cap" ]]; then
+      log_warn "$rel — capabilities_required '$cap' no encontrado en layers/11_capabilities/"
       ref_warnings=$((ref_warnings+1))
     fi
   done <<< "$caps_req"
@@ -217,13 +217,13 @@ while IFS= read -r -d '' file; do
   all_protos=$(printf "%s\n%s" "$protos" "$inline_protos" | grep -v '^$' | sort -u || true)
   while IFS= read -r proto; do
     [[ -z "$proto" ]] && continue
-    if [[ ! -f "$REPO_DIR/protocols/$proto.md" && ! -d "$REPO_DIR/protocols/$proto" ]]; then
-      log_warn "$rel — protocols_recommended '$proto' no encontrado en protocols/"
+    if [[ ! -f "$REPO_DIR/layers/10_protocols/$proto.md" && ! -d "$REPO_DIR/layers/10_protocols/$proto" ]]; then
+      log_warn "$rel — protocols_recommended '$proto' no encontrado en layers/10_protocols/"
       ref_warnings=$((ref_warnings+1))
     fi
   done <<< "$all_protos"
 
-done < <(find "$DISC_DIR/roles" -name "_index.md" -print0 2>/dev/null | sort -z)
+done < <(find "$DISC_DIR/06_roles" -name "_index.md" -print0 2>/dev/null | sort -z)
 
 if [[ $ref_warnings -eq 0 ]]; then
   log_ok "Todas las referencias a capabilities/protocols resueltas"

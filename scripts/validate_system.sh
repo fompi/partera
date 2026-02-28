@@ -129,11 +129,11 @@ fi
 
 section "Verificando Archivos Requeridos"
 
-# Base universal
-if [[ -f "$ROOT_DIR/_base.md" ]]; then
-  ok "_base.md presente"
+# Base universal (modo slave)
+if [[ -f "$ROOT_DIR/layers/01_modes/slave.md" ]]; then
+  ok "layers/01_modes/slave.md presente"
 else
-  error "_base.md no encontrado — requerido por el sistema"
+  error "layers/01_modes/slave.md no encontrado — requerido por el sistema"
 fi
 
 # compose.sh ejecutable
@@ -146,11 +146,11 @@ fi
 # Disciplinas: cada una debe tener _base.md
 DISCIPLINES=("engineering" "content" "design" "business" "management")
 for disc in "${DISCIPLINES[@]}"; do
-  disc_base="$ROOT_DIR/disciplines/$disc/_base.md"
+  disc_base="$ROOT_DIR/layers/02_disciplines/$disc/_base.md"
   if [[ -f "$disc_base" ]]; then
-    ok "disciplines/$disc/_base.md presente"
+    ok "layers/02_disciplines/$disc/_base.md presente"
   else
-    error "disciplines/$disc/_base.md no encontrado"
+    error "layers/02_disciplines/$disc/_base.md no encontrado"
   fi
 done
 
@@ -190,22 +190,26 @@ done
 
 section "Inventario del Sistema"
 
-# Contar piezas por tipo
+# Contar piezas por tipo (sin xargs para evitar fallos en entornos restringidos)
 count_by_type() {
   local type="$1"
   local dir="$2"
   local ext="${3:-md}"
-  find "$dir" -name "*.$ext" 2>/dev/null | xargs grep -l "^type: $type" 2>/dev/null | wc -l | tr -d ' '
+  local count=0
+  while IFS= read -r -d '' file; do
+    grep -q "^type: $type" "$file" 2>/dev/null && count=$((count + 1))
+  done < <(find "$dir" -name "*.$ext" -print0 2>/dev/null)
+  echo "$count"
 }
 
-ROLE_COUNT=$(count_by_type "role" "$ROOT_DIR/disciplines")
-TECHNIQUE_COUNT=$(find "$ROOT_DIR/techniques" -name "*.md" 2>/dev/null | grep -v "^$ROOT_DIR/techniques$" | wc -l | tr -d ' ')
-ADAPTER_COUNT=$(find "$ROOT_DIR/disciplines" -path "*/adapters/*.md" 2>/dev/null | wc -l | tr -d ' ')
-KNOWLEDGE_COUNT=$(find "$ROOT_DIR/knowledge" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
-MODIFIER_COUNT=$(find "$ROOT_DIR/modifiers" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+ROLE_COUNT=$(count_by_type "role" "$ROOT_DIR/layers/02_disciplines")
+TECHNIQUE_COUNT=$(find "$ROOT_DIR/layers/07_techniques" -name "*.md" 2>/dev/null | grep -v "^$ROOT_DIR/layers/07_techniques$" | wc -l | tr -d ' ')
+ADAPTER_COUNT=$(find "$ROOT_DIR/layers/02_disciplines" -path "*/03_adapters/*.md" 2>/dev/null | wc -l | tr -d ' ')
+KNOWLEDGE_COUNT=$(find "$ROOT_DIR/layers/05_knowledge" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+MODIFIER_COUNT=$(find "$ROOT_DIR/layers/08_modifiers" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
 CHAIN_COUNT=$(find "$ROOT_DIR/chains" -name "*.chain" 2>/dev/null | wc -l | tr -d ' ')
-RUNTIME_COUNT=$(find "$ROOT_DIR/runtimes" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
-PATTERN_COUNT=$(find "$ROOT_DIR/patterns" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+RUNTIME_COUNT=$(find "$ROOT_DIR/layers/12_runtimes" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+PATTERN_COUNT=$(find "$ROOT_DIR/layers/04_patterns" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
 ALMA_COUNT=$(find "$ROOT_DIR/almas" -name "*.alma.yaml" 2>/dev/null | wc -l | tr -d ' ')
 
 info "Roles:        $ROLE_COUNT"
@@ -228,7 +232,7 @@ info "Almas:        $ALMA_COUNT"
 section "Validando Unicidad de IDs"
 
 # Extraer todos los IDs del sistema
-IDS=$(grep -rh "^id: " "$ROOT_DIR/disciplines" "$ROOT_DIR/techniques" "$ROOT_DIR/meta" 2>/dev/null \
+IDS=$(grep -rh "^id: " "$ROOT_DIR/layers/02_disciplines" "$ROOT_DIR/layers/07_techniques" "$ROOT_DIR/meta" 2>/dev/null \
   | sed 's/^id: //' | sort)
 
 TOTAL_IDS=$(echo "$IDS" | wc -l | tr -d ' ')

@@ -154,18 +154,18 @@ if [[ -z "$DISC" ]]; then
 fi
 
 # Validar que la disciplina existe
-disc_dir="$SCRIPT_DIR/disciplines/$DISC"
+disc_dir="$SCRIPT_DIR/layers/02_disciplines/$DISC"
 if [[ ! -d "$disc_dir" ]]; then
-  echo "Error: disciplina '$DISC' no encontrada en disciplines/" >&2
+  echo "Error: disciplina '$DISC' no encontrada en layers/02_disciplines/" >&2
   echo "Disciplinas disponibles:" >&2
-  ls "$SCRIPT_DIR/disciplines/" >&2
+  ls "$SCRIPT_DIR/layers/02_disciplines/" >&2
   exit 1
 fi
 
-# Base universal
-base_file="$SCRIPT_DIR/_base.md"
+# Base universal (modo slave)
+base_file="$SCRIPT_DIR/layers/01_modes/slave.md"
 if [[ ! -f "$base_file" ]]; then
-  echo "Error: no existe _base.md" >&2
+  echo "Error: no existe layers/01_modes/slave.md" >&2
   exit 1
 fi
 
@@ -173,19 +173,19 @@ fi
 disc_base_file="$disc_dir/_base.md"
 
 # Adaptador de la disciplina
-adapter_file="$disc_dir/adapters/${ADAPTER}.md"
+adapter_file="$disc_dir/03_adapters/${ADAPTER}.md"
 if [[ ! -f "$adapter_file" ]]; then
-  echo "Error: adaptador '$ADAPTER' no encontrado en disciplines/$DISC/adapters/" >&2
+  echo "Error: adaptador '$ADAPTER' no encontrado en layers/02_disciplines/$DISC/03_adapters/" >&2
   echo "Adaptadores disponibles:" >&2
-  ls "$disc_dir/adapters/" 2>/dev/null | grep '\.md$' | sed 's/\.md$//' || echo "  (ninguno)" >&2
+  ls "$disc_dir/03_adapters/" 2>/dev/null | grep '\.md$' | sed 's/\.md$//' || echo "  (ninguno)" >&2
   exit 1
 fi
 
 # Rol de la disciplina
-role_file="$disc_dir/roles/${ROLE}"
+role_file="$disc_dir/06_roles/${ROLE}"
 [[ "$role_file" != *.md ]] && role_file="${role_file}.md"
 if [[ ! -f "$role_file" ]]; then
-  echo "Error: rol '$ROLE' no encontrado en disciplines/$DISC/roles/" >&2
+  echo "Error: rol '$ROLE' no encontrado en layers/02_disciplines/$DISC/06_roles/" >&2
   exit 1
 fi
 
@@ -205,9 +205,25 @@ parts+=("$base_file")
 parts+=(/dev/stdin <(printf '\n---\n\n') "$adapter_file")
 parts+=(/dev/stdin <(printf '\n---\n\n') "$role_file")
 
-# Extensiones (EXT="path1 path2 ...")
+# Extensiones (EXT="path1 path2 ...") — rutas lógicas; se resuelven a layers/
 # Orden de composición (ver docs/chains-and-patterns.md):
 #   base → discipline_base → adapter → [patterns] → [knowledge] → role → [techniques] → [modifiers] → [sources] → [protocols] → [capabilities] → [runtime]
+resolve_ext_file() {
+  local ext_path="$1"
+  local f
+  case "$ext_path" in
+    patterns/*)      f="$SCRIPT_DIR/layers/04_patterns/${ext_path#patterns/}" ;;
+    knowledge/*)     f="$SCRIPT_DIR/layers/05_knowledge/${ext_path#knowledge/}" ;;
+    techniques/*)    f="$SCRIPT_DIR/layers/07_techniques/${ext_path#techniques/}" ;;
+    modifiers/*)     f="$SCRIPT_DIR/layers/08_modifiers/${ext_path#modifiers/}" ;;
+    sources/*)       f="$SCRIPT_DIR/layers/09_sources/${ext_path#sources/}" ;;
+    protocols/*)     f="$SCRIPT_DIR/layers/10_protocols/${ext_path#protocols/}" ;;
+    capabilities/*)  f="$SCRIPT_DIR/layers/11_capabilities/${ext_path#capabilities/}" ;;
+    *)               f="$SCRIPT_DIR/layers/07_techniques/${ext_path}" ;;
+  esac
+  [[ "$f" != *.md ]] && f="${f}.md"
+  echo "$f"
+}
 EXT="${EXT:-}"
 pattern_files=()
 knowledge_files=()
@@ -218,8 +234,7 @@ protocol_files=()
 capability_files=()
 if [[ -n "$EXT" ]]; then
   for ext_path in $EXT; do
-    ext_file="$SCRIPT_DIR/${ext_path}"
-    [[ "$ext_file" != *.md ]] && ext_file="${ext_file}.md"
+    ext_file=$(resolve_ext_file "$ext_path")
     if [[ ! -f "$ext_file" ]]; then
       echo "Error: extensión '$ext_path' no encontrada ($ext_file)" >&2
       exit 1
@@ -239,11 +254,11 @@ fi
 # --- Runtime (opcional) ---
 runtime_file=""
 if [[ -n "$RUNTIME" ]]; then
-  runtime_file="$SCRIPT_DIR/runtimes/${RUNTIME}.md"
+  runtime_file="$SCRIPT_DIR/layers/12_runtimes/${RUNTIME}.md"
   if [[ ! -f "$runtime_file" ]]; then
     echo "Error: runtime '$RUNTIME' no encontrado ($runtime_file)" >&2
     echo "Runtimes disponibles:" >&2
-    ls "$SCRIPT_DIR/runtimes/" 2>/dev/null | grep '\.md$' | sed 's/\.md$//' | sed 's/^/  /' >&2
+    ls "$SCRIPT_DIR/layers/12_runtimes/" 2>/dev/null | grep '\.md$' | sed 's/\.md$//' | sed 's/^/  /' >&2
     exit 1
   fi
   # Verificar compatibilidad de capabilities (advertencia si role requiere lo que runtime no soporta)

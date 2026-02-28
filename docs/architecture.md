@@ -16,9 +16,9 @@ Consecuencias: se pueden expresar instrucciones complejas y especializadas con p
 
 ## Las 11 Capas Composables
 
-### Capa 1: `base` — Contrato Universal
+### Capa 1: `base` — Contrato Universal (modo slave)
 
-**Archivo**: `_base.md`
+**Archivo**: `layers/01_modes/slave.md`
 
 Establece las reglas universales que aplican a cualquier composición del sistema, independientemente de la disciplina o el rol:
 
@@ -31,7 +31,7 @@ Establece las reglas universales que aplican a cualquier composición del sistem
 
 ### Capa 2: `discipline_base` — Base de Disciplina
 
-**Directorio**: `disciplines/<disc>/_base.md`
+**Directorio**: `layers/02_disciplines/<disc>/_base.md`
 
 Define los fundamentos de una disciplina profesional: sus principios, estándares de calidad, consideraciones éticas y vocabulario. Es el contexto que diferencia cómo piensa un ingeniero de cómo piensa un diseñador o un gestor de proyectos.
 
@@ -39,7 +39,7 @@ Define los fundamentos de una disciplina profesional: sus principios, estándare
 
 ### Capa 3: `adapter` — Adaptador de Contexto
 
-**Directorio**: `disciplines/<disc>/adapters/`
+**Directorio**: `layers/02_disciplines/<disc>/03_adapters/`
 
 Especializa la disciplina para un contexto concreto: un lenguaje de programación, una plataforma de diseño, un modelo de negocio, una metodología de gestión. Aporta convenciones específicas, anti-patterns y tooling del contexto.
 
@@ -47,7 +47,7 @@ Especializa la disciplina para un contexto concreto: un lenguaje de programació
 
 ### Capa 4: `knowledge` — Knowledge Pack
 
-**Directorio**: `knowledge/`
+**Directorio**: `layers/05_knowledge/`
 
 Conocimiento de referencia curado que se inyecta opcionalmente. Por ejemplo, un diseñador que necesita nociones básicas de ingeniería para colaborar con un equipo técnico.
 
@@ -55,7 +55,7 @@ Conocimiento de referencia curado que se inyecta opcionalmente. Por ejemplo, un 
 
 ### Capa 5: `role` — Rol Funcional
 
-**Directorio**: `disciplines/<disc>/roles/<verb>/<name>/_index.md`
+**Directorio**: `layers/02_disciplines/<disc>/06_roles/<verb>/<name>/_index.md`
 
 El corazón del sistema: define una **persona profesional** con objetivos concretos, un alcance claro y una metodología paso a paso. El rol es el único componente que da instrucciones activas al LLM sobre qué hacer.
 
@@ -63,7 +63,7 @@ El corazón del sistema: define una **persona profesional** con objetivos concre
 
 ### Capa 6: `technique` — Técnica Reutilizable
 
-**Directorio**: `techniques/<area>/`
+**Directorio**: `layers/07_techniques/<area>/`
 
 Componentes metodológicos cross-disciplinares que se pueden inyectar en cualquier rol. Por ejemplo, `injection-analysis` es una técnica de seguridad útil tanto para ingeniería como para diseño de formularios.
 
@@ -71,7 +71,7 @@ Componentes metodológicos cross-disciplinares que se pueden inyectar en cualqui
 
 ### Capa 7: `modifier` — Modificador de Output
 
-**Directorio**: `modifiers/<type>/`
+**Directorio**: `layers/08_modifiers/<type>/`
 
 Ajusta cómo debe presentarse el output: para una audiencia ejecutiva vs. técnica, con análisis superficial vs. profundo, o adaptado a una industria regulada.
 
@@ -79,7 +79,7 @@ Ajusta cómo debe presentarse el output: para una audiencia ejecutiva vs. técni
 
 ### Capa 8: `source` — Restricción de Fuentes
 
-**Directorio**: `sources/`
+**Directorio**: `layers/09_sources/`
 
 Instruye al LLM sobre qué fuentes de información debe consultar o priorizar: solo documentación oficial, solo fuentes académicas, solo fuentes internas.
 
@@ -87,7 +87,7 @@ Instruye al LLM sobre qué fuentes de información debe consultar o priorizar: s
 
 ### Capa 9: `protocol` — Protocolo de Ejecución
 
-**Directorio**: `protocols/`
+**Directorio**: `layers/10_protocols/`
 
 Define el modo de interacción: autónomo (ejecuta sin confirmación), supervisado (pide confirmación en cada paso), colaborativo (trabaja en diálogo con el usuario), pedagógico (explica mientras hace).
 
@@ -95,7 +95,7 @@ Define el modo de interacción: autónomo (ejecuta sin confirmación), supervisa
 
 ### Capa 10: `capability` — Capacidad del LLM
 
-**Directorio**: `capabilities/`
+**Directorio**: `layers/11_capabilities/`
 
 Declara y activa capacidades específicas del LLM: visión (análisis de imágenes), ejecución de código, búsqueda web, generación de diagramas.
 
@@ -103,7 +103,7 @@ Declara y activa capacidades específicas del LLM: visión (análisis de imágen
 
 ### Capa 11: `runtime` — Adaptación de Runtime
 
-**Directorio**: `runtimes/`
+**Directorio**: `layers/12_runtimes/`
 
 Adapta el prompt al runtime o framework específico: formato de system message para Claude, definición de agente para CrewAI, chain para LangChain.
 
@@ -119,7 +119,7 @@ base → discipline_base → adapter → [patterns] → [knowledge] → role
      → [protocols] → [capabilities] → [runtime]
 ```
 
-El orden importa: las capas anteriores establecen el contexto en el que las posteriores operan. Los **patterns** (estilos de razonamiento: CoT, Plan-and-Solve, etc.) se inyectan opcionalmente tras el adaptador para que apliquen a todo lo que sigue. El **rol** (capa 5) puede asumir que ya existen el contrato universal (capa 1), los principios de la disciplina (capa 2) y las convenciones del adaptador (capa 3). Las rutas de las piezas (patterns, knowledge, techniques, modifiers, etc.) son siempre relativas a la raíz del repositorio.
+El orden importa: las capas anteriores establecen el contexto en el que las posteriores operan. Los **patterns** (estilos de razonamiento: CoT, Plan-and-Solve, etc.) se inyectan opcionalmente tras el adaptador para que apliquen a todo lo que sigue. El **rol** (capa 5) puede asumir que ya existen el contrato universal (capa 1), los principios de la disciplina (capa 2) y las convenciones del adaptador (capa 3). Todas las capas viven bajo `layers/` con prefijo numérico de orden (p. ej. `layers/01_modes/`, `layers/02_disciplines/`, `layers/04_patterns/`, etc.); las rutas lógicas en EXT (patterns/, knowledge/, techniques/, …) se resuelven a esas carpetas.
 
 Para **chains** (flujos multi-paso) y el uso detallado de **patterns**, ver [chains-and-patterns.md](chains-and-patterns.md).
 

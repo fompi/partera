@@ -119,8 +119,8 @@ DISC="${2:-}"
 case "$SUBCMD" in
   disciplines)
     printf "${BOLD}Disciplinas disponibles${RESET}\n\n"
-    if [[ -d "$REPO_DIR/disciplines" ]]; then
-      for d in "$REPO_DIR/disciplines"/*/; do
+    if [[ -d "$REPO_DIR/layers/02_disciplines" ]]; then
+      for d in "$REPO_DIR/layers/02_disciplines"/*/; do
         [[ -d "$d" ]] || continue
         disc_name=$(basename "$d")
         printf "  ${CYAN}%-20s${RESET}" "$disc_name"
@@ -132,23 +132,23 @@ case "$SUBCMD" in
         printf "\n"
       done
     else
-      printf "  ${DIM}(directorio disciplines/ no existe aún)${RESET}\n"
+      printf "  ${DIM}(directorio layers/02_disciplines/ no existe aún)${RESET}\n"
     fi
     echo ""
     ;;
 
   adapters)
     if [[ -n "$DISC" ]]; then
-      search="$REPO_DIR/disciplines/$DISC/adapters"
+      search="$REPO_DIR/layers/02_disciplines/$DISC/03_adapters"
       list_in_dir "$search" "Adaptadores — disciplina: $DISC"
     else
-      list_recursive_by_type "$REPO_DIR/disciplines" "adapter" "Todos los adaptadores"
+      list_recursive_by_type "$REPO_DIR/layers/02_disciplines" "adapter" "Todos los adaptadores"
     fi
     ;;
 
   roles)
     if [[ -n "$DISC" ]]; then
-      search="$REPO_DIR/disciplines/$DISC/roles"
+      search="$REPO_DIR/layers/02_disciplines/$DISC/06_roles"
       printf "${BOLD}Roles — disciplina: $DISC${RESET}\n\n"
       found=0
       while IFS= read -r -d '' file; do
@@ -159,14 +159,14 @@ case "$SUBCMD" in
         printf "  ${DIM}(ninguno aún)${RESET}\n\n"
       fi
     else
-      list_recursive_by_type "$REPO_DIR/disciplines" "role" "Todos los roles"
+      list_recursive_by_type "$REPO_DIR/layers/02_disciplines" "role" "Todos los roles"
     fi
     ;;
 
   techniques)
     printf "${BOLD}Técnicas disponibles${RESET}\n\n"
-    if [[ -d "$REPO_DIR/techniques" ]]; then
-      for area in "$REPO_DIR/techniques"/*/; do
+    if [[ -d "$REPO_DIR/layers/07_techniques" ]]; then
+      for area in "$REPO_DIR/layers/07_techniques"/*/; do
         [[ -d "$area" ]] || continue
         printf "  ${CYAN}%s/${RESET}\n" "$(basename "$area")"
         while IFS= read -r -d '' file; do
@@ -175,21 +175,21 @@ case "$SUBCMD" in
         done < <(find "$area" -name "*.md" -print0 2>/dev/null | sort -z)
       done
     else
-      printf "  ${DIM}(directorio techniques/ no existe aún)${RESET}\n"
+      printf "  ${DIM}(directorio layers/07_techniques/ no existe aún)${RESET}\n"
     fi
     echo ""
     ;;
 
   sources)
-    list_in_dir "$REPO_DIR/sources" "Fuentes disponibles"
+    list_in_dir "$REPO_DIR/layers/09_sources" "Fuentes disponibles"
     ;;
 
   protocols)
-    list_in_dir "$REPO_DIR/protocols" "Protocolos disponibles"
+    list_in_dir "$REPO_DIR/layers/10_protocols" "Protocolos disponibles"
     ;;
 
   capabilities)
-    list_in_dir "$REPO_DIR/capabilities" "Capabilities disponibles"
+    list_in_dir "$REPO_DIR/layers/11_capabilities" "Capabilities disponibles"
     ;;
 
   *)

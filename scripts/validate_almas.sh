@@ -31,9 +31,26 @@ if [[ ! -d "$ALMAS_DIR" ]]; then
   exit 0
 fi
 
+# Resuelve ruta lógica (p. ej. techniques/security/foo) a ruta en layers/
+resolve_piece_path() {
+  local piece_path="$1"
+  case "$piece_path" in
+    patterns/*)      echo "$ROOT_DIR/layers/04_patterns/${piece_path#patterns/}" ;;
+    knowledge/*)     echo "$ROOT_DIR/layers/05_knowledge/${piece_path#knowledge/}" ;;
+    techniques/*)    echo "$ROOT_DIR/layers/07_techniques/${piece_path#techniques/}" ;;
+    modifiers/*)     echo "$ROOT_DIR/layers/08_modifiers/${piece_path#modifiers/}" ;;
+    sources/*)       echo "$ROOT_DIR/layers/09_sources/${piece_path#sources/}" ;;
+    protocols/*)     echo "$ROOT_DIR/layers/10_protocols/${piece_path#protocols/}" ;;
+    capabilities/*)  echo "$ROOT_DIR/layers/11_capabilities/${piece_path#capabilities/}" ;;
+    runtimes/*)      echo "$ROOT_DIR/layers/12_runtimes/${piece_path#runtimes/}" ;;
+    *)               echo "$ROOT_DIR/${piece_path}" ;;
+  esac
+}
+
 check_piece_exists() {
   local piece_path="$1"
-  local file="$ROOT_DIR/${piece_path}"
+  local file
+  file=$(resolve_piece_path "$piece_path")
   [[ "$file" != *.md ]] && file="${file}.md"
   [[ -f "$file" ]]
 }
@@ -111,17 +128,17 @@ for alma_file in $(find "$ALMAS_DIR" -name "*.alma.yaml" | sort); do
 
   # Verificar piezas referenciadas
   if [[ -n "$disc" ]]; then
-    disc_dir="$ROOT_DIR/disciplines/$disc"
+    disc_dir="$ROOT_DIR/layers/02_disciplines/$disc"
     if [[ ! -d "$disc_dir" ]]; then
-      error "disciplina '$disc' no encontrada en disciplines/"
+      error "disciplina '$disc' no encontrada en layers/02_disciplines/"
     fi
   fi
 
   if [[ -n "$role" ]] && [[ -n "$disc" ]]; then
-    role_file="$ROOT_DIR/disciplines/$disc/roles/${role}"
+    role_file="$ROOT_DIR/layers/02_disciplines/$disc/06_roles/${role}"
     [[ "$role_file" != *.md ]] && role_file="${role_file}.md"
     if [[ ! -f "$role_file" ]]; then
-      error "rol '$role' no encontrado en disciplines/$disc/roles/"
+      error "rol '$role' no encontrado en layers/02_disciplines/$disc/06_roles/"
     fi
   fi
 
@@ -149,7 +166,7 @@ for alma_file in $(find "$ALMAS_DIR" -name "*.alma.yaml" | sort); do
   runtime=$(yq -r '.compose.runtime // empty' "$alma_file" 2>/dev/null || true)
   if [[ -n "$runtime" ]]; then
     if ! check_piece_exists "runtimes/${runtime}"; then
-      error "runtime '$runtime' no encontrado en runtimes/"
+      error "runtime '$runtime' no encontrado en layers/12_runtimes/"
     fi
   fi
 

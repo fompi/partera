@@ -14,7 +14,7 @@ if [[ -z "$DISCIPLINE" ]]; then
   exit 1
 fi
 
-DISC_DIR="$REPO_DIR/disciplines/$DISCIPLINE"
+DISC_DIR="$REPO_DIR/layers/02_disciplines/$DISCIPLINE"
 if [[ ! -d "$DISC_DIR" ]]; then
   echo "ERROR: Disciplina '$DISCIPLINE' no encontrada en $DISC_DIR" >&2
   exit 1
@@ -87,7 +87,7 @@ while IFS= read -r -d '' file; do
   done < <(get_connects_to "$file")
 
   idx=$((idx+1))
-done < <(find "$DISC_DIR/roles" -name "_index.md" -print0 2>/dev/null | sort -z)
+done < <(find "$DISC_DIR/06_roles" -name "_index.md" -print0 2>/dev/null | sort -z)
 
 # ─── Generar Mermaid ──────────────────────────────────────────────────────────
 echo "graph LR"

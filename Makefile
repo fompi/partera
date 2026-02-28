@@ -173,7 +173,7 @@ RUNTIME ?=
 .PHONY: list-runtimes
 list-runtimes: ## Lista los runtimes disponibles
 	@echo "Runtimes disponibles:"
-	@for f in $(PROMPTS_DIR)runtimes/*.md; do \
+	@for f in $(PROMPTS_DIR)layers/12_runtimes/*.md; do \
 		name=$$(basename "$$f" .md); \
 		desc=$$(awk '/^---$$/{found++; next} found==1 && /^description:/{sub(/^description: */, ""); gsub(/"/, ""); print; exit} found==2{exit}' "$$f"); \
 		printf "  \033[36m%-15s\033[0m %s\n" "$$name" "$$desc"; \
@@ -243,7 +243,7 @@ generate-crewai: ## Genera código Python de CrewAI desde un rol. Requiere DISC,
 .PHONY: list-patterns
 list-patterns: ## Lista los patterns de razonamiento disponibles
 	@echo "Patterns de razonamiento disponibles:"
-	@for f in $(PROMPTS_DIR)patterns/*.md; do \
+	@for f in $(PROMPTS_DIR)layers/04_patterns/*.md; do \
 		name=$$(basename "$$f" .md); \
 		desc=$$(awk '/^---$$/{found++; next} found==1 && /^description:/{sub(/^description: */, ""); gsub(/"/, ""); print; exit} found==2{exit}' "$$f"); \
 		printf "  \033[36m%-20s\033[0m %s\n" "$$name" "$$desc"; \

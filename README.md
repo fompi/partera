@@ -95,17 +95,17 @@ El sistema compone prompts concatenando capas ordenadas. Cada capa aporta contex
 
 | # | Tipo | Directorio | Descripción |
 | - | ---- | ---------- | ----------- |
-| 1 | `base` | `_base.md` | Contrato universal: anti-alucinación, CoT, formato de hallazgo |
-| 2 | `discipline_base` | `disciplines/<disc>/_base.md` | Principios, estándares y ética de la disciplina |
-| 3 | `adapter` | `disciplines/<disc>/adapters/` | Contexto específico: lenguaje, plataforma, modelo de negocio |
-| 4 | `knowledge` | `knowledge/` | Conocimiento de referencia curado (opcional) |
-| 5 | `role` | `disciplines/<disc>/roles/<verb>/<name>/` | Rol funcional con persona y metodología |
-| 6 | `technique` | `techniques/<area>/` | Técnicas reutilizables cross-disciplinares (opcional) |
-| 7 | `modifier` | `modifiers/<type>/` | Ajusta audiencia, profundidad o industria (opcional) |
-| 8 | `source` | `sources/` | Restringe fuentes de información (opcional) |
-| 9 | `protocol` | `protocols/` | Modo de ejecución: autónomo, supervisado, colaborativo (opcional) |
-| 10 | `capability` | `capabilities/` | Capacidades requeridas del LLM: visión, código, web (opcional) |
-| 11 | `runtime` | `runtimes/` | Adaptaciones específicas del runtime/framework (opcional) |
+| 1 | `base` | `layers/01_modes/slave.md` | Contrato universal: anti-alucinación, CoT, formato de hallazgo |
+| 2 | `discipline_base` | `layers/02_disciplines/<disc>/_base.md` | Principios, estándares y ética de la disciplina |
+| 3 | `adapter` | `layers/02_disciplines/<disc>/03_adapters/` | Contexto específico: lenguaje, plataforma, modelo de negocio |
+| 4 | `knowledge` | `layers/05_knowledge/` | Conocimiento de referencia curado (opcional) |
+| 5 | `role` | `layers/02_disciplines/<disc>/06_roles/<verb>/<name>/` | Rol funcional con persona y metodología |
+| 6 | `technique` | `layers/07_techniques/<area>/` | Técnicas reutilizables cross-disciplinares (opcional) |
+| 7 | `modifier` | `layers/08_modifiers/<type>/` | Ajusta audiencia, profundidad o industria (opcional) |
+| 8 | `source` | `layers/09_sources/` | Restringe fuentes de información (opcional) |
+| 9 | `protocol` | `layers/10_protocols/` | Modo de ejecución: autónomo, supervisado, colaborativo (opcional) |
+| 10 | `capability` | `layers/11_capabilities/` | Capacidades requeridas del LLM: visión, código, web (opcional) |
+| 11 | `runtime` | `layers/12_runtimes/` | Adaptaciones específicas del runtime/framework (opcional) |
 
 ---
 
@@ -133,8 +133,8 @@ EXT="knowledge/security-awareness techniques/security/injection-analysis modifie
 
 | Término | Significado |
 | ------- | ----------- |
-| **Base** | Contrato universal (`_base.md`): anti-alucinación, razonamiento y plantilla de hallazgo. |
-| **Disciplina** | Área profesional: engineering, content, design, business, management. Cada una tiene su `_base.md` y sus roles. |
+| **Base** | Contrato universal (`layers/01_modes/slave.md`): anti-alucinación, razonamiento y plantilla de hallazgo. |
+| **Disciplina** | Área profesional: engineering, content, design, business, management. Cada una tiene su `_base.md` en `layers/02_disciplines/<disc>/` y sus roles en `06_roles/`. |
 | **Adaptador** | Contexto concreto dentro de una disciplina: lenguaje (python, bash), plataforma (web, mobile), metodología (agile, waterfall), etc. |
 | **Rol** | Persona funcional que realiza una tarea (auditar seguridad, generar documentación, planificar proyecto). La instrucción activa del prompt. |
 | **Técnica** | Metodología reutilizable entre disciplinas (p. ej. análisis de inyección, manejo de errores). Se añade opcionalmente con `EXT=`. |
@@ -145,7 +145,7 @@ EXT="knowledge/security-awareness techniques/security/injection-analysis modifie
 | **Runtime** | Adaptación al entorno de ejecución: Claude, OpenAI, Gemini, Ollama, CrewAI, LangChain, AutoGen. |
 | **Alma** | Composición declarativa en YAML que fija disciplina, rol y capas opcionales; se invoca por nombre y siempre con un adaptador. |
 
-Rutas en `EXT=` son relativas a la raíz del repo (p. ej. `knowledge/engineering-basics`, `modifiers/depth/deep`).
+Rutas en `EXT=` son lógicas (p. ej. `knowledge/engineering-basics`, `modifiers/depth/deep`) y se resuelven a `layers/05_knowledge/`, `layers/08_modifiers/`, etc.
 
 ---
 
@@ -210,34 +210,31 @@ Adaptadores: `agile`, `waterfall`
 
 ```text
 partera/
-├── _base.md                    # Capa 1: base universal
+├── layers/                     # Capas de composición (orden numérico)
+│   ├── 01_modes/slave.md      # Capa 1: base universal
+│   ├── 02_disciplines/         # Capa 2: disciplinas
+│   │   ├── engineering/
+│   │   │   ├── _base.md
+│   │   │   ├── 03_adapters/   # python.md, bash.md
+│   │   │   └── 06_roles/
+│   │   │       ├── audit/
+│   │   │       ├── generate/
+│   │   │       └── plan/
+│   │   ├── content/ design/ business/ management/
+│   ├── 04_patterns/           # Patrones de razonamiento (CoT, ReAct...)
+│   ├── 05_knowledge/
+│   ├── 07_techniques/
+│   ├── 08_modifiers/
+│   ├── 09_sources/
+│   ├── 10_protocols/
+│   ├── 11_capabilities/
+│   └── 12_runtimes/
 ├── almas/                      # Composiciones declarativas YAML
-│   ├── _schema.yaml
-│   ├── v02/ engineering/ content/ design/ business/
-├── disciplines/                # Capa 2+3: disciplinas y adaptadores
-│   ├── engineering/
-│   │   ├── _base.md
-│   │   ├── adapters/           # python.md, bash.md
-│   │   └── roles/
-│   │       ├── audit/
-│   │       ├── generate/
-│   │       └── plan/
-│   ├── content/ design/ business/ management/
-├── knowledge/                  # Capa 4: packs de conocimiento
-├── techniques/                 # Capa 6: técnicas reutilizables
-│   ├── security/ performance/ correctness/
-│   ├── maintainability/ resilience/ scalability/ devex/
-├── modifiers/                  # Capa 7: audience/ depth/ industry/
-├── sources/                    # Capa 8
-├── protocols/                  # Capa 9
-├── capabilities/               # Capa 10
-├── runtimes/                   # Capa 11
-├── patterns/                   # Patrones de razonamiento (CoT, ReAct...)
 ├── chains/                     # Workflows multi-paso
-├── tools/schemas/ tools/wrappers/  # Schemas JSON y wrappers de herramientas
 ├── meta/                       # Meta-prompts para extender el sistema
 ├── scripts/                    # Herramientas de validación y composición
 ├── docs/                       # Documentación técnica
+├── tools/                      # Schemas JSON y wrappers
 └── compose.sh / Makefile
 ```
 
@@ -446,7 +443,7 @@ cat meta/_base_meta.md meta/generate_role.md > /tmp/meta-gen-role.txt
 
 # 2. Pegar en el LLM junto con la descripción del rol deseado
 # Input: "Rol de auditoría de compliance GDPR para engineering, Python"
-# Output: disciplines/engineering/roles/audit/06_compliance/_index.md
+# Output: layers/02_disciplines/engineering/06_roles/audit/06_compliance/_index.md
 ```
 
 ---
@@ -517,7 +514,7 @@ prompt = open("output.txt").read()
 ## Si algo falla
 
 - **"Error: DISC requerido" / "ADAPTER requerido" / "ROLE requerido"**: La composición básica exige `DISC`, `ADAPTER` y `ROLE`. Con almas, solo hace falta `ALMA` y `ADAPTER`. Ver [migration-guide.md](docs/migration-guide.md) si vienes de una versión antigua.
-- **Rol o adaptador no encontrado**: Comprueba que el path del rol sea relativo a `disciplines/<disc>/roles/` (ej. `audit/0001_security/_index`) y que el adaptador exista en `disciplines/<disc>/adapters/<adapter>.md`. Usa `make list-roles DISC=engineering` y `make list-adapters DISC=engineering`.
+- **Rol o adaptador no encontrado**: Comprueba que el path del rol sea relativo a `layers/02_disciplines/<disc>/06_roles/` (ej. `audit/0001_security/_index`) y que el adaptador exista en `layers/02_disciplines/<disc>/03_adapters/<adapter>.md`. Usa `make list-roles DISC=engineering` y `make list-adapters DISC=engineering`.
 - **Alma no encontrada**: El nombre del alma es la ruta relativa a `almas/` sin extensión (ej. `v02/security-deep`, `engineering/security-fintech`). Lista almas con `make list-almas`.
 - **Validación**: Ejecuta `make validate` para comprobar front-matter, referencias y disciplinas; `make validate-almas` para validar solo las almas (requiere `yq`).
 

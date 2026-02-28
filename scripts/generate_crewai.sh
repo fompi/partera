@@ -38,11 +38,11 @@ ADAPTER="$2"
 ROLE="$3"
 
 # Resolver ruta del rol
-role_file="$SCRIPT_DIR/disciplines/$DISC/roles/${ROLE}"
+role_file="$SCRIPT_DIR/layers/02_disciplines/$DISC/06_roles/${ROLE}"
 [[ "$role_file" != *.md ]] && role_file="${role_file}.md"
 
 if [[ ! -f "$role_file" ]]; then
-  echo "Error: rol '$ROLE' no encontrado en disciplines/$DISC/roles/" >&2
+  echo "Error: rol '$ROLE' no encontrado en layers/02_disciplines/$DISC/06_roles/" >&2
   exit 1
 fi
 
@@ -96,7 +96,7 @@ var_name=$(echo "$role_name" | tr '[:upper:]' '[:lower:]' | tr ' /-' '_' | sed '
 cat <<PYTHON
 #!/usr/bin/env python3
 """
-Agente CrewAI generado desde: disciplines/$DISC/roles/$ROLE
+Agente CrewAI generado desde: layers/02_disciplines/$DISC/06_roles/$ROLE
 Disciplina: $DISC | Adapter: $ADAPTER
 
 Generado con: scripts/generate_crewai.sh $DISC $ADAPTER $ROLE

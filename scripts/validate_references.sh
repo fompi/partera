@@ -42,7 +42,7 @@ get_list_values() {
   get_field "$file" "$field" | tr -d '[]' | tr ',' '\n' | tr -d ' ' | grep -v '^$' || true
 }
 
-# Verifica que un valor referencia existe como <dir>/<value>.md
+# Verifica que un valor referencia existe como <dir>/<value>.md (dir bajo layers/)
 check_ref() {
   local role_rel="$1" field="$2" value="$3" dir="$4" optional="$5"
   if [[ -z "$value" ]]; then return; fi
@@ -69,28 +69,28 @@ while IFS= read -r -d '' file; do
   # capabilities_required (error si falta)
   while IFS= read -r val; do
     [[ -z "$val" ]] && continue
-    check_ref "$rel" "capabilities_required" "$val" "capabilities" "required"
+    check_ref "$rel" "capabilities_required" "$val" "layers/11_capabilities" "required"
   done < <(get_list_values "$file" "capabilities_required" | sort -u)
 
   # capabilities_optional (warning si falta)
   while IFS= read -r val; do
     [[ -z "$val" ]] && continue
-    check_ref "$rel" "capabilities_optional" "$val" "capabilities" "optional"
+    check_ref "$rel" "capabilities_optional" "$val" "layers/11_capabilities" "optional"
   done < <(get_list_values "$file" "capabilities_optional" | sort -u)
 
   # protocols_recommended (warning si falta)
   while IFS= read -r val; do
     [[ -z "$val" ]] && continue
-    check_ref "$rel" "protocols_recommended" "$val" "protocols" "optional"
+    check_ref "$rel" "protocols_recommended" "$val" "layers/10_protocols" "optional"
   done < <(get_list_values "$file" "protocols_recommended" | sort -u)
 
   # sources_recommended (warning si falta)
   while IFS= read -r val; do
     [[ -z "$val" ]] && continue
-    check_ref "$rel" "sources_recommended" "$val" "sources" "optional"
+    check_ref "$rel" "sources_recommended" "$val" "layers/09_sources" "optional"
   done < <(get_list_values "$file" "sources_recommended" | sort -u)
 
-done < <(find "$REPO_DIR/disciplines" -name "_index.md" -print0 2>/dev/null | sort -z)
+done < <(find "$REPO_DIR/layers/02_disciplines" -name "_index.md" -print0 2>/dev/null | sort -z)
 
 echo ""
 echo "════════════════════════════════════════════════════════════"

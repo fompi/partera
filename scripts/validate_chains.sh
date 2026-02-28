@@ -68,17 +68,17 @@ for chain_file in "$CHAINS_DIR"/*.chain; do
     error "type debe ser 'chain' (encontrado: '$type_val')"
   fi
 
-  # Validar cada step: role existe en disciplines/<disc>/roles/<path>.md
+  # Validar cada step: role existe en layers/02_disciplines/<disc>/06_roles/<path>.md
   while IFS= read -r role_id; do
     [[ -n "$role_id" ]] || continue
     resolved=$(resolve_role "$role_id")
     disc=$(echo "$resolved" | cut -d'|' -f1)
     role_path=$(echo "$resolved" | cut -d'|' -f2)
-    role_file="$ROOT_DIR/disciplines/$disc/roles/${role_path}.md"
+    role_file="$ROOT_DIR/layers/02_disciplines/$disc/06_roles/${role_path}.md"
     if [[ ! -f "$role_file" ]]; then
       error "rol '$role_id' → $role_file no existe"
     else
-      ok "rol '$role_id' → disciplines/$disc/roles/${role_path}.md"
+      ok "rol '$role_id' → layers/02_disciplines/$disc/06_roles/${role_path}.md"
     fi
   done < <(get_steps_roles "$chain_file")
 

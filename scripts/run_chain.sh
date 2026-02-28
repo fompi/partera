@@ -143,13 +143,13 @@ separator() {
 # Componer un paso y devolver el prompt (o mensaje de error)
 compose_step() {
   local step_disc="$1" step_role="$2"
-  local role_file="$SCRIPT_DIR/disciplines/$step_disc/roles/${step_role}.md"
+  local role_file="$SCRIPT_DIR/layers/02_disciplines/$step_disc/06_roles/${step_role}.md"
 
   if [[ -f "$role_file" ]]; then
     if [[ -n "$ADAPTER" ]]; then
       DISC="$step_disc" "$COMPOSE" "$ADAPTER" "$step_role" 2>/dev/null || {
         echo "[AVISO: No se pudo componer el prompt para DISC=$step_disc ADAPTER=$ADAPTER ROLE=$step_role]"
-        echo "  Verifica que el adaptador '$ADAPTER' existe en disciplines/$step_disc/adapters/"
+        echo "  Verifica que el adaptador '$ADAPTER' existe en layers/02_disciplines/$step_disc/03_adapters/"
       }
     else
       echo "[AVISO: ADAPTER no especificado — no se puede componer el prompt]"

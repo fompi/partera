@@ -55,47 +55,47 @@ properties:
 
       role:
         type: string
-        description: "Ruta del rol relativa a disciplines/<disc>/roles/ (ej: audit/0001_security/_index)"
+        description: "Ruta del rol relativa a layers/02_disciplines/<disc>/06_roles/ (ej: audit/0001_security/_index)"
 
       knowledge:
         type: array
         items:
           type: string
-        description: "Knowledge packs (rutas relativas a knowledge/)"
+        description: "Knowledge packs (rutas lógicas bajo knowledge/; se resuelven a layers/05_knowledge/)"
 
       techniques:
         type: array
         items:
           type: string
-        description: "Técnicas (rutas relativas a techniques/)"
+        description: "Técnicas (rutas lógicas bajo techniques/; se resuelven a layers/07_techniques/)"
 
       modifiers:
         type: array
         items:
           type: string
-        description: "Modificadores (rutas relativas a modifiers/)"
+        description: "Modificadores (rutas lógicas bajo modifiers/; se resuelven a layers/08_modifiers/)"
 
       sources:
         type: array
         items:
           type: string
-        description: "Restricciones de fuentes (rutas relativas a sources/)"
+        description: "Restricciones de fuentes (rutas lógicas bajo sources/; layers/09_sources/)"
 
       protocols:
         type: array
         items:
           type: string
-        description: "Protocolos de ejecución (rutas relativas a protocols/)"
+        description: "Protocolos de ejecución (rutas lógicas bajo protocols/; layers/10_protocols/)"
 
       capabilities:
         type: array
         items:
           type: string
-        description: "Capacidades del LLM (rutas relativas a capabilities/)"
+        description: "Capacidades del LLM (rutas lógicas bajo capabilities/; layers/11_capabilities/)"
 
       runtime:
         type: string
-        description: "Runtime (ruta relativa a runtimes/, sin extensión)"
+        description: "Runtime (nombre sin extensión; archivo en layers/12_runtimes/)"
 
     additionalProperties: false
 
