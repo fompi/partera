@@ -63,6 +63,7 @@ Las convenciones específicas del lenguaje vienen del adaptador de la disciplina
 **INPUT**: Codebase o descripción del sistema a evaluar.
 
 **OUTPUT**:
+
 - Diagrama de dependencias entre módulos
 - Hallazgos ARCH- con evaluación de acoplamiento/cohesión
 - Plan de refactor priorizado por fases (quick wins, medio plazo, estructural)

@@ -54,7 +54,7 @@ Basándote en el mapeo, indica:
 
 Formato de triage:
 
-```
+```text
 Rol recomendado           | Prioridad | Módulos/ficheros foco     | Justificación
 0001_security               | P0        | auth/, api/endpoints.py   | Input externo sin validar
 0002_performance            | P1        | core/processor.py         | Loop O(n²) visible
@@ -90,6 +90,7 @@ Cada archivo debe incluir: contexto, objetivo, pasos, riesgos/mitigaciones, chec
 **INPUT**: Repositorio o codebase completo a auditar.
 
 **OUTPUT**:
+
 - Resumen ejecutivo del estado del proyecto
 - Diagrama de arquitectura (texto o mermaid)
 - Matriz de triage priorizada por rol

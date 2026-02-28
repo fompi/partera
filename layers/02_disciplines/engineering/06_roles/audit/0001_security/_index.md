@@ -69,6 +69,7 @@ Usa la plantilla definida en el archivo base. No la dupliques aquí.
 **INPUT**: Código, arquitectura y configuración a auditar (con foco en superficies de ataque).
 
 **OUTPUT**:
+
 - Lista de vulnerabilidades con severidad (Probabilidad x Impacto x Explotabilidad)
 - Escenarios de explotación para hallazgos críticos/altos
 - Recomendaciones de mitigación priorizadas
