@@ -114,12 +114,14 @@ Adapta el prompt al runtime o framework específico: formato de system message p
 ## Orden de Composición
 
 ```text
-base → discipline_base → adapter → [knowledge] → role
+base → discipline_base → adapter → [patterns] → [knowledge] → role
      → [techniques] → [modifiers] → [sources]
      → [protocols] → [capabilities] → [runtime]
 ```
 
-El orden importa: las capas anteriores establecen el contexto en el que las posteriores operan. El **rol** (capa 5) puede asumir que ya existen el contrato universal (capa 1), los principios de la disciplina (capa 2) y las convenciones del adaptador (capa 3). Las rutas de las piezas (knowledge, techniques, modifiers, etc.) son siempre relativas a la raíz del repositorio.
+El orden importa: las capas anteriores establecen el contexto en el que las posteriores operan. Los **patterns** (estilos de razonamiento: CoT, Plan-and-Solve, etc.) se inyectan opcionalmente tras el adaptador para que apliquen a todo lo que sigue. El **rol** (capa 5) puede asumir que ya existen el contrato universal (capa 1), los principios de la disciplina (capa 2) y las convenciones del adaptador (capa 3). Las rutas de las piezas (patterns, knowledge, techniques, modifiers, etc.) son siempre relativas a la raíz del repositorio.
+
+Para **chains** (flujos multi-paso) y el uso detallado de **patterns**, ver [chains-and-patterns.md](chains-and-patterns.md).
 
 ---
 
@@ -403,5 +405,6 @@ cat meta/_base_meta.md meta/evaluate_coverage.md > /tmp/meta-coverage.txt
 - [cross-discipline-compatibility.md](cross-discipline-compatibility.md): combinaciones válidas entre disciplinas y adaptadores.
 - [sfia-mapping.md](sfia-mapping.md): correspondencia con el framework SFIA 9.
 - [almas-swarm.md](almas-swarm.md): uso de almas en modo swarm (múltiples agentes).
+- [chains-and-patterns.md](chains-and-patterns.md): diseño y uso de **chains** (flujos multi-paso) y **patterns** (estilos de razonamiento).
 
-Los scripts de listado y validación viven en `scripts/` (p. ej. `scripts/list_by_type.sh`, `scripts/validate_frontmatter.sh`); el Makefile expone targets como `make list-disciplines`, `make validate`, `make list-almas`. Para flujos multi-paso: `make chain CHAIN=<nombre>` (véase `chains/` y `scripts/run_chain.sh`).
+Los scripts de listado y validación viven en `scripts/` (p. ej. `scripts/list_by_type.sh`, `scripts/validate_frontmatter.sh`); el Makefile expone targets como `make list-disciplines`, `make validate`, `make list-almas`, `make validate-chains`. Para flujos multi-paso: `make chain CHAIN=<nombre> ADAPTER=<adaptador>` (véase `chains/` y `scripts/run_chain.sh`). Para patterns: `EXT="patterns/cot" ./compose.sh ...`.

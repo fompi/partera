@@ -10,6 +10,7 @@ Este directorio contiene la documentación técnica del sistema de prompts modul
 | [**migration-guide.md**](migration-guide.md) | Historial de cambios que afectan a la sintaxis o al uso (p. ej. eliminación del modo legacy). Consulta antes de actualizar desde una versión antigua. |
 | [**cross-discipline-compatibility.md**](cross-discipline-compatibility.md) | Matriz de compatibilidad entre disciplinas y adaptadores: qué combinaciones son válidas, flujos de trabajo multi-disciplinares y reglas de validación. |
 | [**sfia-mapping.md**](sfia-mapping.md) | Mapeo de roles y técnicas del sistema al framework SFIA 9 (Skills Framework for the Information Age) para trazabilidad de competencias. |
+| [**chains-and-patterns.md**](chains-and-patterns.md) | Diseño y uso de **chains** (flujos multi-paso) y **patterns** (estilos de razonamiento: CoT, Plan-and-Solve, etc.). |
 
 ## Convenciones de esta documentación
 

@@ -105,7 +105,27 @@ else
   info "No hay directorio almas/ — omitiendo validación de almas"
 fi
 
-# ─── Paso 5: Archivos requeridos ──────────────────────────────────────────────
+# ─── Paso 5: Chains ──────────────────────────────────────────────────────────
+
+section "Validando Chains"
+
+if [[ -d "$ROOT_DIR/chains" ]]; then
+  if [[ -x "$SCRIPT_DIR/validate_chains.sh" ]]; then
+    if "$SCRIPT_DIR/validate_chains.sh" > /tmp/chains-output.txt 2>&1; then
+      CHAIN_COUNT=$(find "$ROOT_DIR/chains" -name "*.chain" 2>/dev/null | wc -l | tr -d ' ')
+      ok "Chains válidos ($CHAIN_COUNT chains)"
+    else
+      warn "Algunos chains tienen errores (ver /tmp/chains-output.txt)"
+      [[ "$QUIET" == false ]] && cat /tmp/chains-output.txt | head -20
+    fi
+  else
+    warn "validate_chains.sh no encontrado o no ejecutable"
+  fi
+else
+  info "No hay directorio chains/ — omitiendo validación de chains"
+fi
+
+# ─── Paso 6: Archivos requeridos ──────────────────────────────────────────────
 
 section "Verificando Archivos Requeridos"
 
@@ -166,7 +186,7 @@ for df in "${DOCS_FILES[@]}"; do
   fi
 done
 
-# ─── Paso 6: Inventario del sistema ──────────────────────────────────────────
+# ─── Paso 7: Inventario del sistema ──────────────────────────────────────────
 
 section "Inventario del Sistema"
 
@@ -203,7 +223,7 @@ info "Almas:        $ALMA_COUNT"
 [[ "$TECHNIQUE_COUNT" -ge 5 ]] && ok "Técnicas: suficientes ($TECHNIQUE_COUNT)" || warn "Pocas técnicas ($TECHNIQUE_COUNT)"
 [[ "$ADAPTER_COUNT" -ge 2 ]]   && ok "Adaptadores: suficientes ($ADAPTER_COUNT)" || warn "Pocos adaptadores ($ADAPTER_COUNT)"
 
-# ─── Paso 7: Validación de IDs únicos ────────────────────────────────────────
+# ─── Paso 8: Validación de IDs únicos ────────────────────────────────────────
 
 section "Validando Unicidad de IDs"
 

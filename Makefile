@@ -136,6 +136,10 @@ list-almas: ## Lista almas disponibles
 validate-almas: ## Valida todas las almas
 	@$(PROMPTS_DIR)scripts/validate_almas.sh
 
+.PHONY: validate-chains
+validate-chains: ## Valida todos los chains (roles referenciados existen)
+	@$(PROMPTS_DIR)scripts/validate_chains.sh
+
 # --- Chains -------------------------------------------------------------------
 
 CHAIN ?=

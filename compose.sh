@@ -206,9 +206,10 @@ parts+=(/dev/stdin <(printf '\n---\n\n') "$adapter_file")
 parts+=(/dev/stdin <(printf '\n---\n\n') "$role_file")
 
 # Extensiones (EXT="path1 path2 ...")
-# Orden de composición:
-#   base universal → base disciplina → adaptador → knowledge → rol → técnicas → modifiers → sources → protocols → capabilities
+# Orden de composición (ver docs/chains-and-patterns.md):
+#   base → discipline_base → adapter → [patterns] → [knowledge] → role → [techniques] → [modifiers] → [sources] → [protocols] → [capabilities] → [runtime]
 EXT="${EXT:-}"
+pattern_files=()
 knowledge_files=()
 technique_files=()
 modifier_files=()
@@ -224,6 +225,7 @@ if [[ -n "$EXT" ]]; then
       exit 1
     fi
     case "$ext_path" in
+      patterns/*)      pattern_files+=("$ext_file") ;;
       knowledge/*)     knowledge_files+=("$ext_file") ;;
       modifiers/*)     modifier_files+=("$ext_file") ;;
       sources/*)       source_files+=("$ext_file") ;;
@@ -266,6 +268,10 @@ fi
   fi
   printf '\n---\n\n'
   cat "$adapter_file"
+  for ext_file in "${pattern_files[@]+"${pattern_files[@]}"}"; do
+    printf '\n---\n\n'
+    cat "$ext_file"
+  done
   for ext_file in "${knowledge_files[@]+"${knowledge_files[@]}"}"; do
     printf '\n---\n\n'
     cat "$ext_file"

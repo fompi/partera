@@ -1,0 +1,79 @@
+# Esquema de validación para archivos .chain
+# Uso: scripts/validate_chains.sh (comprueba sintaxis YAML y existencia de roles)
+# Referencia: docs/chains-and-patterns.md
+
+$schema: "http://json-schema.org/draft-07/schema#"
+title: "Partera Chain"
+description: "Flujo multi-paso: secuencia de roles con input/output documentados"
+type: object
+
+required:
+  - id
+  - type
+  - name
+  - version
+  - description
+  - steps
+
+properties:
+  id:
+    type: string
+    pattern: "^chain\\."
+    description: "Identificador único. Formato: chain.<nombre>"
+
+  type:
+    type: string
+    enum: [chain]
+
+  name:
+    type: string
+    description: "Nombre legible del chain"
+
+  version:
+    type: string
+    pattern: "^\\d+\\.\\d+\\.\\d+$"
+
+  description:
+    type: string
+    description: "Descripción breve del flujo"
+
+  tags:
+    type: array
+    items:
+      type: string
+
+  disciplines:
+    type: array
+    items:
+      type: string
+      enum: [engineering, content, design, business, management]
+    description: "Disciplinas que intervienen en los pasos"
+
+  steps:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      required:
+        - role
+      properties:
+        role:
+          type: string
+          pattern: "^[a-z]+\\.[a-z]+\\.[a-z0-9_]+$"
+          description: "Formato: <disciplina>.<verbo>.<nombre> (ej: engineering.generate.00_spec-writer)"
+        name:
+          type: string
+        input_from:
+          type: string
+          enum: [user, previous, previous_all, next, orchestrator]
+        input_description:
+          type: string
+        output_to:
+          type: string
+          enum: [next, user, orchestrator]
+        output_description:
+          type: string
+
+  estimated_tokens:
+    type: [integer, string]
+    description: "Suma aproximada de tokens de todos los pasos"
