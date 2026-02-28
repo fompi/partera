@@ -184,6 +184,8 @@ almas/
   management/                # Disciplina: Management
     project-manager.alma.yaml
     project-manager-executive.alma.yaml
+  chat/                      # Disciplina: Chat (diálogo, persona)
+    # Roles conversacionales y pedagógicos de ejemplo (flirty-persona, irc-participant, informative-bot, father-responsible, learning-pusher-bot)
 ```
 
 ### Herencia

@@ -147,7 +147,7 @@ La capa 1 (`base`) elige el **contrato de salida**. Por defecto se usa `slave`. 
 | Término | Significado |
 | ------- | ----------- |
 | **Base** | Capa de contrato de salida/ejecución (`layers/01_modes/`). Se elige entre varias: `slave` (universal, por defecto), `streaming`, `conversational`, `lightweight`, `pedagogical`, `regulated`. Define formato de output, nivel de rigor y si hay plantilla de hallazgo. |
-| **Disciplina** | Área profesional: engineering, content, design, business, management. Cada una tiene su `_base.md` en `layers/02_disciplines/<disc>/` y sus roles en `06_roles/`. |
+| **Disciplina** | Área profesional: engineering, content, design, business, management, chat. Cada una tiene su `_base.md` en `layers/02_disciplines/<disc>/` y sus roles en `06_roles/`. |
 | **Adaptador** | Contexto concreto dentro de una disciplina: lenguaje (python, bash), plataforma (web, mobile), metodología (agile, waterfall), etc. |
 | **Rol** | Persona funcional que realiza una tarea (auditar seguridad, generar documentación, planificar proyecto). La instrucción activa del prompt. |
 | **Técnica** | Metodología reutilizable entre disciplinas (p. ej. análisis de inyección, manejo de errores). Se añade opcionalmente con `EXT=`. |
