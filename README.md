@@ -12,14 +12,17 @@
 - [Quick Start](#quick-start)
 - [Arquitectura — las 11 capas](#arquitectura--las-11-capas)
 - [Fórmula de composición](#fórmula-de-composición)
+- [Glosario](#glosario)
 - [Disciplinas disponibles](#disciplinas-disponibles)
 - [Estructura de directorios](#estructura-de-directorios)
 - [Cheat Sheet](#cheat-sheet)
+- [Almas (composiciones declarativas)](#almas-composiciones-declarativas)
 - [Chains (workflows complejos)](#chains-workflows-complejos)
 - [Comparación con otros sistemas](#comparación-con-otros-sistemas)
 - [Automejora y extensión](#automejora-y-extensión)
 - [Guía por plataforma](#guía-por-plataforma)
 - [Roadmap](#roadmap)
+- [Si algo falla](#si-algo-falla)
 - [Contribuir](#contribuir)
 - [Licencia](#licencia)
 
@@ -34,6 +37,7 @@
 - **SFIA-mapped**: trazabilidad al framework de competencias profesionales SFIA 9
 - **Validación automática**: scripts validan front-matter, referencias y consistencia
 - **Chains declarativas**: workflows multi-paso con front-matter YAML
+- **Almas**: composiciones declarativas YAML — guarda y reutiliza combinaciones complejas de capas
 
 ---
 
@@ -46,7 +50,9 @@ git clone https://github.com/<usuario>/partera.git
 cd partera
 ```
 
-Requisitos: `bash`, `make`. Opcional: `jq` para funciones avanzadas.
+**Requisitos**: `bash` (entorno Unix/macOS/Linux), `make`. Sin ellos no se puede componer ni validar.
+
+**Opcional**: `yq` (para invocar y validar almas); `jq` (para funciones avanzadas de listado). Si no tienes `yq`, el resto del sistema funciona con `make compose` y `./compose.sh` usando DISC, ADAPTER y ROLE.
 
 ### Uso básico
 
@@ -69,7 +75,7 @@ make compose DISC=engineering ADAPTER=python ROLE=audit/01_security/_index \
   EXT="modifiers/audience/executive sources/official-docs-only"
 ```
 
-El resultado se imprime en stdout — cópialo y pégalo en tu asistente IA favorito, o usa `make clipboard` para copiarlo directamente.
+El resultado se imprime en stdout. Cópialo y pégalo en tu asistente IA favorito, o usa `make clipboard` (con DISC, ADAPTER y ROLE) para copiarlo al portapapeles.
 
 ### Con runtime específico
 
@@ -88,7 +94,7 @@ make generate-crewai DISC=engineering ADAPTER=python ROLE=generate/02_implemente
 El sistema compone prompts concatenando capas ordenadas. Cada capa aporta contexto específico sin duplicar el de otras:
 
 | # | Tipo | Directorio | Descripción |
-|---|------|-----------|-------------|
+| - | ---- | ---------- | ----------- |
 | 1 | `base` | `_base.md` | Contrato universal: anti-alucinación, CoT, formato de hallazgo |
 | 2 | `discipline_base` | `disciplines/<disc>/_base.md` | Principios, estándares y ética de la disciplina |
 | 3 | `adapter` | `disciplines/<disc>/adapters/` | Contexto específico: lenguaje, plataforma, modelo de negocio |
@@ -105,14 +111,14 @@ El sistema compone prompts concatenando capas ordenadas. Cada capa aporta contex
 
 ## Fórmula de composición
 
-```
+```text
 PROMPT = base + discipline_base + adapter
        + [knowledge] + role + [techniques]
        + [modifiers] + [sources] + [protocols]
        + [capabilities] + [runtime]
 ```
 
-Las capas en `[corchetes]` son opcionales. Se activan via `EXT=` o flags específicos:
+Las capas en `[corchetes]` son opcionales. Se activan con `EXT=` o con flags específicos (p. ej. `RUNTIME=`).
 
 ```bash
 DISC=engineering \
@@ -123,53 +129,78 @@ EXT="knowledge/security-awareness techniques/security/injection-analysis modifie
 
 ---
 
+## Glosario
+
+| Término | Significado |
+| ------- | ----------- |
+| **Base** | Contrato universal (`_base.md`): anti-alucinación, razonamiento y plantilla de hallazgo. |
+| **Disciplina** | Área profesional: engineering, content, design, business, management. Cada una tiene su `_base.md` y sus roles. |
+| **Adaptador** | Contexto concreto dentro de una disciplina: lenguaje (python, bash), plataforma (web, mobile), metodología (agile, waterfall), etc. |
+| **Rol** | Persona funcional que realiza una tarea (auditar seguridad, generar documentación, planificar proyecto). La instrucción activa del prompt. |
+| **Técnica** | Metodología reutilizable entre disciplinas (p. ej. análisis de inyección, manejo de errores). Se añade opcionalmente con `EXT=`. |
+| **Modifier** | Ajuste de salida: audiencia (ejecutiva, técnica, junior), profundidad (quick, deep), industria (fintech, healthcare). |
+| **Source** | Restricción de fuentes de información (solo documentación oficial, solo fuentes internas, etc.). |
+| **Protocol** | Modo de ejecución: autónomo, supervisado, colaborativo, pedagógico. |
+| **Capability** | Capacidad requerida del LLM: visión, ejecución de código, búsqueda web, diagramas. |
+| **Runtime** | Adaptación al entorno de ejecución: Claude, OpenAI, Gemini, Ollama, CrewAI, LangChain, AutoGen. |
+| **Alma** | Composición declarativa en YAML que fija disciplina, rol y capas opcionales; se invoca por nombre y siempre con un adaptador. |
+
+Rutas en `EXT=` son relativas a la raíz del repo (p. ej. `knowledge/engineering-basics`, `modifiers/depth/deep`).
+
+---
+
 ## Disciplinas disponibles
 
 ### Engineering
+
 Roles de auditoría, generación de código, revisión y planificación técnica.
 
 | Task type | Roles disponibles |
-|-----------|-------------------|
-| `audit`   | orchestrator, security, performance, architecture, correctness |
-| `generate`| spec-writer, tech-advisor, implementer, reviewer, documenter, frontend-dev |
-| `plan`    | tech-estimator |
+| --------- | ----------------- |
+| `audit` | orchestrator, security, performance, architecture, correctness |
+| `generate` | spec-writer, tech-advisor, implementer, reviewer, documenter, frontend-dev |
+| `plan` | tech-estimator |
 
 Adaptadores: `python`, `bash`
 
 ### Content
+
 Creación y auditoría de contenido profesional.
 
 | Task type | Roles disponibles |
-|-----------|-------------------|
-| `audit`   | content-auditor |
-| `generate`| clickbait-writer, doc-writer, ops-procedures, copywriter |
+| --------- | ----------------- |
+| `audit` | content-auditor |
+| `generate` | clickbait-writer, doc-writer, ops-procedures, copywriter |
 
 Adaptadores: `technical`, `marketing`, `news`, `internal`
 
 ### Design
+
 Diseño de producto y experiencia de usuario.
 
 | Task type | Roles disponibles |
-|-----------|-------------------|
-| `create`  | web-designer, ux-researcher |
+| --------- | ----------------- |
+| `create` | web-designer, ux-researcher |
 
 Adaptadores: `web`, `mobile`
 
 ### Business
+
 Análisis de negocio, presales y estrategia.
 
 | Task type | Roles disponibles |
-|-----------|-------------------|
-| `plan`    | presales |
+| --------- | ----------------- |
+| `plan` | presales |
 
 Adaptadores: `saas`, `ecommerce`
 
 ### Management
+
 Gestión de proyectos y equipos.
 
 | Task type | Roles disponibles |
-|-----------|-------------------|
-| `plan`    | project-manager |
+| --------- | ----------------- |
+| `plan` | project-manager |
 
 Adaptadores: `agile`, `waterfall`
 
@@ -177,9 +208,12 @@ Adaptadores: `agile`, `waterfall`
 
 ## Estructura de directorios
 
-```
+```text
 partera/
 ├── _base.md                    # Capa 1: base universal
+├── almas/                      # Composiciones declarativas YAML
+│   ├── _schema.yaml
+│   ├── v02/ engineering/ content/ design/ business/
 ├── disciplines/                # Capa 2+3: disciplinas y adaptadores
 │   ├── engineering/
 │   │   ├── _base.md
@@ -242,6 +276,67 @@ make validate-discipline DISC=engineering
 
 ---
 
+## Almas (composiciones declarativas)
+
+Un **alma** es un archivo YAML que captura una composición específica de capas como entidad nombrada y versionable. En lugar de recordar invocaciones complejas, defines un alma una vez y la invocas por nombre.
+
+### Uso
+
+```bash
+# Invocar un alma (siempre requiere ADAPTER)
+make alma ALMA=v02/security-deep ADAPTER=python
+./compose.sh --alma engineering/security-fintech bash
+
+# Copiar al portapapeles
+make alma-clipboard ALMA=v02/security-deep ADAPTER=python
+
+# Listar almas disponibles
+make list-almas
+
+# Validar todas las almas
+make validate-almas
+```
+
+### Almas incluidas
+
+| Alma | Disciplina | Feature destacada |
+| ---- | ---------- | ----------------- |
+| `v02/security-deep` | engineering | Technique bundle (4 técnicas de seguridad) |
+| `v02/performance-deep` | engineering | Technique bundle (3 técnicas de rendimiento) |
+| `v02/correctness-deep` | engineering | Technique bundle (3 técnicas de correctness) |
+| `engineering/security-fintech` | engineering | Herencia + modifiers + sources |
+| `engineering/implementer-claude` | engineering | Runtime + capabilities + protocol |
+| `engineering/architecture-teaching` | engineering | Protocol + audience modifier |
+| `engineering/security-deep-ollama` | engineering | Model hints + runtime vía herencia |
+| `content/copywriter-deep` | content | Inject + modifier |
+| `design/web-with-eng` | design | Knowledge packs cross-disciplina |
+| `business/presales-research` | business | Capabilities + sources |
+
+### Crear un alma nueva
+
+Crea un archivo con extensión `.alma.yaml` en `almas/<disciplina>/` (ej. `almas/engineering/mi-auditoria.alma.yaml`):
+
+```yaml
+id: alma.engineering.mi-alma
+type: alma
+name: "Mi Alma Personalizada"
+version: 1.0.0
+description: "Descripción de lo que hace"
+tags: [engineering, audit]
+
+compose:
+  discipline: engineering
+  role: audit/01_security/_index
+  techniques:
+    - security/injection-analysis
+  modifiers:
+    - depth/deep
+```
+
+Ver `almas/_schema.yaml` para el esquema completo.
+
+---
+
 ## Chains (workflows complejos)
 
 Las chains encadenan múltiples roles en un workflow declarativo:
@@ -267,7 +362,7 @@ Ver `chains/*.chain` para definiciones completas.
 ## Comparación con otros sistemas
 
 | Aspecto | Este sistema | Fabric | CrewAI | LangChain |
-|---------|-------------|--------|--------|-----------|
+| ------- | ------------ | ------ | ------ | ---------- |
 | Estructura | 11 capas composables | Biblioteca plana | Agentes con roles | Chains de código |
 | Disciplinas | 5 (expandible) | Principalmente ingeniería | Sin disciplinas | Sin disciplinas |
 | Metadata | YAML front-matter | Sin metadata | Código Python | Sin metadata |
@@ -286,7 +381,7 @@ Ver [`docs/architecture.md`](docs/architecture.md) para análisis profundo.
 El directorio `meta/` contiene prompts para extender el propio sistema:
 
 | Meta-prompt | Uso |
-|-------------|-----|
+| ----------- | --- |
 | `meta/generate_role.md` | Crear un nuevo rol en cualquier disciplina |
 | `meta/generate_adapter.md` | Crear un adaptador para cualquier disciplina |
 | `meta/generate_discipline.md` | Crear una nueva disciplina completa |
@@ -350,19 +445,32 @@ prompt = open("output.txt").read()
 ## Roadmap
 
 ### Próximas disciplinas
+
 - `data` — análisis de datos, BI, visualización (DTAN, VISL, BUAN)
 - `ai` — ingeniería de ML, LLMops, evaluación de modelos (MLNG, AISF)
 
 ### Próximos adaptadores
+
 - Engineering: `typescript`, `go`, `rust`
 - Content: `social-media`, `email`
 - Design: `print`, `brand`
 
 ### Próximas técnicas
+
 - `stakeholder-mapping`, `gap-analysis`, `user-story-mapping`
 
 ### Próximas chains
+
 - `code-review-pr`, `content-audit-and-improve`, `design-critique`
+
+---
+
+## Si algo falla
+
+- **"Error: DISC requerido" / "ADAPTER requerido" / "ROLE requerido"**: La composición básica exige `DISC`, `ADAPTER` y `ROLE`. Con almas, solo hace falta `ALMA` y `ADAPTER`. Ver [migration-guide.md](docs/migration-guide.md) si vienes de una versión antigua.
+- **Rol o adaptador no encontrado**: Comprueba que el path del rol sea relativo a `disciplines/<disc>/roles/` (ej. `audit/01_security/_index`) y que el adaptador exista en `disciplines/<disc>/adapters/<adapter>.md`. Usa `make list-roles DISC=engineering` y `make list-adapters DISC=engineering`.
+- **Alma no encontrada**: El nombre del alma es la ruta relativa a `almas/` sin extensión (ej. `v02/security-deep`, `engineering/security-fintech`). Lista almas con `make list-almas`.
+- **Validación**: Ejecuta `make validate` para comprobar front-matter, referencias y disciplinas; `make validate-almas` para validar solo las almas (requiere `yq`).
 
 ---
 

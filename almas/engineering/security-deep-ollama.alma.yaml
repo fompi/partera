@@ -1,0 +1,21 @@
+id: alma.engineering.security-deep-ollama
+type: alma
+name: "Auditoría de Seguridad — Ollama Local"
+version: 1.0.0
+description: "Auditoría de seguridad profunda ejecutada con modelo local vía Ollama"
+tags: [security, audit, deep, ollama, local]
+
+extends: v02/security-deep
+
+compose:
+  techniques:
+    - security/injection-analysis
+    - security/auth-access-control
+    - security/secrets-crypto
+    - security/supply-chain
+  runtime: ollama
+
+model:
+  suggested: qwen2.5-coder:32b
+  temperature: 0.2
+  max_tokens: 8192

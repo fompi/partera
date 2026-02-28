@@ -1,0 +1,21 @@
+id: alma.content.copywriter-deep
+type: alma
+name: "Copywriter — Análisis Profundo SEO"
+version: 1.0.0
+description: "Copywriter con análisis profundo e inyección de contexto SEO"
+tags: [copywriter, content, deep, seo, inject]
+
+compose:
+  discipline: content
+  role: generate/03_copywriter/_index
+  modifiers:
+    - depth/deep
+
+inject:
+  before_role: |
+    ## Contexto SEO
+    El contenido debe optimizarse para buscadores. Prioriza:
+    - Densidad natural de keywords (no keyword stuffing)
+    - Estructura H1 > H2 > H3 semánticamente coherente
+    - Meta descriptions bajo 160 caracteres
+    - URLs amigables y descriptivas

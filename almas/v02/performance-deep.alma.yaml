@@ -1,0 +1,14 @@
+id: alma.v02.performance-deep
+type: alma
+name: "Auditoría de Rendimiento — Deep"
+version: 1.0.0
+description: "Réplica v0.2.0: auditoría de rendimiento con las 3 técnicas del bundle original"
+tags: [performance, audit, deep, v02]
+
+compose:
+  discipline: engineering
+  role: audit/02_performance/_index
+  techniques:
+    - performance/algorithmic-complexity
+    - performance/io-network-concurrency
+    - performance/memory-resources

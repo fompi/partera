@@ -112,6 +112,32 @@ list-protocols: ## Lista protocolos disponibles
 list-capabilities: ## Lista capabilities disponibles
 	@$(PROMPTS_DIR)scripts/list_by_type.sh capabilities
 
+# --- Almas (composiciones declarativas YAML) ---------------------------------
+
+ALMA ?=
+
+.PHONY: alma
+alma: ## Compone un alma (ALMA=<nombre> ADAPTER=<adaptador>)
+	@test -n "$(ALMA)" || { echo "Error: ALMA requerido (v02/security-deep, engineering/security-fintech, ...)"; exit 1; }
+	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido (python, bash, ...)"; exit 1; }
+	@$(PROMPTS_DIR)compose.sh --alma "$(ALMA)" "$(ADAPTER)"
+
+.PHONY: alma-clipboard
+alma-clipboard: ## Compone un alma y copia al portapapeles
+	@test -n "$(ALMA)" || { echo "Error: ALMA requerido"; exit 1; }
+	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido"; exit 1; }
+	@$(PROMPTS_DIR)compose.sh --alma "$(ALMA)" "$(ADAPTER)" --clipboard
+
+.PHONY: list-almas
+list-almas: ## Lista almas disponibles
+	@$(PROMPTS_DIR)scripts/list_almas.sh
+
+.PHONY: validate-almas
+validate-almas: ## Valida todas las almas
+	@$(PROMPTS_DIR)scripts/validate_almas.sh
+
+# --- Chains -------------------------------------------------------------------
+
 CHAIN ?=
 
 .PHONY: chain

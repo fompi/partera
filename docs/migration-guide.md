@@ -1,6 +1,6 @@
-# Historial de Migraciones
+# Historial de migraciones
 
-Este documento recoge cambios arquitectónicos relevantes del sistema.
+**Propósito**: Registrar cambios que afectan a la **sintaxis de uso** o al comportamiento esperado del sistema (p. ej. eliminación de modos legacy, cambios en variables de entorno). Consulta este documento si un comando que antes funcionaba deja de hacerlo o si actualizas desde una versión antigua.
 
 ## Eliminación del modo legacy (feb 2026)
 
@@ -11,8 +11,10 @@ Se eliminó el modo legacy (v1) que permitía sintaxis antigua (`LANG=`, roles p
 - **ROLE**: rol con path completo (audit/01_security/_index, generate/02_implementer/_index, ...)
 
 ```bash
-# Sintaxis actual
+# Sintaxis actual (obligatoria desde feb 2026)
 make compose DISC=engineering ADAPTER=python ROLE=audit/01_security/_index
 ```
 
-Ver [`docs/architecture.md`](architecture.md) para el diseño del sistema.
+**Comprobar que usas la sintaxis actual**: si `make compose` sin `DISC`, `ADAPTER` y `ROLE` falla con "DISC requerido" (o similar), estás usando la sintaxis correcta. El sistema ya no acepta `LANG=` ni rutas de rol planas.
+
+Ver [architecture.md](architecture.md) para el diseño del sistema.

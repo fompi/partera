@@ -1,6 +1,8 @@
-# SFIA 9 Mapping
+# Mapeo SFIA 9
 
-El framework [SFIA 9](https://sfia-online.org/en/sfia-9) (Skills Framework for the Information Age) define competencias profesionales del sector tecnológico y digital en 7 categorías. Este documento mapea las piezas del sistema a los skills SFIA más relevantes.
+**Propósito**: Trazabilidad entre las piezas del sistema (roles, técnicas, adaptadores) y el [SFIA 9](https://sfia-online.org/en/sfia-9) (Skills Framework for the Information Age). Sirve para alinear competencias profesionales, identificar gaps de cobertura y comunicar qué skills se ejercitan con cada composición.
+
+El framework SFIA define competencias del sector tecnológico y digital en 7 categorías. Este documento mapea las piezas del sistema a los skills SFIA más relevantes.
 
 ---
 
@@ -11,7 +13,7 @@ El framework [SFIA 9](https://sfia-online.org/en/sfia-9) (Skills Framework for t
 Disciplinas principales: **business**, **management**
 
 | Skill SFIA | Código | Piezas del sistema |
-|-----------|--------|-------------------|
+| ---------- | ------ | ------------------ |
 | IT Strategy and Planning | ITSP | business/plan/00_presales |
 | Solution Architecture | ARCH | engineering/roles/audit/03_architecture |
 | Business Analysis | BUAN | business/adapters/saas, business/adapters/ecommerce |
@@ -22,7 +24,7 @@ Disciplinas principales: **business**, **management**
 Disciplinas principales: **engineering**, **design**
 
 | Skill SFIA | Código | Piezas del sistema |
-|-----------|--------|-------------------|
+| ---------- | ------ | ------------------ |
 | Programming/Software Development | PROG | engineering/roles/generate/02_implementer |
 | Software Design | SWDN | engineering/roles/generate/00_spec-writer |
 | Testing | TEST | engineering/roles/generate/03_reviewer, techniques/correctness/* |
@@ -36,7 +38,7 @@ Disciplinas principales: **engineering**, **design**
 Disciplinas principales: **management**, **engineering** (ops)
 
 | Skill SFIA | Código | Piezas del sistema |
-|-----------|--------|-------------------|
+| ---------- | ------ | ------------------ |
 | Project Management | PRMG | management/roles/plan/00_project-manager |
 | Delivery Management | DLMG | management/roles/plan/00_project-manager |
 | Release and Deployment | RELM | engineering/roles/audit/* (parcial) |
@@ -47,7 +49,7 @@ Disciplinas principales: **management**, **engineering** (ops)
 Disciplinas: todas (cross-cutting)
 
 | Skill SFIA | Código | Piezas del sistema |
-|-----------|--------|-------------------|
+| ---------- | ------ | ------------------ |
 | Quality Assurance | QUAS | engineering/roles/audit/04_correctness |
 | Audit | AUDT | engineering/roles/audit/* |
 | Measurement | MEAS | modifiers/depth/deep, chains/full-audit |
@@ -58,7 +60,7 @@ Disciplinas: todas (cross-cutting)
 Disciplinas principales: **content**, **business**
 
 | Skill SFIA | Código | Piezas del sistema |
-|-----------|--------|-------------------|
+| ---------- | ------ | ------------------ |
 | Relationship Management | RLMT | business/roles/plan/00_presales |
 | Sales Support | SSUP | business/roles/plan/00_presales |
 | Marketing | MKTG | content/roles/generate/03_copywriter, content/adapters/marketing |
@@ -69,7 +71,7 @@ Disciplinas principales: **content**, **business**
 Disciplinas: **management** (parcial)
 
 | Skill SFIA | Código | Piezas del sistema |
-|-----------|--------|-------------------|
+| ---------- | ------ | ------------------ |
 | Learning and Development | ETDL | knowledge/* (indirecto) |
 | Performance Management | PEMT | management/roles/plan/00_project-manager (parcial) |
 
@@ -78,7 +80,7 @@ Disciplinas: **management** (parcial)
 Disciplinas: **management**, **business** (parcial)
 
 | Skill SFIA | Código | Piezas del sistema |
-|-----------|--------|-------------------|
+| ---------- | ------ | ------------------ |
 | Change Management | CHMG | management/adapters/agile, management/adapters/waterfall |
 | Business Process Improvement | BPRE | business/roles/plan/00_presales (parcial) |
 
@@ -87,7 +89,7 @@ Disciplinas: **management**, **business** (parcial)
 ## Tabla Completa: Pieza → SFIA Skills
 
 | ID de Pieza | Tipo | SFIA Skills |
-|-------------|------|-------------|
+| ----------- | ---- | ----------- |
 | engineering.audit.00_orchestrator | role | AUDT, QUAS |
 | engineering.audit.01_security | role | SCTY, HSIN, RLMT |
 | engineering.audit.02_performance | role | PROG, MEAS |
@@ -139,7 +141,7 @@ Disciplinas: **management**, **business** (parcial)
 ### Skills SFIA sin cubrir (alta prioridad)
 
 | Skill | Código | Por qué importa | Cómo cubrir |
-|-------|--------|----------------|-------------|
+| ----- | ------ | -------------- | ------------ |
 | Data Analytics | DTAN | Análisis cuantitativo de datos | Nueva disciplina `data` |
 | Data Visualisation | VISL | Representación visual de información | Nueva disciplina `data` |
 | Machine Learning | MLNG | Ingeniería de modelos ML | Nueva disciplina `ai` |
@@ -151,7 +153,7 @@ Disciplinas: **management**, **business** (parcial)
 ### Skills SFIA sin cubrir (media prioridad)
 
 | Skill | Código | Por qué importa |
-|-------|--------|----------------|
+| ----- | ------ | --------------- |
 | Enterprise and Business Architecture | STPL | Arquitectura empresarial |
 | Accessibility | ACCS | Accesibilidad digital (WCAG) |
 | Internationalisation | LAIN | i18n/l10n |
@@ -163,7 +165,7 @@ Disciplinas: **management**, **business** (parcial)
 ## Cobertura por Categoría SFIA
 
 | Categoría SFIA | Cobertura | Notas |
-|---------------|-----------|-------|
+| -------------- | --------- | ----- |
 | Strategy and Architecture | ⚠️ Parcial | Falta arquitectura empresarial, governance |
 | Solution Development | ✅ Buena | Engineering y design bien cubiertos |
 | Delivery and Operation | ⚠️ Parcial | Falta ops, ITAM, release management |
@@ -181,7 +183,7 @@ Disciplinas: **management**, **business** (parcial)
 El framework O*NET (Occupational Information Network) define actividades de trabajo por ocupación. Correspondencia aproximada:
 
 | Categoría O*NET | Elemento del sistema |
-|----------------|---------------------|
+| --------------- | -------------------- |
 | Information Input | capabilities/, sources/ |
 | Mental Processes | patterns/, techniques/ |
 | Work Output | role (verb: generate, create) |

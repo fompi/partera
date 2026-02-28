@@ -1,0 +1,15 @@
+id: alma.v02.security-deep
+type: alma
+name: "Auditoría de Seguridad — Deep"
+version: 1.0.0
+description: "Réplica v0.2.0: auditoría de seguridad con las 4 técnicas del bundle original"
+tags: [security, audit, deep, v02]
+
+compose:
+  discipline: engineering
+  role: audit/01_security/_index
+  techniques:
+    - security/injection-analysis
+    - security/auth-access-control
+    - security/secrets-crypto
+    - security/supply-chain

@@ -1,0 +1,128 @@
+# JSON Schema para archivos .alma.yaml
+# Validar con: yq '.' < alma.yaml (sintaxis) o scripts/validate_almas.sh (semántica)
+$schema: "http://json-schema.org/draft-07/schema#"
+title: "Partera Alma"
+description: "Composición declarativa de capas del sistema de prompts modulares"
+type: object
+
+required:
+  - id
+  - type
+  - name
+  - version
+  - description
+  - compose
+
+properties:
+  id:
+    type: string
+    pattern: "^alma\\."
+    description: "Identificador único. Formato: alma.<directorio>.<nombre>"
+
+  type:
+    type: string
+    enum: [alma]
+
+  name:
+    type: string
+    description: "Nombre legible del alma"
+
+  version:
+    type: string
+    pattern: "^\\d+\\.\\d+\\.\\d+$"
+
+  description:
+    type: string
+
+  tags:
+    type: array
+    items:
+      type: string
+
+  extends:
+    type: string
+    description: "Ruta relativa a almas/ de otra alma de la que heredar (sin .alma.yaml)"
+
+  compose:
+    type: object
+    required:
+      - discipline
+      - role
+    properties:
+      discipline:
+        type: string
+        description: "Disciplina (engineering, content, design, business, management)"
+
+      role:
+        type: string
+        description: "Ruta del rol relativa a disciplines/<disc>/roles/ (ej: audit/01_security/_index)"
+
+      knowledge:
+        type: array
+        items:
+          type: string
+        description: "Knowledge packs (rutas relativas a knowledge/)"
+
+      techniques:
+        type: array
+        items:
+          type: string
+        description: "Técnicas (rutas relativas a techniques/)"
+
+      modifiers:
+        type: array
+        items:
+          type: string
+        description: "Modificadores (rutas relativas a modifiers/)"
+
+      sources:
+        type: array
+        items:
+          type: string
+        description: "Restricciones de fuentes (rutas relativas a sources/)"
+
+      protocols:
+        type: array
+        items:
+          type: string
+        description: "Protocolos de ejecución (rutas relativas a protocols/)"
+
+      capabilities:
+        type: array
+        items:
+          type: string
+        description: "Capacidades del LLM (rutas relativas a capabilities/)"
+
+      runtime:
+        type: string
+        description: "Runtime (ruta relativa a runtimes/, sin extensión)"
+
+    additionalProperties: false
+
+  inject:
+    type: object
+    properties:
+      before_role:
+        type: string
+        description: "Markdown inyectado antes del rol"
+      after_role:
+        type: string
+        description: "Markdown inyectado después del rol"
+    additionalProperties: false
+
+  model:
+    type: object
+    properties:
+      suggested:
+        type: string
+        description: "Modelo sugerido (hint, no fuerza)"
+      temperature:
+        type: number
+        minimum: 0
+        maximum: 2
+      max_tokens:
+        type: integer
+        minimum: 1
+    additionalProperties: false
+
+additionalProperties: false

@@ -1,0 +1,15 @@
+id: alma.engineering.implementer-claude
+type: alma
+name: "Implementador Autónomo — Claude"
+version: 1.0.0
+description: "Implementador de código con ejecución autónoma, optimizado para Claude"
+tags: [implementer, generate, autonomous, claude]
+
+compose:
+  discipline: engineering
+  role: generate/02_implementer/_index
+  protocols:
+    - autonomous
+  capabilities:
+    - code-execution
+  runtime: claude

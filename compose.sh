@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # compose.sh — Compone un prompt concatenando piezas del sistema modular
-# Requiere DISC (disciplina). Uso: DISC=<disc> ./compose.sh <adapter> <rol>
+# Uso: DISC=<disc> ./compose.sh <adapter> <rol>
+#      ./compose.sh --alma <alma> <adapter> [--clipboard]
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -13,6 +14,10 @@ Compone un prompt concatenando: base + disciplina + adaptador + rol [+ extension
   DISC=<disciplina> EXT="<ext1> <ext2>" ./compose.sh <adapter> <rol>
   DISC=<disciplina> RUNTIME=<runtime> ./compose.sh <adapter> <rol>
 
+  Almas (composiciones declarativas):
+    ./compose.sh --alma v02/security-deep python
+    ./compose.sh --alma engineering/security-fintech bash --clipboard
+
   Ejemplos:
     DISC=engineering ./compose.sh python audit/01_security/_index
     DISC=engineering EXT="techniques/security/injection-analysis" ./compose.sh python audit/01_security/_index
@@ -23,6 +28,7 @@ Compone un prompt concatenando: base + disciplina + adaptador + rol [+ extension
     ./compose.sh --meta improve_prompt [--clipboard]
 
 Flags:
+  --alma <name>     Usa un alma (composición declarativa YAML) en vez de DISC+ROLE
   --clipboard       Copia al portapapeles en vez de imprimir a stdout
   --runtime <name>  Añade instrucciones del runtime
                     Runtimes: claude|openai|gemini|ollama|crewai|langchain|autogen
@@ -59,22 +65,53 @@ get_frontmatter_field() {
 # --- Detectar flags globales ---
 CLIPBOARD=""
 RUNTIME="${RUNTIME:-}"
+ALMA_NAME=""
+INJECT_BEFORE="${INJECT_BEFORE:-}"
+INJECT_AFTER="${INJECT_AFTER:-}"
 NEW_ARGS=()
 _next_is_runtime=0
+_next_is_alma=0
 for arg in "$@"; do
   if [[ $_next_is_runtime -eq 1 ]]; then
     RUNTIME="$arg"
     _next_is_runtime=0
     continue
   fi
+  if [[ $_next_is_alma -eq 1 ]]; then
+    ALMA_NAME="$arg"
+    _next_is_alma=0
+    continue
+  fi
   case "$arg" in
     --clipboard) CLIPBOARD="--clipboard" ;;
     --runtime)   _next_is_runtime=1 ;;
     --runtime=*) RUNTIME="${arg#--runtime=}" ;;
+    --alma)      _next_is_alma=1 ;;
+    --alma=*)    ALMA_NAME="${arg#--alma=}" ;;
     *)           NEW_ARGS+=("$arg") ;;
   esac
 done
 set -- "${NEW_ARGS[@]:-}"
+
+# --- Resolver alma si se proporcionó ---
+if [[ -n "$ALMA_NAME" ]]; then
+  if [[ $# -lt 1 ]]; then
+    echo "Error: adapter requerido después de --alma. Ej: ./compose.sh --alma v02/security-deep python" >&2
+    usage
+  fi
+
+  RESOLVE_SCRIPT="$SCRIPT_DIR/scripts/resolve_alma.sh"
+  if [[ ! -x "$RESOLVE_SCRIPT" ]]; then
+    echo "Error: scripts/resolve_alma.sh no encontrado o no ejecutable" >&2
+    exit 1
+  fi
+
+  eval "$("$RESOLVE_SCRIPT" "$ALMA_NAME")"
+
+  ADAPTER="$1"
+  shift
+  # DISC, ROLE, EXT, RUNTIME, INJECT_BEFORE, INJECT_AFTER ya están en el entorno
+fi
 
 # --- Meta-prompts (invariante de modo) ---
 if [[ "${1:-}" == "--meta" ]]; then
@@ -102,10 +139,12 @@ if [[ "${1:-}" == "--meta" ]]; then
   exit 0
 fi
 
-[[ $# -lt 2 ]] && usage
-
-ADAPTER="$1"
-ROLE="$2"
+# Si --alma ya resolvió ADAPTER y ROLE, saltar asignación manual
+if [[ -z "$ALMA_NAME" ]]; then
+  [[ $# -lt 2 ]] && usage
+  ADAPTER="$1"
+  ROLE="$2"
+fi
 
 # --- Validar DISC ---
 DISC="${DISC:-}"
@@ -227,29 +266,37 @@ fi
   fi
   printf '\n---\n\n'
   cat "$adapter_file"
-  for ext_file in ${knowledge_files[@]+"${knowledge_files[@]}"}; do
+  for ext_file in "${knowledge_files[@]+"${knowledge_files[@]}"}"; do
     printf '\n---\n\n'
     cat "$ext_file"
   done
+  if [[ -n "${INJECT_BEFORE:-}" ]]; then
+    printf '\n---\n\n'
+    printf '%s\n' "$INJECT_BEFORE"
+  fi
   printf '\n---\n\n'
   cat "$role_file"
-  for ext_file in ${technique_files[@]+"${technique_files[@]}"}; do
+  if [[ -n "${INJECT_AFTER:-}" ]]; then
+    printf '\n---\n\n'
+    printf '%s\n' "$INJECT_AFTER"
+  fi
+  for ext_file in "${technique_files[@]+"${technique_files[@]}"}"; do
     printf '\n---\n\n'
     cat "$ext_file"
   done
-  for ext_file in ${modifier_files[@]+"${modifier_files[@]}"}; do
+  for ext_file in "${modifier_files[@]+"${modifier_files[@]}"}"; do
     printf '\n---\n\n'
     cat "$ext_file"
   done
-  for ext_file in ${source_files[@]+"${source_files[@]}"}; do
+  for ext_file in "${source_files[@]+"${source_files[@]}"}"; do
     printf '\n---\n\n'
     cat "$ext_file"
   done
-  for ext_file in ${protocol_files[@]+"${protocol_files[@]}"}; do
+  for ext_file in "${protocol_files[@]+"${protocol_files[@]}"}"; do
     printf '\n---\n\n'
     cat "$ext_file"
   done
-  for ext_file in ${capability_files[@]+"${capability_files[@]}"}; do
+  for ext_file in "${capability_files[@]+"${capability_files[@]}"}"; do
     printf '\n---\n\n'
     cat "$ext_file"
   done

@@ -11,6 +11,24 @@ estimated_tokens: 800
 migrated_from: "_base_audit.md (sección universal)"
 ---
 
+## Tipos de entidad del sistema
+
+Este sistema reconoce los siguientes tipos de entidad (campo `type` en front-matter o YAML):
+
+- **base**: contrato universal
+- **discipline_base**: base de disciplina
+- **adapter**: adaptador de contexto (lenguaje, plataforma)
+- **role**: rol funcional (la instrucción activa)
+- **technique**: técnica reutilizable cross-disciplinar
+- **modifier**: modificador de output (audiencia, profundidad, industria)
+- **source**: restricción de fuentes
+- **protocol**: protocolo de ejecución
+- **capability**: capacidad del LLM
+- **runtime**: adaptación de runtime/framework
+- **knowledge**: knowledge pack cross-disciplinar
+- **chain**: workflow multi-paso declarativo
+- **alma**: composición declarativa YAML (campos requeridos: `id`, `type: alma`, `name`, `version`, `description`, `compose.discipline`, `compose.role`)
+
 ## Idioma
 
 Responde en el idioma en que está escrito este prompt.

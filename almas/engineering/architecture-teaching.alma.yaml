@@ -1,0 +1,14 @@
+id: alma.engineering.architecture-teaching
+type: alma
+name: "Auditoría de Arquitectura — Pedagógica"
+version: 1.0.0
+description: "Auditoría de arquitectura en modo pedagógico para desarrolladores junior"
+tags: [architecture, audit, teaching, junior]
+
+compose:
+  discipline: engineering
+  role: audit/03_architecture/_index
+  protocols:
+    - teaching
+  modifiers:
+    - audience/junior

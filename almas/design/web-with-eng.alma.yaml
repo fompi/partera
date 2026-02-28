@@ -1,0 +1,13 @@
+id: alma.design.web-with-eng
+type: alma
+name: "Diseñador Web — Con Conocimiento de Ingeniería"
+version: 1.0.0
+description: "Diseñador web enriquecido con knowledge packs de ingeniería y seguridad"
+tags: [design, web, cross-disciplinary, knowledge]
+
+compose:
+  discipline: design
+  role: create/00_web-designer/_index
+  knowledge:
+    - engineering-basics
+    - security-awareness

@@ -85,7 +85,27 @@ else
   warn "validate_all_disciplines.sh no encontrado o no ejecutable"
 fi
 
-# ─── Paso 4: Archivos requeridos ─────────────────────────────────────────────
+# ─── Paso 4: Almas ───────────────────────────────────────────────────────────
+
+section "Validando Almas"
+
+if [[ -d "$ROOT_DIR/almas" ]]; then
+  if [[ -x "$SCRIPT_DIR/validate_almas.sh" ]]; then
+    if "$SCRIPT_DIR/validate_almas.sh" > /tmp/almas-output.txt 2>&1; then
+      ALMA_COUNT=$(find "$ROOT_DIR/almas" -name "*.alma.yaml" 2>/dev/null | wc -l | tr -d ' ')
+      ok "Almas válidas ($ALMA_COUNT almas)"
+    else
+      warn "Algunas almas tienen errores (ver /tmp/almas-output.txt)"
+      [[ "$QUIET" == false ]] && cat /tmp/almas-output.txt | head -20
+    fi
+  else
+    warn "validate_almas.sh no encontrado o no ejecutable"
+  fi
+else
+  info "No hay directorio almas/ — omitiendo validación de almas"
+fi
+
+# ─── Paso 5: Archivos requeridos ──────────────────────────────────────────────
 
 section "Verificando Archivos Requeridos"
 
@@ -146,7 +166,7 @@ for df in "${DOCS_FILES[@]}"; do
   fi
 done
 
-# ─── Paso 5: Inventario del sistema ──────────────────────────────────────────
+# ─── Paso 6: Inventario del sistema ──────────────────────────────────────────
 
 section "Inventario del Sistema"
 
@@ -166,6 +186,7 @@ MODIFIER_COUNT=$(find "$ROOT_DIR/modifiers" -name "*.md" 2>/dev/null | wc -l | t
 CHAIN_COUNT=$(find "$ROOT_DIR/chains" -name "*.chain" 2>/dev/null | wc -l | tr -d ' ')
 RUNTIME_COUNT=$(find "$ROOT_DIR/runtimes" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
 PATTERN_COUNT=$(find "$ROOT_DIR/patterns" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+ALMA_COUNT=$(find "$ROOT_DIR/almas" -name "*.alma.yaml" 2>/dev/null | wc -l | tr -d ' ')
 
 info "Roles:        $ROLE_COUNT"
 info "Técnicas:     $TECHNIQUE_COUNT"
@@ -175,13 +196,14 @@ info "Modifiers:    $MODIFIER_COUNT"
 info "Chains:       $CHAIN_COUNT"
 info "Runtimes:     $RUNTIME_COUNT"
 info "Patterns:     $PATTERN_COUNT"
+info "Almas:        $ALMA_COUNT"
 
 # Verificar mínimos razonables
 [[ "$ROLE_COUNT" -ge 5 ]]      && ok "Roles: suficientes ($ROLE_COUNT)" || warn "Pocos roles ($ROLE_COUNT)"
 [[ "$TECHNIQUE_COUNT" -ge 5 ]] && ok "Técnicas: suficientes ($TECHNIQUE_COUNT)" || warn "Pocas técnicas ($TECHNIQUE_COUNT)"
 [[ "$ADAPTER_COUNT" -ge 2 ]]   && ok "Adaptadores: suficientes ($ADAPTER_COUNT)" || warn "Pocos adaptadores ($ADAPTER_COUNT)"
 
-# ─── Paso 6: Validación de IDs únicos ────────────────────────────────────────
+# ─── Paso 7: Validación de IDs únicos ────────────────────────────────────────
 
 section "Validando Unicidad de IDs"
 
@@ -237,6 +259,7 @@ if [[ "$REPORT" == true ]]; then
     echo "- Chains: $CHAIN_COUNT"
     echo "- Runtimes: $RUNTIME_COUNT"
     echo "- Patterns: $PATTERN_COUNT"
+    echo "- Almas: $ALMA_COUNT"
   } > "$REPORT_FILE"
   info "Reporte guardado en $REPORT_FILE"
 fi

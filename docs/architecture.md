@@ -1,10 +1,16 @@
 # Arquitectura del Sistema Universal de Prompts Modulares
 
-## Visión General
+**Objetivo de este documento**: Explicar cómo está construido el sistema (las 11 capas, el orden de composición, las almas y las decisiones de diseño) para que puedas usarlo con criterio, extenderlo o integrarlo en otro flujo.
 
-Este sistema implementa un enfoque de **composición modular** para prompts de IA: en lugar de un único megaprompt monolítico, cada prompt se construye concatenando capas especializadas. Cada capa aporta un tipo específico de contexto, sin duplicar el de las demás.
+**Para quién**: Mantenedores del repo, contribuidores que añaden roles o disciplinas, y cualquiera que quiera entender el “por qué” de las convenciones (front-matter, nombres de directorios, separación base/disciplina/adaptador/rol).
 
-El resultado es un sistema donde se pueden expresar instrucciones complejas y especializadas con muy poco esfuerzo de composición, y donde cada pieza puede mantenerse, mejorarse y reutilizarse de forma independiente.
+---
+
+## Visión general
+
+Este sistema implementa un enfoque de **composición modular** para prompts de IA: en lugar de un único megaprompt monolítico, cada prompt se construye concatenando **capas** especializadas. Cada capa aporta un tipo específico de contexto y no duplica el de las demás.
+
+Consecuencias: se pueden expresar instrucciones complejas y especializadas con poco esfuerzo de composición, y cada pieza se mantiene, mejora y reutiliza de forma independiente.
 
 ---
 
@@ -107,13 +113,97 @@ Adapta el prompt al runtime o framework específico: formato de system message p
 
 ## Orden de Composición
 
-```
+```text
 base → discipline_base → adapter → [knowledge] → role
      → [techniques] → [modifiers] → [sources]
      → [protocols] → [capabilities] → [runtime]
 ```
 
-El orden importa: las capas anteriores establecen el contexto en el que las posteriores operan. El rol (capa 5) puede asumir que ya existe un contrato universal (capa 1), los principios de la disciplina (capa 2) y las convenciones del adaptador (capa 3).
+El orden importa: las capas anteriores establecen el contexto en el que las posteriores operan. El **rol** (capa 5) puede asumir que ya existen el contrato universal (capa 1), los principios de la disciplina (capa 2) y las convenciones del adaptador (capa 3). Las rutas de las piezas (knowledge, techniques, modifiers, etc.) son siempre relativas a la raíz del repositorio.
+
+---
+
+## Almas: Composiciones Declarativas
+
+### Concepto
+
+Un **alma** es una composición declarativa en YAML que nombra, versiona y reutiliza una combinación específica de las 11 capas. En lugar de recordar invocaciones imperativas complejas, se define un archivo `.alma.yaml` que captura la intención completa.
+
+### Decisión clave: adaptador externo
+
+El **adaptador no forma parte del alma**. Un alma define *qué* hacer (p. ej. auditar seguridad con técnicas profundas), no *en qué* contexto (lenguaje, plataforma). El adaptador se indica al invocar:
+
+```bash
+./compose.sh --alma v02/security-deep python
+./compose.sh --alma engineering/security-fintech bash
+make alma ALMA=v02/security-deep ADAPTER=python
+```
+
+### Estructura
+
+```text
+almas/
+  _schema.yaml              # JSON Schema del formato alma
+  v02/                      # Réplicas v0.2.0 (technique bundles)
+    security-deep.alma.yaml
+    performance-deep.alma.yaml
+    correctness-deep.alma.yaml
+  engineering/               # Disciplina: Engineering
+    security-fintech.alma.yaml
+    implementer-claude.alma.yaml
+    architecture-teaching.alma.yaml
+    security-deep-ollama.alma.yaml
+  content/                   # Disciplina: Content
+    copywriter-deep.alma.yaml
+  design/                    # Disciplina: Design
+    web-with-eng.alma.yaml
+  business/                  # Disciplina: Business
+    presales-research.alma.yaml
+```
+
+### Herencia
+
+Las almas pueden heredar de otras con `extends`. Se aplica un merge shallow: las listas se reemplazan (no se concatenan) y los escalares se sobreescriben.
+
+```yaml
+# almas/engineering/security-fintech.alma.yaml
+extends: v02/security-deep
+compose:
+  techniques:          # Se repiten para no perderlas (shallow merge)
+    - security/injection-analysis
+    - security/auth-access-control
+    - security/secrets-crypto
+    - security/supply-chain
+  modifiers:
+    - depth/deep
+    - industry/fintech
+```
+
+### Inyección de contexto
+
+El campo `inject` permite inyectar Markdown antes o después del rol sin modificar el alma base:
+
+```yaml
+inject:
+  before_role: |
+    ## Contexto SEO
+    Optimizar para buscadores...
+```
+
+### Model hints
+
+Sugerencias opcionales de modelo, temperatura y tokens. No fuerzan: el runtime decide.
+
+```yaml
+model:
+  suggested: qwen2.5-coder:32b
+  temperature: 0.2
+  max_tokens: 8192
+```
+
+### Dependencia
+
+Las almas requieren `yq` para parsear YAML en bash. El sistema funciona sin almas si `yq` no está instalado.
 
 ---
 
@@ -153,12 +243,14 @@ Las técnicas en `techniques/` son ciudadanos de primera clase: tienen su propio
 ## Patrones de Composición
 
 ### Composición mínima (auditoría rápida)
-```
+
+```text
 base + engineering._base + python + security_role
 ```
 
 ### Composición completa (análisis profundo)
-```
+
+```text
 base + engineering._base + python + security-awareness
     + security_role + injection-analysis + secrets-crypto
     + modifier/deep + source/official-docs-only
@@ -167,7 +259,8 @@ base + engineering._base + python + security-awareness
 ```
 
 ### Composición cross-disciplinar (diseñador con conocimiento técnico)
-```
+
+```text
 base + design._base + web + knowledge/engineering-basics
     + web-designer_role + knowledge/security-awareness
 ```
@@ -183,7 +276,7 @@ Ver [`docs/sfia-mapping.md`](sfia-mapping.md) para el mapeo completo.
 ### Correspondencia conceptual
 
 | Elemento SFIA | Elemento del sistema |
-|---------------|---------------------|
+| ------------- | ------------------- |
 | Categoría (ej. Solution Development) | Disciplina (engineering) |
 | Subcategoría (ej. Programming/software dev) | Task type (generate) |
 | Skill (ej. PROG) | Rol específico + técnicas |
@@ -198,7 +291,7 @@ Ver [`docs/sfia-mapping.md`](sfia-mapping.md) para el mapeo completo.
 [Fabric](https://github.com/danielmiessler/fabric) es una biblioteca de prompts plana enfocada en ingeniería.
 
 | Aspecto | Este sistema | Fabric |
-|---------|-------------|--------|
+| ------- | ------------ | ------ |
 | Estructura | 11 capas composables | Biblioteca plana |
 | Cross-disciplinar | Sí (5 disciplinas) | No (principalmente ingeniería) |
 | Metadata | YAML front-matter validado | Sin metadata |
@@ -211,7 +304,7 @@ Ver [`docs/sfia-mapping.md`](sfia-mapping.md) para el mapeo completo.
 [CrewAI](https://github.com/joaomdmoura/crewAI) es un framework de agentes multi-role.
 
 | Aspecto | Este sistema | CrewAI |
-|---------|-------------|--------|
+| ------- | ------------ | ------ |
 | Naturaleza | Sistema de prompts | Framework de ejecución |
 | Runtime | Cualquiera | Propio (Python) |
 | Composición | Texto plano | Código Python |
@@ -225,7 +318,7 @@ Este sistema puede **generar definiciones CrewAI** via `make generate-crewai`.
 [LangChain](https://github.com/langchain-ai/langchain) es un framework para construir aplicaciones LLM.
 
 | Aspecto | Este sistema | LangChain |
-|---------|-------------|-----------|
+| ------- | ------------ | ---------- |
 | Naturaleza | Sistema de prompts | Framework de código |
 | Prompt templates | Markdown plano | Python/LCEL |
 | Chains | YAML declarativas | Código Python |
@@ -236,7 +329,7 @@ Este sistema puede **generar definiciones CrewAI** via `make generate-crewai`.
 [MetaGPT](https://github.com/geekan/MetaGPT) asigna roles de una empresa de software a LLMs.
 
 | Aspecto | Este sistema | MetaGPT |
-|---------|-------------|---------|
+| ------- | ------------ | -------- |
 | Scope | 5 disciplinas profesionales | Empresa de software |
 | Roles | Configurables | Fijos (PM, Engineer, QA...) |
 | Cross-disciplinar | Sí | No |
@@ -281,3 +374,13 @@ cat meta/_base_meta.md meta/generate_discipline.md > /tmp/meta-discipline.txt
 # Evaluar cobertura del sistema
 cat meta/_base_meta.md meta/evaluate_coverage.md > /tmp/meta-coverage.txt
 ```
+
+---
+
+## Documentación relacionada
+
+- [README principal](../README.md): inicio rápido, ejemplos y cheat sheet.
+- [docs/README.md](README.md): índice de la documentación técnica.
+- [migration-guide.md](migration-guide.md): cambios que afectan a la sintaxis de uso.
+- [cross-discipline-compatibility.md](cross-discipline-compatibility.md): combinaciones válidas entre disciplinas y adaptadores.
+- [sfia-mapping.md](sfia-mapping.md): correspondencia con el framework SFIA 9.

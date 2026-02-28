@@ -1,0 +1,14 @@
+id: alma.business.presales-research
+type: alma
+name: "Presales — Investigación con Fuentes Amplias"
+version: 1.0.0
+description: "Presales con búsqueda web y fuentes ampliadas incluyendo blogs"
+tags: [presales, business, research, web-search]
+
+compose:
+  discipline: business
+  role: plan/00_presales/_index
+  capabilities:
+    - web-search
+  sources:
+    - blogs-included
