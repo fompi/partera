@@ -7,3 +7,4 @@
 
 # Migration staging
 .migration/
+.DS_Store

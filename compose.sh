@@ -227,29 +227,29 @@ fi
   fi
   printf '\n---\n\n'
   cat "$adapter_file"
-  for ext_file in "${knowledge_files[@]+"${knowledge_files[@]}"}"; do
+  for ext_file in ${knowledge_files[@]+"${knowledge_files[@]}"}; do
     printf '\n---\n\n'
     cat "$ext_file"
   done
   printf '\n---\n\n'
   cat "$role_file"
-  for ext_file in "${technique_files[@]+"${technique_files[@]}"}"; do
+  for ext_file in ${technique_files[@]+"${technique_files[@]}"}; do
     printf '\n---\n\n'
     cat "$ext_file"
   done
-  for ext_file in "${modifier_files[@]+"${modifier_files[@]}"}"; do
+  for ext_file in ${modifier_files[@]+"${modifier_files[@]}"}; do
     printf '\n---\n\n'
     cat "$ext_file"
   done
-  for ext_file in "${source_files[@]+"${source_files[@]}"}"; do
+  for ext_file in ${source_files[@]+"${source_files[@]}"}; do
     printf '\n---\n\n'
     cat "$ext_file"
   done
-  for ext_file in "${protocol_files[@]+"${protocol_files[@]}"}"; do
+  for ext_file in ${protocol_files[@]+"${protocol_files[@]}"}; do
     printf '\n---\n\n'
     cat "$ext_file"
   done
-  for ext_file in "${capability_files[@]+"${capability_files[@]}"}"; do
+  for ext_file in ${capability_files[@]+"${capability_files[@]}"}; do
     printf '\n---\n\n'
     cat "$ext_file"
   done
