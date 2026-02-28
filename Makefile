@@ -1,15 +1,15 @@
 # Partera — Makefile multiplataforma
 #
 # Uso:
-#   make compose DISC=engineering ADAPTER=python ROLE=audit/01_security/_index
-#   make ollama  DISC=engineering ADAPTER=python ROLE=audit/01_security/_index CODE=~/my-project/src/
-#   make claude  DISC=engineering ADAPTER=python ROLE=audit/03_architecture/_index CODE=~/my-project/src/app.py
+#   make compose DISC=engineering ADAPTER=python ROLE=audit/0001_security/_index
+#   make ollama  DISC=engineering ADAPTER=python ROLE=audit/0001_security/_index CODE=~/my-project/src/
+#   make claude  DISC=engineering ADAPTER=python ROLE=audit/0003_architecture/_index CODE=~/my-project/src/app.py
 #   make full-audit DISC=engineering ADAPTER=python CODE=~/my-project/src/ PLATFORM=claude
 #
 # Variables:
 #   DISC      — disciplina (engineering, content, design, business, management)
 #   ADAPTER   — adaptador (python, bash, technical, marketing, web, agile, ...)
-#   ROLE      — rol (audit/01_security/_index, generate/02_implementer/_index, ...)
+#   ROLE      — rol (audit/0001_security/_index, generate/0002_implementer/_index, ...)
 #   CODE      — ruta al código/contenido a analizar
 #   PLATFORM  — plataforma para full-audit (claude, chatgpt, gemini, ollama)
 
@@ -36,7 +36,7 @@ OLLAMA_MODEL   ?= qwen2.5-coder:32b
 define check_compose
 	@test -n "$(DISC)"    || { echo "Error: DISC requerido (engineering, content, ...)"; exit 1; }
 	@test -n "$(ADAPTER)" || { echo "Error: ADAPTER requerido (python, bash, ...)"; exit 1; }
-	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido (audit/01_security/_index, ...)"; exit 1; }
+	@test -n "$(ROLE)"    || { echo "Error: ROLE requerido (audit/0001_security/_index, ...)"; exit 1; }
 endef
 
 define check_code
@@ -56,12 +56,12 @@ help: ## Muestra esta ayuda
 	@echo "Variables:"
 	@echo "  DISC=engineering       Disciplina (default: engineering)"
 	@echo "  ADAPTER=python|bash     Adaptador"
-	@echo "  ROLE=audit/01_security/_index   Rol"
+	@echo "  ROLE=audit/0001_security/_index   Rol"
 	@echo "  CODE=<ruta>            Código/contenido a analizar"
 	@echo ""
 	@echo "Ejemplos:"
-	@echo "  make compose DISC=engineering ADAPTER=python ROLE=audit/01_security/_index"
-	@echo "  make claude  DISC=engineering ADAPTER=python ROLE=audit/01_security/_index CODE=~/src/"
+	@echo "  make compose DISC=engineering ADAPTER=python ROLE=audit/0001_security/_index"
+	@echo "  make claude  DISC=engineering ADAPTER=python ROLE=audit/0001_security/_index CODE=~/src/"
 	@echo "  make full-audit DISC=engineering ADAPTER=python CODE=~/src/ PLATFORM=claude"
 
 .PHONY: compose
@@ -162,8 +162,8 @@ list-chains: ## Lista los chains disponibles
 
 # --- Runtime-aware composition (Fase 7) -----------------------------------
 #
-# Uso: make runtime-claude DISC=engineering ADAPTER=python ROLE=generate/02_implementer/_index
-#      make runtime-crewai  DISC=engineering ADAPTER=python ROLE=generate/02_implementer/_index
+# Uso: make runtime-claude DISC=engineering ADAPTER=python ROLE=generate/0002_implementer/_index
+#      make runtime-crewai  DISC=engineering ADAPTER=python ROLE=generate/0002_implementer/_index
 #
 # Diferencia con los targets claude/openai/gemini/ollama (que generan curl):
 # Estos targets componen el prompt con instrucciones del runtime incluidas.
@@ -407,8 +407,8 @@ ollama: ## Ejecuta la auditoría directamente con Ollama local
 
 # --- Auditoría completa ----------------------------------------------------
 
-QUICK_ROLES := audit/00_orchestrator/_index audit/01_security/_index audit/02_performance/_index \
-               audit/03_architecture/_index audit/04_correctness/_index audit/05_quality/_index
+QUICK_ROLES := audit/0000_orchestrator/_index audit/0001_security/_index audit/0002_performance/_index \
+               audit/0003_architecture/_index audit/0004_correctness/_index audit/0005_quality/_index
 
 .PHONY: full-audit
 full-audit: ## Ejecuta auditoría completa (6 passes). Requiere DISC, ADAPTER, PLATFORM, CODE.
@@ -466,7 +466,7 @@ list-meta: ## Lista los meta-prompts disponibles (automejora)
 	@echo "  generate_role          — Generar un nuevo rol de auditoría"
 	@echo ""
 	@echo "Uso:"
-	@echo "  make meta PROMPT=improve_prompt TARGET=01_security/_index"
+	@echo "  make meta PROMPT=improve_prompt TARGET=0001_security/_index"
 	@echo "  make meta PROMPT=evaluate_coverage"
 	@echo "  make meta-clipboard PROMPT=improve_prompt"
 

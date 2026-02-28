@@ -8,11 +8,11 @@ Se eliminó el modo legacy (v1) que permitía sintaxis antigua (`LANG=`, roles p
 
 - **DISC** (obligatorio): disciplina (engineering, content, design, business, management)
 - **ADAPTER**: adaptador (python, bash, technical, web, agile, ...)
-- **ROLE**: rol con path completo (audit/01_security/_index, generate/02_implementer/_index, ...)
+- **ROLE**: rol con path completo (audit/0001_security/_index, generate/0002_implementer/_index, ...)
 
 ```bash
 # Sintaxis actual (obligatoria desde feb 2026)
-make compose DISC=engineering ADAPTER=python ROLE=audit/01_security/_index
+make compose DISC=engineering ADAPTER=python ROLE=audit/0001_security/_index
 ```
 
 **Comprobar que usas la sintaxis actual**: si `make compose` sin `DISC`, `ADAPTER` y `ROLE` falla con "DISC requerido" (o similar), estás usando la sintaxis correcta. El sistema ya no acepta `LANG=` ni rutas de rol planas.

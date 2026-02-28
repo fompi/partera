@@ -42,8 +42,8 @@ _base.md                              →  Contrato universal (anti-alucinación
 
 **Convenciones del sistema**:
 - Cada pieza tiene front-matter YAML con `id`, `type`, `version`, `description`.
-- Los roles usan path `discipline/verb/name/_index.md` (ej. `engineering/audit/01_security/_index.md`).
-- El ID de rol en chains sigue el formato `discipline.verb.name` (ej. `engineering.audit.01_security`).
+- Los roles usan path `discipline/verb/name/_index.md` (ej. `engineering/audit/0001_security/_index.md`).
+- El ID de rol en chains sigue el formato `discipline.verb.name` (ej. `engineering.audit.0001_security`).
 - Las técnicas son cross-disciplinares y viven en `techniques/<area>/`.
 - Las chains declaran secuencias de roles en `chains/*.chain` con front-matter YAML.
 - La composición se orquesta via `compose.sh` con `EXT=` para capas opcionales.

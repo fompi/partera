@@ -7,6 +7,6 @@ tags: [content, generate, copywriter, marketing]
 
 compose:
   discipline: content
-  role: generate/03_copywriter/_index
+  role: generate/0003_copywriter/_index
   modifiers:
     - depth/deep

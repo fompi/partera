@@ -7,4 +7,4 @@ tags: [content, generate, documentation]
 
 compose:
   discipline: content
-  role: generate/01_doc-writer/_index
+  role: generate/0001_doc-writer/_index

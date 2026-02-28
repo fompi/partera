@@ -7,7 +7,7 @@ tags: [engineering, generate, review, junior, teaching]
 
 compose:
   discipline: engineering
-  role: generate/03_reviewer/_index
+  role: generate/0003_reviewer/_index
   modifiers:
     - audience/junior
   protocols:

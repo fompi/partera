@@ -7,7 +7,7 @@ tags: [copywriter, content, deep, seo, inject]
 
 compose:
   discipline: content
-  role: generate/03_copywriter/_index
+  role: generate/0003_copywriter/_index
   modifiers:
     - depth/deep
 

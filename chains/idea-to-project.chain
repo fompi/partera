@@ -7,19 +7,19 @@ description: "De idea de negocio a plan de proyecto ejecutable (cross-disciplina
 tags: [chain, cross-discipline, business, engineering, management]
 disciplines: [business, engineering, management]
 steps:
-  - role: business.plan.00_presales
+  - role: business.plan.0000_presales
     name: "Consultor de Preventa"
     input_from: user
     input_description: "idea de negocio o producto"
     output_to: next
     output_description: "business case con análisis de viabilidad comercial y ROI"
-  - role: engineering.plan.00_tech-estimator
+  - role: engineering.plan.0000_tech-estimator
     name: "Estimador Técnico"
     input_from: previous
     input_description: "business case del Paso 1"
     output_to: next
     output_description: "estimación técnica con stack, arquitectura y esfuerzo"
-  - role: management.plan.00_project-manager
+  - role: management.plan.0000_project-manager
     name: "Project Manager"
     input_from: previous
     input_description: "business case (Paso 1) + estimación técnica (Paso 2)"
@@ -37,17 +37,17 @@ Workflow cross-disciplinar que toma una idea de negocio y la valida en tres dime
 ## Pasos
 
 ### PASO 1: Validación Comercial
-**Rol**: business.plan.00_presales
+**Rol**: business.plan.0000_presales
 **Recibe**: idea de negocio o descripción del producto/servicio
 **Produce**: business case con propuesta de valor, mercado objetivo, modelo de ingresos, análisis competitivo y ROI esperado
 
 ### PASO 2: Estimación Técnica
-**Rol**: engineering.plan.00_tech-estimator
+**Rol**: engineering.plan.0000_tech-estimator
 **Recibe**: business case del Paso 1
 **Produce**: estimación técnica con stack recomendado, arquitectura propuesta, dependencias, riesgos técnicos y estimación de esfuerzo por componente
 
 ### PASO 3: Plan de Proyecto
-**Rol**: management.plan.00_project-manager
+**Rol**: management.plan.0000_project-manager
 **Recibe**: business case (Paso 1) + estimación técnica (Paso 2)
 **Produce**: plan de proyecto completo con milestones, recursos necesarios, risk register, presupuesto y cronograma
 

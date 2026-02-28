@@ -11,7 +11,7 @@ output: "Cuellos de botella de I/O con propuestas de async, batch o pooling"
 applicable_disciplines: [engineering, ai, data]
 sfia_skills: [SFEN, PRMG]
 estimated_tokens: 250
-migrated_from: "02_performance/02b_io_network_concurrency.md"
+migrated_from: "0002_performance/02b_io_network_concurrency.md"
 ---
 
 # Técnica: Análisis de I/O, Red y Concurrencia

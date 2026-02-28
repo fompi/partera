@@ -5,8 +5,8 @@
 #   ./scripts/generate_crewai.sh <discipline> <adapter> <role_path>
 #
 # Ejemplos:
-#   ./scripts/generate_crewai.sh engineering python generate/02_implementer/_index
-#   ./scripts/generate_crewai.sh engineering python audit/01_security/_index
+#   ./scripts/generate_crewai.sh engineering python generate/0002_implementer/_index
+#   ./scripts/generate_crewai.sh engineering python audit/0001_security/_index
 #
 # Output: código Python impreso a stdout (redirigir a archivo según necesidad)
 
@@ -22,11 +22,11 @@ Uso:
   ./scripts/generate_crewai.sh <discipline> <adapter> <role_path>
 
 Ejemplos:
-  ./scripts/generate_crewai.sh engineering python generate/02_implementer/_index
-  ./scripts/generate_crewai.sh engineering bash   audit/01_security/_index
+  ./scripts/generate_crewai.sh engineering python generate/0002_implementer/_index
+  ./scripts/generate_crewai.sh engineering bash   audit/0001_security/_index
 
 Output: código Python impreso a stdout
-  Redirigir: ./scripts/generate_crewai.sh engineering python generate/02_implementer/_index > agent.py
+  Redirigir: ./scripts/generate_crewai.sh engineering python generate/0002_implementer/_index > agent.py
 USAGE
   exit 1
 }

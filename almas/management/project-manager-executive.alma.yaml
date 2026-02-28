@@ -7,6 +7,6 @@ tags: [management, plan, project, executive]
 
 compose:
   discipline: management
-  role: plan/00_project-manager/_index
+  role: plan/0000_project-manager/_index
   modifiers:
     - audience/executive

@@ -11,7 +11,7 @@ output: "Estado de dependencias: CVEs conocidos, fijación, lockfile y recomenda
 applicable_disciplines: [engineering, ai, data]
 sfia_skills: [SCTY, RLMT]
 estimated_tokens: 250
-migrated_from: "01_security/01d_supply_chain.md"
+migrated_from: "0001_security/01d_supply_chain.md"
 ---
 
 # Técnica: Análisis de Cadena de Suministro

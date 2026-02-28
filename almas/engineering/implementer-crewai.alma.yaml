@@ -7,7 +7,7 @@ tags: [engineering, generate, implementer, crewai]
 
 compose:
   discipline: engineering
-  role: generate/02_implementer/_index
+  role: generate/0002_implementer/_index
   capabilities:
     - code-execution
   runtime: crewai

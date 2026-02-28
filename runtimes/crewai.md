@@ -31,7 +31,7 @@ estimated_tokens: 240
 ```python
 from crewai import Agent, Task, Crew
 
-# Desde engineering.generate.02_implementer
+# Desde engineering.generate.0002_implementer
 implementer = Agent(
     role="Desarrollador Senior",
     goal="Genera código funcional desde especificación",
@@ -57,7 +57,7 @@ pip install crewai crewai-tools
 ## Generación automática
 ```bash
 # Generar código CrewAI desde un rol
-./scripts/generate_crewai.sh engineering python generate/02_implementer/_index
+./scripts/generate_crewai.sh engineering python generate/0002_implementer/_index
 ```
 
 ## Notas

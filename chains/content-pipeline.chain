@@ -7,13 +7,13 @@ description: "Pipeline completo de creación y auditoría de contenido"
 tags: [chain, content, writing, audit]
 disciplines: [content]
 steps:
-  - role: content.generate.03_copywriter
+  - role: content.generate.0003_copywriter
     name: "Copywriter"
     input_from: user
     input_description: "briefing de contenido (objetivo, audiencia, formato)"
     output_to: next
     output_description: "contenido draft listo para revisión"
-  - role: content.audit.00_content-auditor
+  - role: content.audit.0000_content-auditor
     name: "Auditor de Contenido"
     input_from: previous
     input_description: "contenido draft del Paso 1"
@@ -31,12 +31,12 @@ Pipeline de dos pasos que genera contenido de marketing/ventas y lo audita inmed
 ## Pasos
 
 ### PASO 1: Creación
-**Rol**: content.generate.03_copywriter
+**Rol**: content.generate.0003_copywriter
 **Recibe**: briefing del usuario (objetivo del contenido, audiencia target, formato, keywords)
 **Produce**: contenido draft (post, landing page, email, ad copy, etc.)
 
 ### PASO 2: Auditoría
-**Rol**: content.audit.00_content-auditor
+**Rol**: content.audit.0000_content-auditor
 **Recibe**: contenido draft del Paso 1
 **Produce**: análisis de claridad, engagement y SEO con versión mejorada y justificación de cambios
 
@@ -50,4 +50,4 @@ make chain CHAIN=content-pipeline ADAPTER=marketing
 
 - El briefing del usuario (Paso 1) debe incluir: objetivo, audiencia, tono, formato y keywords objetivo.
 - El Paso 2 puede solicitar una segunda iteración al copywriter si los cambios son estructurales.
-- Este pipeline es adecuado para contenido persuasivo; para documentación técnica, considerar usar el rol `content.generate.01_doc-writer` directamente.
+- Este pipeline es adecuado para contenido persuasivo; para documentación técnica, considerar usar el rol `content.generate.0001_doc-writer` directamente.

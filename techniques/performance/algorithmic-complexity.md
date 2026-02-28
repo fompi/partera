@@ -11,7 +11,7 @@ output: "Hotspots con complejidad actual, propuesta alternativa y mejora estimad
 applicable_disciplines: [engineering, ai, data]
 sfia_skills: [SFEN, DTAN]
 estimated_tokens: 260
-migrated_from: "02_performance/02a_algorithmic_complexity.md"
+migrated_from: "0002_performance/02a_algorithmic_complexity.md"
 ---
 
 # Técnica: Análisis de Complejidad Algorítmica

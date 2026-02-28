@@ -7,6 +7,6 @@ tags: [business, analyze, market, research]
 
 compose:
   discipline: business
-  role: analyze/01_market-researcher/_index
+  role: analyze/0001_market-researcher/_index
   capabilities:
     - web-search

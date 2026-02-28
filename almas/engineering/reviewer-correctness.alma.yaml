@@ -7,7 +7,7 @@ tags: [engineering, generate, review, correctness]
 
 compose:
   discipline: engineering
-  role: generate/03_reviewer/_index
+  role: generate/0003_reviewer/_index
   techniques:
     - correctness/edge-cases-contracts
     - correctness/concurrency-state

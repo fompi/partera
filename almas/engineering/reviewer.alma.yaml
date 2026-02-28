@@ -7,6 +7,6 @@ tags: [engineering, generate, review]
 
 compose:
   discipline: engineering
-  role: generate/03_reviewer/_index
+  role: generate/0003_reviewer/_index
   protocols:
     - collaborative

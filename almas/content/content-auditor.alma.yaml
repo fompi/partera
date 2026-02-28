@@ -7,4 +7,4 @@ tags: [content, audit]
 
 compose:
   discipline: content
-  role: audit/00_content-auditor/_index
+  role: audit/0000_content-auditor/_index

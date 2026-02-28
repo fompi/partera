@@ -54,10 +54,10 @@ Incluir uno o más patterns vía variable de entorno `EXT`:
 
 ```bash
 # Un solo pattern
-DISC=engineering EXT="patterns/cot" ./compose.sh python audit/01_security/_index
+DISC=engineering EXT="patterns/cot" ./compose.sh python audit/0001_security/_index
 
 # Varios (orden: primero listado = primero en el prompt)
-DISC=engineering EXT="patterns/cot patterns/plan-and-solve" ./compose.sh python generate/02_implementer/_index
+DISC=engineering EXT="patterns/cot patterns/plan-and-solve" ./compose.sh python generate/0002_implementer/_index
 
 # Desde un alma: definir en compose.extensions o equivalente si el alma lo soporta
 ```
@@ -100,7 +100,7 @@ description: "Descripción breve del flujo"
 tags: [chain, workflow, ...]
 disciplines: [engineering]   # disciplinas que intervienen
 steps:
-  - role: engineering.generate.00_spec-writer
+  - role: engineering.generate.0000_spec-writer
     name: "Escritor de Especificaciones"
     input_from: user | previous | previous_all
     input_description: "texto libre"
@@ -113,7 +113,7 @@ estimated_tokens: 2200      # suma aproximada de todos los pasos
 
 - **role**: identificador del rol en formato `<disciplina>.<verbo>.<nombre_corto>`.  
   Se traduce a ruta: `disciplines/<disciplina>/roles/<verbo>/<nombre_corto>/_index` (o `_index.md`).  
-  Ejemplo: `engineering.generate.00_spec-writer` → `engineering` + `generate/00_spec-writer/_index`.
+  Ejemplo: `engineering.generate.0000_spec-writer` → `engineering` + `generate/0000_spec-writer/_index`.
 - **name**: etiqueta del paso (para listados y resúmenes).
 - **input_from**: de dónde recibe el input (`user`, `previous`, `previous_all`, etc.).
 - **output_to**: a dónde va el output (`next`, `user`, `orchestrator`, etc.).
@@ -128,7 +128,7 @@ El orden en la lista YAML es el orden de ejecución. Dependencias entre pasos (p
 
 Para cada paso, el sistema debe:
 
-1. Resolver `role` a `DISC` y ruta de rol (p. ej. `audit/01_security/_index`).
+1. Resolver `role` a `DISC` y ruta de rol (p. ej. `audit/0001_security/_index`).
 2. Llamar a `compose.sh` con ese `DISC`, el **mismo adaptador** para todo el chain y ese rol. Opcionalmente se puede permitir en el futuro `extensions` o `pattern` por paso (por ahora no es obligatorio).
 
 Por tanto, cada paso del chain es una composición estándar de las 11 capas (con el rol del paso), con un único adaptador compartido.

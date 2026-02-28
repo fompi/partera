@@ -19,10 +19,10 @@ Compone un prompt concatenando: base + disciplina + adaptador + rol [+ extension
     ./compose.sh --alma engineering/security-fintech bash --clipboard
 
   Ejemplos:
-    DISC=engineering ./compose.sh python audit/01_security/_index
-    DISC=engineering EXT="techniques/security/injection-analysis" ./compose.sh python audit/01_security/_index
-    DISC=engineering RUNTIME=claude ./compose.sh python generate/02_implementer/_index
-    DISC=content ./compose.sh technical generate/01_doc-writer/_index
+    DISC=engineering ./compose.sh python audit/0001_security/_index
+    DISC=engineering EXT="techniques/security/injection-analysis" ./compose.sh python audit/0001_security/_index
+    DISC=engineering RUNTIME=claude ./compose.sh python generate/0002_implementer/_index
+    DISC=content ./compose.sh technical generate/0001_doc-writer/_index
 
   Meta-prompts (sin DISC):
     ./compose.sh --meta improve_prompt [--clipboard]
@@ -149,7 +149,7 @@ fi
 # --- Validar DISC ---
 DISC="${DISC:-}"
 if [[ -z "$DISC" ]]; then
-  echo "Error: DISC (disciplina) requerido. Ej: DISC=engineering ./compose.sh python audit/01_security/_index" >&2
+  echo "Error: DISC (disciplina) requerido. Ej: DISC=engineering ./compose.sh python audit/0001_security/_index" >&2
   usage
 fi
 

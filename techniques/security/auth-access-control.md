@@ -11,7 +11,7 @@ output: "Mapa de fronteras de auth con gaps y vulnerabilidades identificadas"
 applicable_disciplines: [engineering, ai, data]
 sfia_skills: [SCTY, HSIN, RLMT]
 estimated_tokens: 270
-migrated_from: "01_security/01b_auth_access_control.md"
+migrated_from: "0001_security/01b_auth_access_control.md"
 ---
 
 # Técnica: Análisis de Autenticación y Control de Acceso

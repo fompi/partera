@@ -58,20 +58,20 @@ cd partera
 
 ```bash
 # Auditoría de seguridad en código Python
-make compose DISC=engineering ADAPTER=python ROLE=audit/01_security/_index
+make compose DISC=engineering ADAPTER=python ROLE=audit/0001_security/_index
 
 # Generación de documentación técnica
-make compose DISC=content ADAPTER=technical ROLE=generate/01_doc-writer/_index
+make compose DISC=content ADAPTER=technical ROLE=generate/0001_doc-writer/_index
 
 # Diseño web con conocimiento de ingeniería básica
-make compose DISC=design ADAPTER=web ROLE=create/00_web-designer/_index \
+make compose DISC=design ADAPTER=web ROLE=create/0000_web-designer/_index \
   EXT="knowledge/engineering-basics"
 
 # Planificación de proyecto con metodología ágil
-make compose DISC=management ADAPTER=agile ROLE=plan/00_project-manager/_index
+make compose DISC=management ADAPTER=agile ROLE=plan/0000_project-manager/_index
 
 # Auditoría con audiencia ejecutiva y fuentes oficiales
-make compose DISC=engineering ADAPTER=python ROLE=audit/01_security/_index \
+make compose DISC=engineering ADAPTER=python ROLE=audit/0001_security/_index \
   EXT="modifiers/audience/executive sources/official-docs-only"
 ```
 
@@ -81,10 +81,10 @@ El resultado se imprime en stdout. Cópialo y pégalo en tu asistente IA favorit
 
 ```bash
 # Adaptado para Claude (usa Extended Thinking si está disponible)
-make runtime-claude DISC=engineering ADAPTER=python ROLE=audit/01_security/_index
+make runtime-claude DISC=engineering ADAPTER=python ROLE=audit/0001_security/_index
 
 # Adaptado para CrewAI (genera definición de agente)
-make generate-crewai DISC=engineering ADAPTER=python ROLE=generate/02_implementer/_index
+make generate-crewai DISC=engineering ADAPTER=python ROLE=generate/0002_implementer/_index
 ```
 
 ---
@@ -124,7 +124,7 @@ Las capas en `[corchetes]` son opcionales. Se activan con `EXT=` o con flags esp
 DISC=engineering \
 RUNTIME=claude \
 EXT="knowledge/security-awareness techniques/security/injection-analysis modifiers/depth/deep" \
-./compose.sh python audit/01_security/_index
+./compose.sh python audit/0001_security/_index
 ```
 
 ---
@@ -250,12 +250,12 @@ partera/
 make compose DISC=<disc> ADAPTER=<adapter> ROLE=<verb>/<name>/_index
 
 # Con capas opcionales
-make compose DISC=engineering ADAPTER=python ROLE=audit/01_security/_index \
+make compose DISC=engineering ADAPTER=python ROLE=audit/0001_security/_index \
   EXT="knowledge/engineering-basics modifiers/audience/executive"
 
 # Con runtime
-make runtime-claude DISC=engineering ADAPTER=python ROLE=generate/02_implementer/_index
-make runtime-openai DISC=content ADAPTER=technical ROLE=generate/01_doc-writer/_index
+make runtime-claude DISC=engineering ADAPTER=python ROLE=generate/0002_implementer/_index
+make runtime-openai DISC=content ADAPTER=technical ROLE=generate/0001_doc-writer/_index
 
 # Chains
 make chain CHAIN=nl-to-code ADAPTER=python
@@ -375,7 +375,7 @@ tags: [engineering, audit]
 
 compose:
   discipline: engineering
-  role: audit/01_security/_index
+  role: audit/0001_security/_index
   techniques:
     - security/injection-analysis
   modifiers:
@@ -455,7 +455,7 @@ cat meta/_base_meta.md meta/generate_role.md > /tmp/meta-gen-role.txt
 
 ### Claude (claude.ai / API)
 
-1. Genera el prompt: `make compose DISC=engineering ADAPTER=python ROLE=audit/01_security/_index`
+1. Genera el prompt: `make compose DISC=engineering ADAPTER=python ROLE=audit/0001_security/_index`
 2. En Claude.ai: crea un Proyecto → pega en *Custom Instructions*
 3. En el chat: sube o pega tu código → "Ejecuta la auditoría según las instrucciones"
 4. Para API: usa como `system` prompt
@@ -476,7 +476,7 @@ cat meta/_base_meta.md meta/generate_role.md > /tmp/meta-gen-role.txt
 
 ```bash
 # Genera el prompt para Ollama
-RUNTIME=ollama make compose DISC=engineering ADAPTER=python ROLE=audit/01_security/_index
+RUNTIME=ollama make compose DISC=engineering ADAPTER=python ROLE=audit/0001_security/_index
 
 # Úsalo con ollama
 ollama run llama3.3 "$(cat /tmp/prompt.txt)\n\n<código aquí>"
@@ -517,7 +517,7 @@ prompt = open("output.txt").read()
 ## Si algo falla
 
 - **"Error: DISC requerido" / "ADAPTER requerido" / "ROLE requerido"**: La composición básica exige `DISC`, `ADAPTER` y `ROLE`. Con almas, solo hace falta `ALMA` y `ADAPTER`. Ver [migration-guide.md](docs/migration-guide.md) si vienes de una versión antigua.
-- **Rol o adaptador no encontrado**: Comprueba que el path del rol sea relativo a `disciplines/<disc>/roles/` (ej. `audit/01_security/_index`) y que el adaptador exista en `disciplines/<disc>/adapters/<adapter>.md`. Usa `make list-roles DISC=engineering` y `make list-adapters DISC=engineering`.
+- **Rol o adaptador no encontrado**: Comprueba que el path del rol sea relativo a `disciplines/<disc>/roles/` (ej. `audit/0001_security/_index`) y que el adaptador exista en `disciplines/<disc>/adapters/<adapter>.md`. Usa `make list-roles DISC=engineering` y `make list-adapters DISC=engineering`.
 - **Alma no encontrada**: El nombre del alma es la ruta relativa a `almas/` sin extensión (ej. `v02/security-deep`, `engineering/security-fintech`). Lista almas con `make list-almas`.
 - **Validación**: Ejecuta `make validate` para comprobar front-matter, referencias y disciplinas; `make validate-almas` para validar solo las almas (requiere `yq`).
 

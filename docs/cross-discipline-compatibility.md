@@ -10,61 +10,61 @@ Este documento describe las relaciones entre roles de distintas disciplinas y la
 
 | Desde | Hacia | Relación |
 | ----- | ----- | -------- |
-| `business.plan.00_presales` | `engineering.plan.00_tech-estimator` | Validación técnica de la propuesta comercial |
-| `business.plan.00_presales` | `content.generate.03_copywriter` | Generación del copy para la propuesta ejecutiva |
-| `design.create.00_web-designer` | `engineering.generate.05_frontend-dev` | Entrega de mockups para implementación |
-| `design.create.01_ux-researcher` | `design.create.00_web-designer` | Research de usuarios informa las decisiones de diseño |
-| `engineering.generate.02_implementer` | `content.generate.01_doc-writer` | Código implementado → documentación técnica |
-| `management.plan.00_project-manager` | `engineering.plan.00_tech-estimator` | Estimación técnica alimenta el plan de proyecto |
-| `business.plan.00_presales` | `management.plan.00_project-manager` | Business case aprobado inicia la planificación |
-| `engineering.plan.00_tech-estimator` | `management.plan.00_project-manager` | Estimación técnica alimenta el plan de proyecto |
-| `content.generate.00_clickbait-writer` | `content.audit.00_content-auditor` | Titulares generados → revisión editorial |
-| `content.generate.03_copywriter` | `content.audit.00_content-auditor` | Copy generado → auditoría de calidad y compliance |
+| `business.plan.0000_presales` | `engineering.plan.0000_tech-estimator` | Validación técnica de la propuesta comercial |
+| `business.plan.0000_presales` | `content.generate.0003_copywriter` | Generación del copy para la propuesta ejecutiva |
+| `design.create.0000_web-designer` | `engineering.generate.0005_frontend-dev` | Entrega de mockups para implementación |
+| `design.create.0001_ux-researcher` | `design.create.0000_web-designer` | Research de usuarios informa las decisiones de diseño |
+| `engineering.generate.0002_implementer` | `content.generate.0001_doc-writer` | Código implementado → documentación técnica |
+| `management.plan.0000_project-manager` | `engineering.plan.0000_tech-estimator` | Estimación técnica alimenta el plan de proyecto |
+| `business.plan.0000_presales` | `management.plan.0000_project-manager` | Business case aprobado inicia la planificación |
+| `engineering.plan.0000_tech-estimator` | `management.plan.0000_project-manager` | Estimación técnica alimenta el plan de proyecto |
+| `content.generate.0000_clickbait-writer` | `content.audit.0000_content-auditor` | Titulares generados → revisión editorial |
+| `content.generate.0003_copywriter` | `content.audit.0000_content-auditor` | Copy generado → auditoría de calidad y compliance |
 
 ## Flujos de trabajo compuestos
 
 ### Flujo: Lanzamiento de producto
 
 ```text
-business.plan.00_presales
+business.plan.0000_presales
   ↓ (business case aprobado)
-engineering.plan.00_tech-estimator + management.plan.00_project-manager
+engineering.plan.0000_tech-estimator + management.plan.0000_project-manager
   ↓ (spec + plan)
-design.create.01_ux-researcher
+design.create.0001_ux-researcher
   ↓ (research completado)
-design.create.00_web-designer
+design.create.0000_web-designer
   ↓ (mockups)
-engineering.generate.02_implementer + engineering.generate.05_frontend-dev
+engineering.generate.0002_implementer + engineering.generate.0005_frontend-dev
   ↓ (código implementado)
-content.generate.01_doc-writer
+content.generate.0001_doc-writer
   ↓ (documentación)
-content.generate.03_copywriter → content.audit.00_content-auditor
+content.generate.0003_copywriter → content.audit.0000_content-auditor
   (copy de lanzamiento auditado)
 ```
 
 ### Flujo: Propuesta comercial
 
 ```text
-business.plan.00_presales
+business.plan.0000_presales
   ↓ (necesita validación técnica)
-engineering.plan.00_tech-estimator
+engineering.plan.0000_tech-estimator
   ↓ (estimación técnica)
-business.plan.00_presales (integra estimación)
+business.plan.0000_presales (integra estimación)
   ↓ (business case con números)
-content.generate.03_copywriter
+content.generate.0003_copywriter
   (copy ejecutivo de la propuesta)
 ```
 
 ### Flujo: Feature de producto con investigación
 
 ```text
-design.create.01_ux-researcher
+design.create.0001_ux-researcher
   ↓ (personas, journey maps, pain points)
-design.create.00_web-designer
+design.create.0000_web-designer
   ↓ (mockups validados)
-engineering.generate.05_frontend-dev
+engineering.generate.0005_frontend-dev
   ↓ (implementación)
-content.generate.01_doc-writer
+content.generate.0001_doc-writer
   (documentación de la feature)
 ```
 
@@ -74,16 +74,16 @@ content.generate.01_doc-writer
 
 | Discipline | Adapter | Role | Válido |
 | ---------- | ------- | ---- | ------ |
-| content | news | generate/00_clickbait-writer | ✓ |
-| content | technical | generate/01_doc-writer | ✓ |
-| content | marketing | generate/03_copywriter | ✓ |
-| content | internal | generate/02_ops-procedures | ✓ |
-| design | web | create/00_web-designer | ✓ |
-| design | mobile | create/01_ux-researcher | ✓ |
-| business | saas | plan/00_presales | ✓ |
-| business | ecommerce | plan/00_presales | ✓ |
-| management | agile | plan/00_project-manager | ✓ |
-| management | waterfall | plan/00_project-manager | ✓ |
+| content | news | generate/0000_clickbait-writer | ✓ |
+| content | technical | generate/0001_doc-writer | ✓ |
+| content | marketing | generate/0003_copywriter | ✓ |
+| content | internal | generate/0002_ops-procedures | ✓ |
+| design | web | create/0000_web-designer | ✓ |
+| design | mobile | create/0001_ux-researcher | ✓ |
+| business | saas | plan/0000_presales | ✓ |
+| business | ecommerce | plan/0000_presales | ✓ |
+| management | agile | plan/0000_project-manager | ✓ |
+| management | waterfall | plan/0000_project-manager | ✓ |
 
 ### Incompatibilidades (rechazadas por el sistema)
 

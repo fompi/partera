@@ -14,10 +14,10 @@ Disciplinas principales: **business**, **management**
 
 | Skill SFIA | Código | Piezas del sistema |
 | ---------- | ------ | ------------------ |
-| IT Strategy and Planning | ITSP | business/plan/00_presales |
-| Solution Architecture | ARCH | engineering/roles/audit/03_architecture |
+| IT Strategy and Planning | ITSP | business/plan/0000_presales |
+| Solution Architecture | ARCH | engineering/roles/audit/0003_architecture |
 | Business Analysis | BUAN | business/adapters/saas, business/adapters/ecommerce |
-| Strategic Planning | STPL | business/plan/00_presales |
+| Strategic Planning | STPL | business/plan/0000_presales |
 
 ### Solution Development and Implementation
 
@@ -25,13 +25,13 @@ Disciplinas principales: **engineering**, **design**
 
 | Skill SFIA | Código | Piezas del sistema |
 | ---------- | ------ | ------------------ |
-| Programming/Software Development | PROG | engineering/roles/generate/02_implementer |
-| Software Design | SWDN | engineering/roles/generate/00_spec-writer |
-| Testing | TEST | engineering/roles/generate/03_reviewer, techniques/correctness/* |
+| Programming/Software Development | PROG | engineering/roles/generate/0002_implementer |
+| Software Design | SWDN | engineering/roles/generate/0000_spec-writer |
+| Testing | TEST | engineering/roles/generate/0003_reviewer, techniques/correctness/* |
 | Database Administration | DBAD | engineering/roles/audit/* (parcial) |
-| User Experience Design | HCEV | design/roles/create/00_web-designer |
-| Usability Evaluation | USEV | design/roles/create/01_ux-researcher |
-| Security Design | SCTY | engineering/roles/audit/01_security, techniques/security/* |
+| User Experience Design | HCEV | design/roles/create/0000_web-designer |
+| Usability Evaluation | USEV | design/roles/create/0001_ux-researcher |
+| Security Design | SCTY | engineering/roles/audit/0001_security, techniques/security/* |
 
 ### Delivery and Operation
 
@@ -39,10 +39,10 @@ Disciplinas principales: **management**, **engineering** (ops)
 
 | Skill SFIA | Código | Piezas del sistema |
 | ---------- | ------ | ------------------ |
-| Project Management | PRMG | management/roles/plan/00_project-manager |
-| Delivery Management | DLMG | management/roles/plan/00_project-manager |
+| Project Management | PRMG | management/roles/plan/0000_project-manager |
+| Delivery Management | DLMG | management/roles/plan/0000_project-manager |
 | Release and Deployment | RELM | engineering/roles/audit/* (parcial) |
-| IT Operations | ITOP | engineering/roles/generate/05_frontend-dev (parcial) |
+| IT Operations | ITOP | engineering/roles/generate/0005_frontend-dev (parcial) |
 
 ### Skills and Quality
 
@@ -50,10 +50,10 @@ Disciplinas: todas (cross-cutting)
 
 | Skill SFIA | Código | Piezas del sistema |
 | ---------- | ------ | ------------------ |
-| Quality Assurance | QUAS | engineering/roles/audit/04_correctness |
+| Quality Assurance | QUAS | engineering/roles/audit/0004_correctness |
 | Audit | AUDT | engineering/roles/audit/* |
 | Measurement | MEAS | modifiers/depth/deep, chains/full-audit |
-| Information Management | IRMG | content/roles/generate/01_doc-writer |
+| Information Management | IRMG | content/roles/generate/0001_doc-writer |
 
 ### Relationships and Engagement
 
@@ -61,10 +61,10 @@ Disciplinas principales: **content**, **business**
 
 | Skill SFIA | Código | Piezas del sistema |
 | ---------- | ------ | ------------------ |
-| Relationship Management | RLMT | business/roles/plan/00_presales |
-| Sales Support | SSUP | business/roles/plan/00_presales |
-| Marketing | MKTG | content/roles/generate/03_copywriter, content/adapters/marketing |
-| Customer/User Support | CFMG | content/roles/generate/02_ops-procedures |
+| Relationship Management | RLMT | business/roles/plan/0000_presales |
+| Sales Support | SSUP | business/roles/plan/0000_presales |
+| Marketing | MKTG | content/roles/generate/0003_copywriter, content/adapters/marketing |
+| Customer/User Support | CFMG | content/roles/generate/0002_ops-procedures |
 
 ### People and Skills
 
@@ -73,7 +73,7 @@ Disciplinas: **management** (parcial)
 | Skill SFIA | Código | Piezas del sistema |
 | ---------- | ------ | ------------------ |
 | Learning and Development | ETDL | knowledge/* (indirecto) |
-| Performance Management | PEMT | management/roles/plan/00_project-manager (parcial) |
+| Performance Management | PEMT | management/roles/plan/0000_project-manager (parcial) |
 
 ### Change and Transformation
 
@@ -82,7 +82,7 @@ Disciplinas: **management**, **business** (parcial)
 | Skill SFIA | Código | Piezas del sistema |
 | ---------- | ------ | ------------------ |
 | Change Management | CHMG | management/adapters/agile, management/adapters/waterfall |
-| Business Process Improvement | BPRE | business/roles/plan/00_presales (parcial) |
+| Business Process Improvement | BPRE | business/roles/plan/0000_presales (parcial) |
 
 ---
 
@@ -90,27 +90,27 @@ Disciplinas: **management**, **business** (parcial)
 
 | ID de Pieza | Tipo | SFIA Skills |
 | ----------- | ---- | ----------- |
-| engineering.audit.00_orchestrator | role | AUDT, QUAS |
-| engineering.audit.01_security | role | SCTY, HSIN, RLMT |
-| engineering.audit.02_performance | role | PROG, MEAS |
-| engineering.audit.03_architecture | role | ARCH, SWDN |
-| engineering.audit.04_correctness | role | TEST, QUAS |
-| engineering.generate.00_spec-writer | role | SWDN, BUAN |
-| engineering.generate.01_tech-advisor | role | ARCH, ITSP |
-| engineering.generate.02_implementer | role | PROG, SWDN |
-| engineering.generate.03_reviewer | role | TEST, QUAS |
-| engineering.generate.04_documenter | role | IRMG, DOCM |
-| engineering.generate.05_frontend-dev | role | PROG, HCEV |
-| engineering.plan.00_tech-estimator | role | PRMG, MEAS |
-| content.audit.00_content-auditor | role | IRMG, QUAS |
-| content.generate.00_clickbait-writer | role | MKTG |
-| content.generate.01_doc-writer | role | IRMG, DOCM |
-| content.generate.02_ops-procedures | role | IRMG, CFMG |
-| content.generate.03_copywriter | role | MKTG, SSUP |
-| design.create.00_web-designer | role | HCEV, USEV |
-| design.create.01_ux-researcher | role | USEV, HCEV |
-| business.plan.00_presales | role | STPL, CFMG, BURM |
-| management.plan.00_project-manager | role | PRMG, DLMG, RLMT |
+| engineering.audit.0000_orchestrator | role | AUDT, QUAS |
+| engineering.audit.0001_security | role | SCTY, HSIN, RLMT |
+| engineering.audit.0002_performance | role | PROG, MEAS |
+| engineering.audit.0003_architecture | role | ARCH, SWDN |
+| engineering.audit.0004_correctness | role | TEST, QUAS |
+| engineering.generate.0000_spec-writer | role | SWDN, BUAN |
+| engineering.generate.0001_tech-advisor | role | ARCH, ITSP |
+| engineering.generate.0002_implementer | role | PROG, SWDN |
+| engineering.generate.0003_reviewer | role | TEST, QUAS |
+| engineering.generate.0004_documenter | role | IRMG, DOCM |
+| engineering.generate.0005_frontend-dev | role | PROG, HCEV |
+| engineering.plan.0000_tech-estimator | role | PRMG, MEAS |
+| content.audit.0000_content-auditor | role | IRMG, QUAS |
+| content.generate.0000_clickbait-writer | role | MKTG |
+| content.generate.0001_doc-writer | role | IRMG, DOCM |
+| content.generate.0002_ops-procedures | role | IRMG, CFMG |
+| content.generate.0003_copywriter | role | MKTG, SSUP |
+| design.create.0000_web-designer | role | HCEV, USEV |
+| design.create.0001_ux-researcher | role | USEV, HCEV |
+| business.plan.0000_presales | role | STPL, CFMG, BURM |
+| management.plan.0000_project-manager | role | PRMG, DLMG, RLMT |
 | security.injection-analysis | technique | SCTY, HSIN |
 | security.auth-access-control | technique | SCTY |
 | security.secrets-crypto | technique | SCTY |

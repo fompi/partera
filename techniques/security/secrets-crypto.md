@@ -11,7 +11,7 @@ output: "Lista de secretos expuestos y decisiones criptográficas discutibles co
 applicable_disciplines: [engineering, ai, data]
 sfia_skills: [SCTY, HSIN]
 estimated_tokens: 260
-migrated_from: "01_security/01c_secrets_crypto.md"
+migrated_from: "0001_security/01c_secrets_crypto.md"
 ---
 
 # Técnica: Análisis de Secretos y Criptografía

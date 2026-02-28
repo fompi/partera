@@ -7,7 +7,7 @@ tags: [security, audit, deep, v02]
 
 compose:
   discipline: engineering
-  role: audit/01_security/_index
+  role: audit/0001_security/_index
   techniques:
     - security/injection-analysis
     - security/auth-access-control

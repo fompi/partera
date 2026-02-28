@@ -11,7 +11,7 @@ output: "Recursos compartidos con riesgos de carrera o inconsistencia identifica
 applicable_disciplines: [engineering, ai, data]
 sfia_skills: [TEST, SWDN, SFEN]
 estimated_tokens: 240
-migrated_from: "04_correctness/04b_concurrency_state.md"
+migrated_from: "0004_correctness/04b_concurrency_state.md"
 ---
 
 # Técnica: Análisis de Concurrencia y Estado Compartido

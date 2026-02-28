@@ -7,6 +7,6 @@ tags: [engineering, generate, documentation]
 
 compose:
   discipline: engineering
-  role: generate/04_documenter/_index
+  role: generate/0004_documenter/_index
   techniques:
     - maintainability/documentation-standards

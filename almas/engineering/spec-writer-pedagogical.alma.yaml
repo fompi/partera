@@ -7,7 +7,7 @@ tags: [engineering, generate, spec, teaching, junior]
 
 compose:
   discipline: engineering
-  role: generate/00_spec-writer/_index
+  role: generate/0000_spec-writer/_index
   protocols:
     - teaching
   modifiers:

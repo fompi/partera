@@ -60,7 +60,7 @@ properties:
         role:
           type: string
           pattern: "^[a-z]+\\.[a-z]+\\.[a-z0-9_]+$"
-          description: "Formato: <disciplina>.<verbo>.<nombre> (ej: engineering.generate.00_spec-writer)"
+          description: "Formato: <disciplina>.<verbo>.<nombre> (ej: engineering.generate.0000_spec-writer)"
         name:
           type: string
         input_from:

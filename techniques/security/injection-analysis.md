@@ -11,7 +11,7 @@ output: "Mapa de flujos de taint con evaluación de saneamiento"
 applicable_disciplines: [engineering, ai, data]
 sfia_skills: [SCTY, HSIN]
 estimated_tokens: 280
-migrated_from: "01_security/01a_injection_surfaces.md"
+migrated_from: "0001_security/01a_injection_surfaces.md"
 ---
 
 # Técnica: Análisis de Superficies de Inyección

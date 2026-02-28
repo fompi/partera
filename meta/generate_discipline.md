@@ -105,4 +105,4 @@ Placeholder para el directorio de roles.
 
 **Input**: "Crear disciplina `data` para análisis de datos, BI y visualización. Principios: datos sobre opiniones, reproducibilidad, trazabilidad. SFIA: DTAN, VISL, BUAN."
 
-**Output**: `disciplines/data/_base.md` completo + plan de primeros adaptadores (python-analytics, sql, tableau) y roles (analyze/01_data-explorer, generate/01_dashboard-designer).
+**Output**: `disciplines/data/_base.md` completo + plan de primeros adaptadores (python-analytics, sql, tableau) y roles (analyze/0001_data-explorer, generate/0001_dashboard-designer).

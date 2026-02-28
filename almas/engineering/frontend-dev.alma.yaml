@@ -7,4 +7,4 @@ tags: [engineering, generate, frontend]
 
 compose:
   discipline: engineering
-  role: generate/05_frontend-dev/_index
+  role: generate/0005_frontend-dev/_index

@@ -242,7 +242,7 @@ El front-matter YAML en cada archivo permite:
 
 ### ¿Por qué separar disciplinas en namespaces?
 
-Sin disciplinas, `audit/security` puede significar auditoría de código, auditoría de contenido editorial, o auditoría de una propuesta de negocio. Con disciplinas, `engineering.audit.01_security` es inequívoco.
+Sin disciplinas, `audit/security` puede significar auditoría de código, auditoría de contenido editorial, o auditoría de una propuesta de negocio. Con disciplinas, `engineering.audit.0001_security` es inequívoco.
 
 Además, la separación permite que equipos distintos mantengan sus disciplinas de forma independiente, y que las disciplinas evolucionen a velocidades distintas.
 

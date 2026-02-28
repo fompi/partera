@@ -7,7 +7,7 @@ tags: [business, presales, fintech]
 
 compose:
   discipline: business
-  role: plan/00_presales/_index
+  role: plan/0000_presales/_index
   modifiers:
     - industry/fintech
   sources:

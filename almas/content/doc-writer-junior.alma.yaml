@@ -7,7 +7,7 @@ tags: [content, generate, documentation, junior, teaching]
 
 compose:
   discipline: content
-  role: generate/01_doc-writer/_index
+  role: generate/0001_doc-writer/_index
   modifiers:
     - audience/junior
   protocols:

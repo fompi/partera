@@ -7,6 +7,6 @@ tags: [engineering, generate, advisor]
 
 compose:
   discipline: engineering
-  role: generate/01_tech-advisor/_index
+  role: generate/0001_tech-advisor/_index
   protocols:
     - collaborative

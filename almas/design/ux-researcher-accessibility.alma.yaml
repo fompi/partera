@@ -7,7 +7,7 @@ tags: [design, ux, accessibility, wcag]
 
 compose:
   discipline: design
-  role: create/01_ux-researcher/_index
+  role: create/0001_ux-researcher/_index
   knowledge:
     - design-basics
 

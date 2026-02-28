@@ -7,6 +7,6 @@ tags: [business, analyze, content, strategy]
 
 compose:
   discipline: business
-  role: analyze/02_content-strategist/_index
+  role: analyze/0002_content-strategist/_index
   capabilities:
     - web-search

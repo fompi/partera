@@ -24,7 +24,7 @@ if [[ ! -d "$CHAINS_DIR" ]]; then
   exit 0
 fi
 
-# Resolver role_id (engineering.audit.01_security) → DISC y ruta de roles (audit/01_security/_index)
+# Resolver role_id (engineering.audit.0001_security) → DISC y ruta de roles (audit/0001_security/_index)
 resolve_role() {
   local role_id="$1"
   local disc subpath role_path

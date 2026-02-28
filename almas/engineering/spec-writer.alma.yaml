@@ -7,4 +7,4 @@ tags: [engineering, generate, spec, nl-to-code]
 
 compose:
   discipline: engineering
-  role: generate/00_spec-writer/_index
+  role: generate/0000_spec-writer/_index

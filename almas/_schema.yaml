@@ -55,7 +55,7 @@ properties:
 
       role:
         type: string
-        description: "Ruta del rol relativa a disciplines/<disc>/roles/ (ej: audit/01_security/_index)"
+        description: "Ruta del rol relativa a disciplines/<disc>/roles/ (ej: audit/0001_security/_index)"
 
       knowledge:
         type: array

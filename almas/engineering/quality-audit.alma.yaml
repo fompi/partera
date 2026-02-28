@@ -7,7 +7,7 @@ tags: [engineering, audit, quality]
 
 compose:
   discipline: engineering
-  role: audit/05_quality/_index
+  role: audit/0005_quality/_index
   techniques:
     - maintainability/tech-debt
     - maintainability/documentation-standards

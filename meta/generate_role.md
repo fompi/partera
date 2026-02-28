@@ -19,14 +19,14 @@ Actúa como **Arquitecto de Sistemas de Prompts** con conocimiento profundo del 
 
 1. **Disciplina**: `engineering` | `content` | `design` | `business` | `management`
 2. **Task type (verb)**: `audit` | `generate` | `plan` | `create` | `analyze` — el verbo que describe la acción principal del rol
-3. **Nombre del rol**: identificador snake_case con prefijo numérico (ej. `02_reviewer`)
+3. **Nombre del rol**: identificador snake_case con prefijo numérico (ej. `0002_reviewer`)
 4. **Descripción**: qué hace el rol y para quién
 5. Opcionalmente: un rol existente como referencia de estructura
 
 ## Convenciones del sistema
 
 - Path del rol: `disciplines/<disc>/roles/<verb>/<NN_nombre>/_index.md`
-- ID del rol: `<disc>.<verb>.<NN_nombre>` (ej. `engineering.audit.01_security`)
+- ID del rol: `<disc>.<verb>.<NN_nombre>` (ej. `engineering.audit.0001_security`)
 - Numeración: consultar roles existentes en la disciplina para el siguiente número disponible.
 - Cada rol tiene `_index.md` como punto de entrada (modo rápido, un solo pass).
 - Subtasks opcionales: `<NN><letra>_<subtask>.md` dentro del mismo directorio.

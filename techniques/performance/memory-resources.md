@@ -11,7 +11,7 @@ output: "Patrones de retención con impacto estimado en RAM y propuestas de corr
 applicable_disciplines: [engineering, ai, data]
 sfia_skills: [SFEN, PRMG]
 estimated_tokens: 240
-migrated_from: "02_performance/02c_memory_resources.md"
+migrated_from: "0002_performance/02c_memory_resources.md"
 ---
 
 # Técnica: Análisis de Memoria y Recursos

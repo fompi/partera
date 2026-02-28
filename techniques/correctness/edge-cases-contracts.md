@@ -11,7 +11,7 @@ output: "Contratos violados y edge cases no manejados con ubicación específica
 applicable_disciplines: [engineering, ai, data]
 sfia_skills: [TEST, SWDN]
 estimated_tokens: 250
-migrated_from: "04_correctness/04a_edge_cases_contracts.md"
+migrated_from: "0004_correctness/04a_edge_cases_contracts.md"
 ---
 
 # Técnica: Análisis de Edge Cases y Contratos

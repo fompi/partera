@@ -7,6 +7,6 @@ tags: [engineering, audit, orchestrator, swarm]
 
 compose:
   discipline: engineering
-  role: audit/00_orchestrator/_index
+  role: audit/0000_orchestrator/_index
   protocols:
     - autonomous

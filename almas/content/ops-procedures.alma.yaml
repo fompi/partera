@@ -7,6 +7,6 @@ tags: [content, generate, ops, runbooks]
 
 compose:
   discipline: content
-  role: generate/02_ops-procedures/_index
+  role: generate/0002_ops-procedures/_index
   sources:
     - internal-only

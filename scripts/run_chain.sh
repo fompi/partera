@@ -119,9 +119,9 @@ parse_steps() {
     '
 }
 
-# Derivar DISC y role_path de un role_id como "engineering.audit.01_security"
+# Derivar DISC y role_path de un role_id como "engineering.audit.0001_security"
 # Devuelve: DISC|role_path
-# role_path = "audit/01_security/_index"
+# role_path = "audit/0001_security/_index"
 resolve_role() {
   local role_id="$1"
   local disc role_path subpath

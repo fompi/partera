@@ -7,7 +7,7 @@ tags: [correctness, audit, deep, v02]
 
 compose:
   discipline: engineering
-  role: audit/04_correctness/_index
+  role: audit/0004_correctness/_index
   techniques:
     - correctness/edge-cases-contracts
     - correctness/concurrency-state

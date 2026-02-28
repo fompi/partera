@@ -7,7 +7,7 @@ tags: [engineering, audit, security, quick]
 
 compose:
   discipline: engineering
-  role: audit/01_security/_index
+  role: audit/0001_security/_index
   modifiers:
     - depth/quick
   techniques:

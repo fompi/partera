@@ -11,7 +11,7 @@ output: "Rutas de error con gaps de visibilidad y propuestas de corrección"
 applicable_disciplines: [engineering, ai, data]
 sfia_skills: [TEST, SWDN, RLMT]
 estimated_tokens: 240
-migrated_from: "04_correctness/04c_error_handling.md"
+migrated_from: "0004_correctness/04c_error_handling.md"
 ---
 
 # Técnica: Análisis de Gestión de Errores

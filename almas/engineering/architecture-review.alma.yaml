@@ -7,7 +7,7 @@ tags: [engineering, audit, architecture]
 
 compose:
   discipline: engineering
-  role: audit/03_architecture/_index
+  role: audit/0003_architecture/_index
   techniques:
     - scalability/horizontal-vertical-scaling
     - maintainability/code-organization

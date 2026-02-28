@@ -7,7 +7,7 @@ tags: [performance, audit, deep, v02]
 
 compose:
   discipline: engineering
-  role: audit/02_performance/_index
+  role: audit/0002_performance/_index
   techniques:
     - performance/algorithmic-complexity
     - performance/io-network-concurrency

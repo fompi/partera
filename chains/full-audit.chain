@@ -7,37 +7,37 @@ description: "Auditoría completa de código (security, performance, architectur
 tags: [chain, audit, code-review, comprehensive]
 disciplines: [engineering]
 steps:
-  - role: engineering.audit.01_security
+  - role: engineering.audit.0001_security
     name: "Auditor de Seguridad"
     input_from: user
     input_description: "código a auditar"
     output_to: orchestrator
     output_description: "hallazgos de seguridad"
-  - role: engineering.audit.02_performance
+  - role: engineering.audit.0002_performance
     name: "Auditor de Performance"
     input_from: user
     input_description: "código a auditar"
     output_to: orchestrator
     output_description: "hallazgos de rendimiento"
-  - role: engineering.audit.03_architecture
+  - role: engineering.audit.0003_architecture
     name: "Auditor de Arquitectura"
     input_from: user
     input_description: "código a auditar"
     output_to: orchestrator
     output_description: "hallazgos de arquitectura"
-  - role: engineering.audit.04_correctness
+  - role: engineering.audit.0004_correctness
     name: "Auditor de Correctitud"
     input_from: user
     input_description: "código a auditar"
     output_to: orchestrator
     output_description: "hallazgos de correctitud"
-  - role: engineering.audit.05_quality
+  - role: engineering.audit.0005_quality
     name: "Auditor de Calidad y DX"
     input_from: user
     input_description: "código a auditar"
     output_to: orchestrator
     output_description: "hallazgos de calidad de testing, observabilidad y mantenibilidad"
-  - role: engineering.audit.00_orchestrator
+  - role: engineering.audit.0000_orchestrator
     name: "Orquestador"
     input_from: previous_all
     input_description: "hallazgos de todos los auditores especializados"
@@ -57,23 +57,23 @@ Auditoría completa de código ejecutando cuatro auditores especializados en par
 ### PASOS 1–5: Auditorías especializadas (paralelas)
 Cada auditor recibe el **mismo código** del usuario y produce hallazgos independientes:
 
-- **PASO 1 — Auditor de Seguridad** (`engineering.audit.01_security`)
+- **PASO 1 — Auditor de Seguridad** (`engineering.audit.0001_security`)
   Vulnerabilidades, superficies de ataque, secretos expuestos, autenticación/autorización.
 
-- **PASO 2 — Auditor de Performance** (`engineering.audit.02_performance`)
+- **PASO 2 — Auditor de Performance** (`engineering.audit.0002_performance`)
   Complejidad algorítmica, I/O ineficiente, cuellos de botella, uso de memoria.
 
-- **PASO 3 — Auditor de Arquitectura** (`engineering.audit.03_architecture`)
+- **PASO 3 — Auditor de Arquitectura** (`engineering.audit.0003_architecture`)
   Separación de responsabilidades, acoplamiento, deuda técnica estructural, escalabilidad.
 
-- **PASO 4 — Auditor de Correctitud** (`engineering.audit.04_correctness`)
+- **PASO 4 — Auditor de Correctitud** (`engineering.audit.0004_correctness`)
   Bugs lógicos, edge cases no manejados, condiciones de carrera, manejo de errores.
 
-- **PASO 5 — Auditor de Calidad y DX** (`engineering.audit.05_quality`)
+- **PASO 5 — Auditor de Calidad y DX** (`engineering.audit.0005_quality`)
   Calidad de testing, observabilidad, mantenibilidad y experiencia de desarrollo.
 
 ### PASO 6: Orquestación
-**Rol**: engineering.audit.00_orchestrator
+**Rol**: engineering.audit.0000_orchestrator
 **Recibe**: hallazgos de los 5 auditores anteriores
 **Produce**: informe consolidado con hallazgos priorizados por severidad y plan de acción
 
