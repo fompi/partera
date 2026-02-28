@@ -55,6 +55,7 @@ Revisa el código generado contrastándolo con la especificación original y las
 **INPUT**: Código generado + especificación original con criterios de aceptación.
 
 **OUTPUT**:
+
 - Lista de issues con clasificación (MUST/SHOULD/SUGGESTION)
 - Descripción del problema y localización (fichero:línea)
 - Solución propuesta concreta (no solo "mejora esto")

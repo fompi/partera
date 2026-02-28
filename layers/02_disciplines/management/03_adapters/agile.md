@@ -18,18 +18,21 @@ Proyectos gestionados con metodologías ágiles: Scrum para proyectos con iterac
 ## Scrum: roles, artefactos y ceremonias
 
 ### Roles
+
 - **Product Owner (PO)**: dueño del backlog y de la priorización; representa al negocio.
 - **Scrum Master (SM)**: facilitador del proceso; elimina impedimentos; no es jefe de proyecto.
 - **Development Team**: autoorganizado; comprometido con el sprint goal.
 
 ### Artefactos
+
 - **Product Backlog**: lista priorizada de todo lo que el producto debe hacer.
 - **Sprint Backlog**: items seleccionados para el sprint actual + plan para entregarlos.
 - **Increment**: suma de todos los items completados, en estado "Done".
 
 ### Ceremonias
+
 | Ceremonia | Propósito | Duración (sprint 2 semanas) |
-|-----------|-----------|------------------------------|
+| --------- | --------- | --------------------------- |
 | Sprint Planning | Seleccionar y planificar el sprint | ≤ 4h |
 | Daily Scrum | Sincronización diaria del equipo | 15 min |
 | Sprint Review | Demo del incremento a stakeholders | ≤ 2h |

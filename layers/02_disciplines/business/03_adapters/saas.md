@@ -18,7 +18,7 @@ Empresas de software como servicio con modelo de suscripción. Aplica tanto a B2
 ## Métricas SaaS críticas
 
 | Métrica | Descripción | Benchmark típico |
-|---------|-------------|------------------|
+| --------- | ------------- | ------------------ |
 | MRR/ARR | Ingresos recurrentes mensuales/anuales | Crecimiento 2-3x YoY (early stage) |
 | Churn Rate | % clientes que cancelan por período | < 2% mensual (B2B), < 5% (B2C) |
 | Net Revenue Retention | MRR retenido + expansión de clientes existentes | > 100% = crecimiento sin nuevos clientes |
@@ -45,6 +45,7 @@ Empresas de software como servicio con modelo de suscripción. Aplica tanto a B2
 ## Estructura de pricing SaaS
 
 Modelos comunes y cuándo usar cada uno:
+
 - **Per seat**: B2B, valor vinculado al número de usuarios.
 - **Usage-based**: valor proporcional al uso (API calls, storage, transacciones).
 - **Tiered**: paquetes con conjuntos de features, para segmentar el mercado.

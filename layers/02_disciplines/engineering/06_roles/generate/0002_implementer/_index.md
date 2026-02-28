@@ -57,6 +57,7 @@ Transforma una especificación formal y un stack tecnológico definido en códig
 **INPUT**: Especificación formal con criterios de aceptación + stack tecnológico con versiones.
 
 **OUTPUT**:
+
 - Código organizado en ficheros por componente
 - Tests unitarios y de integración
 - README con instrucciones de setup y ejecución

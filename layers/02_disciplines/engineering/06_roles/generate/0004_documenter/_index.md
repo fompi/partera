@@ -55,6 +55,7 @@ Genera documentación técnica completa a partir del código implementado y la e
 **INPUT**: Código fuente + especificación + descripción del público objetivo.
 
 **OUTPUT**:
+
 - README con quickstart y overview
 - Documentación de API (referencia completa)
 - Architecture overview (si aplica)

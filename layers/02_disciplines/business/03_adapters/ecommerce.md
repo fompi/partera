@@ -18,7 +18,7 @@ Tiendas online, marketplaces, direct-to-consumer (DTC), y retail omnicanal con p
 ## Métricas e-commerce críticas
 
 | Métrica | Descripción | Referencia |
-|---------|-------------|------------|
+| --------- | ------------- | ------------ |
 | Conversion Rate | % visitantes que compran | 2-4% promedio sector |
 | AOV | Valor medio del pedido | Benchmark varía por vertical |
 | ROAS | Retorno sobre inversión publicitaria | > 4x como objetivo general |

@@ -49,6 +49,7 @@ Dado un conjunto de requisitos funcionales y no funcionales, recomienda el stack
 **INPUT**: Especificación formal + restricciones del contexto (tamaño de equipo, skills actuales, presupuesto, timeline, escala esperada).
 
 **OUTPUT**:
+
 - Stack recomendado (lenguaje, framework, base de datos, infra)
 - Justificación por componente con factores decisivos
 - Alternativas con trade-off principal

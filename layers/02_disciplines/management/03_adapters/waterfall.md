@@ -17,7 +17,7 @@ Proyectos con requisitos estables y bien definidos desde el inicio, entornos reg
 
 ## Fases estándar
 
-```
+```text
 1. INICIACIÓN
    ├─ Project charter aprobado
    ├─ Stakeholders identificados
@@ -65,6 +65,7 @@ Proyectos con requisitos estables y bien definidos desde el inicio, entornos reg
 ## Control de cambios
 
 En waterfall, el scope creep es el enemigo principal. Todo cambio debe:
+
 1. Documentarse formalmente (Change Request).
 2. Analizarse en impacto (coste, plazo, calidad).
 3. Aprobarse por el Change Control Board antes de implementarse.

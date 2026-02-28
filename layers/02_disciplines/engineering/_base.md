@@ -11,6 +11,8 @@ estimated_tokens: 650
 migrated_from: "_base_audit.md (sección específica de ingeniería)"
 ---
 
+# Base de Ingeniería de Software
+
 ## Alcance de la disciplina Engineering
 
 Esta disciplina cubre análisis, diseño, implementación y revisión de software. Los ejes de calidad en orden de prioridad:

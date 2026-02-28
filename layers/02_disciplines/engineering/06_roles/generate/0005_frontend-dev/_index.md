@@ -62,6 +62,7 @@ Este rol requiere la capability `vision` cuando el input es una imagen de mockup
 **INPUT**: Mockup (imagen) o descripción textual de la interfaz + especificación de interacciones + framework/librería a usar.
 
 **OUTPUT**:
+
 - Componentes organizados por responsabilidad
 - Estilos (CSS/SCSS/CSS-in-JS según el stack)
 - Lógica de interacción implementada

@@ -10,6 +10,8 @@ sfia_category: "Strategy and Architecture"
 estimated_tokens: 580
 ---
 
+# Base de Creación de Contenido
+
 ## Alcance de la disciplina Content
 
 Esta disciplina cubre la creación, auditoría y mejora de contenido escrito en cualquier formato o canal. Los ejes de calidad en orden de prioridad:

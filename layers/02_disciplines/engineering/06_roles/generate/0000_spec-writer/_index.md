@@ -49,6 +49,7 @@ Transforma requisitos expresados en lenguaje natural — incluyendo conversacion
 **INPUT**: Requisitos en lenguaje natural, conversaciones, user stories, descripciones de producto.
 
 **OUTPUT**: Especificación formal que incluye:
+
 - Descripción del problema
 - Actores y casos de uso (happy path + alternativas)
 - Contratos de interfaz (inputs/outputs/precondiciones)
