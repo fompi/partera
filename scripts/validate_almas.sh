@@ -170,6 +170,14 @@ for alma_file in $(find "$ALMAS_DIR" -name "*.alma.yaml" | sort); do
     fi
   fi
 
+  base=$(yq -r '.compose.base // empty' "$alma_file" 2>/dev/null || true)
+  if [[ -n "$base" ]]; then
+    base_file="$ROOT_DIR/layers/01_modes/${base}.md"
+    if [[ ! -f "$base_file" ]]; then
+      error "compose.base '$base' no encontrado (layers/01_modes/${base}.md)"
+    fi
+  fi
+
   # Si no hubo errores para esta alma, ok
   if [[ "$ERRORS" -eq 0 ]] || true; then
     ok "$alma_name"

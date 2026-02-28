@@ -11,8 +11,11 @@ usage() {
 Compone un prompt concatenando: base + disciplina + adaptador + rol [+ extensiones].
 
   DISC=<disciplina> ./compose.sh <adapter> <rol> [--clipboard]
+  BASE=<base> DISC=<disciplina> ./compose.sh <adapter> <rol>
   DISC=<disciplina> EXT="<ext1> <ext2>" ./compose.sh <adapter> <rol>
   DISC=<disciplina> RUNTIME=<runtime> ./compose.sh <adapter> <rol>
+
+  Bases (modos): slave (por defecto), streaming, conversational, lightweight, pedagogical, regulated
 
   Almas (composiciones declarativas):
     ./compose.sh --alma v02/security-deep python
@@ -20,6 +23,7 @@ Compone un prompt concatenando: base + disciplina + adaptador + rol [+ extension
 
   Ejemplos:
     DISC=engineering ./compose.sh python audit/0001_security/_index
+    BASE=streaming DISC=engineering ./compose.sh python audit/0001_security/_index
     DISC=engineering EXT="techniques/security/injection-analysis" ./compose.sh python audit/0001_security/_index
     DISC=engineering RUNTIME=claude ./compose.sh python generate/0002_implementer/_index
     DISC=content ./compose.sh technical generate/0001_doc-writer/_index
@@ -162,10 +166,16 @@ if [[ ! -d "$disc_dir" ]]; then
   exit 1
 fi
 
-# Base universal (modo slave)
-base_file="$SCRIPT_DIR/layers/01_modes/slave.md"
+# Base (modo): por defecto slave; puede venir de BASE= o de --alma (compose.base)
+BASE="${BASE:-slave}"
+MODES_DIR="$SCRIPT_DIR/layers/01_modes"
+base_file="$MODES_DIR/${BASE}.md"
 if [[ ! -f "$base_file" ]]; then
-  echo "Error: no existe layers/01_modes/slave.md" >&2
+  echo "Error: base '$BASE' no encontrada ($base_file)" >&2
+  echo "Bases disponibles en layers/01_modes/:" >&2
+  for f in "$MODES_DIR"/*.md; do
+    [[ -f "$f" ]] && echo "  $(basename "$f" .md)" >&2
+  done
   exit 1
 fi
 

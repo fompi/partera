@@ -57,6 +57,11 @@ properties:
         type: string
         description: "Ruta del rol relativa a layers/02_disciplines/<disc>/06_roles/ (ej: audit/0001_security/_index)"
 
+      base:
+        type: string
+        description: "Modo/base (layers/01_modes/<base>.md). Si se omite, se usa slave."
+        enum: [slave, streaming, conversational, lightweight, pedagogical, regulated]
+
       knowledge:
         type: array
         items:

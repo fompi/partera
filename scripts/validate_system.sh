@@ -129,12 +129,22 @@ fi
 
 section "Verificando Archivos Requeridos"
 
-# Base universal (modo slave)
-if [[ -f "$ROOT_DIR/layers/01_modes/slave.md" ]]; then
-  ok "layers/01_modes/slave.md presente"
+# Base por defecto (modo slave) y bases en 01_modes
+MODES_DIR="$ROOT_DIR/layers/01_modes"
+if [[ -f "$MODES_DIR/slave.md" ]]; then
+  ok "layers/01_modes/slave.md presente (base por defecto)"
 else
   error "layers/01_modes/slave.md no encontrado — requerido por el sistema"
 fi
+for mode_file in "$MODES_DIR"/*.md; do
+  [[ -f "$mode_file" ]] || continue
+  mode_name=$(basename "$mode_file" .md)
+  if grep -q '^type: base' "$mode_file" 2>/dev/null && grep -q '^id: base\.' "$mode_file" 2>/dev/null; then
+    ok "layers/01_modes/$mode_name.md (type: base)"
+  else
+    warn "layers/01_modes/$mode_name.md sin front-matter type: base e id: base.*"
+  fi
+done
 
 # compose.sh ejecutable
 if [[ -x "$ROOT_DIR/compose.sh" ]]; then
@@ -202,6 +212,7 @@ count_by_type() {
   echo "$count"
 }
 
+BASE_COUNT=$(find "$ROOT_DIR/layers/01_modes" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
 ROLE_COUNT=$(count_by_type "role" "$ROOT_DIR/layers/02_disciplines")
 TECHNIQUE_COUNT=$(find "$ROOT_DIR/layers/07_techniques" -name "*.md" 2>/dev/null | grep -v "^$ROOT_DIR/layers/07_techniques$" | wc -l | tr -d ' ')
 ADAPTER_COUNT=$(find "$ROOT_DIR/layers/02_disciplines" -path "*/03_adapters/*.md" 2>/dev/null | wc -l | tr -d ' ')
@@ -212,6 +223,7 @@ RUNTIME_COUNT=$(find "$ROOT_DIR/layers/12_runtimes" -name "*.md" 2>/dev/null | w
 PATTERN_COUNT=$(find "$ROOT_DIR/layers/04_patterns" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
 ALMA_COUNT=$(find "$ROOT_DIR/almas" -name "*.alma.yaml" 2>/dev/null | wc -l | tr -d ' ')
 
+info "Bases:        $BASE_COUNT"
 info "Roles:        $ROLE_COUNT"
 info "Técnicas:     $TECHNIQUE_COUNT"
 info "Adaptadores:  $ADAPTER_COUNT"

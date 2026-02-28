@@ -16,18 +16,29 @@ Consecuencias: se pueden expresar instrucciones complejas y especializadas con p
 
 ## Las 11 Capas Composables
 
-### Capa 1: `base` — Contrato Universal (modo slave)
+### Capa 1: `base` — Contrato de salida y ejecución
 
-**Archivo**: `layers/01_modes/slave.md`
+**Directorio**: `layers/01_modes/`. Se selecciona con la variable de entorno `BASE` (por defecto `slave`) o con `compose.base` en un alma.
 
-Establece las reglas universales que aplican a cualquier composición del sistema, independientemente de la disciplina o el rol:
+Hay **varias bases**, cada una con un contrato distinto de formato de salida, nivel de rigor y uso esperado:
+
+| Base | Contrato | Utilidad principal |
+|------|----------|---------------------|
+| **slave** | Un resultado al final; plantilla de hallazgo; anti-alucinación; CoT interno; idioma del prompt | Informes de auditoría, compliance, trazabilidad SFIA |
+| **streaming** | Mismo formato por hallazgo; emite cada uno en cuanto está listo; no bloque único final | Feedback en vivo, cancelación, pipelines incrementales |
+| **conversational** | Sin plantilla de hallazgo; turnos de conversación; formato libre por turno | Tutor, exploración guiada, discovery, FAQ |
+| **lightweight** | Menos evidencia; suposiciones marcadas; formato más libre; menos campos obligatorios | Borradores, brainstorming, prototipos de prompt |
+| **pedagogical** | Cada hallazgo/decisión + bloque de explicación (por qué, cómo comprobar, alternativas) | Onboarding, documentación didáctica, revisión comentada |
+| **regulated** | Como universal + fuentes permitidas, lenguaje controlado, campos extra (refs normativas, riesgo) | Sectores regulados, auditorías con estándar fijo |
+
+La base **slave** (`layers/01_modes/slave.md`) es la base universal por defecto. Establece:
 
 - Principio de anti-alucinación (distinguir hallazgos de hipótesis)
 - Framework de Chain-of-Thought para razonamiento estructurado
 - Plantilla canónica de hallazgo/output
 - Idioma de respuesta
 
-**Por qué existe**: garantiza que todos los outputs del sistema tengan un estándar mínimo de rigor y formato, sin que cada rol deba redefinirlo.
+**Por qué existe**: la capa base garantiza que el output cumpla un contrato predecible (informe estructurado, streaming, diálogo, borrador, etc.) sin que cada rol deba redefinirlo. Elegir la base adecuada permite reutilizar los mismos roles en contextos de uso distintos.
 
 ### Capa 2: `discipline_base` — Base de Disciplina
 

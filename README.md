@@ -95,7 +95,7 @@ El sistema compone prompts concatenando capas ordenadas. Cada capa aporta contex
 
 | # | Tipo | Directorio | Descripción |
 | - | ---- | ---------- | ----------- |
-| 1 | `base` | `layers/01_modes/slave.md` | Contrato universal: anti-alucinación, CoT, formato de hallazgo |
+| 1 | `base` | `layers/01_modes/<base>.md` | Contrato de salida/ejecución; por defecto `slave`. Seleccionable con `BASE=` (ver [Bases disponibles](#bases-disponibles)). |
 | 2 | `discipline_base` | `layers/02_disciplines/<disc>/_base.md` | Principios, estándares y ética de la disciplina |
 | 3 | `adapter` | `layers/02_disciplines/<disc>/03_adapters/` | Contexto específico: lenguaje, plataforma, modelo de negocio |
 | 4 | `knowledge` | `layers/05_knowledge/` | Conocimiento de referencia curado (opcional) |
@@ -118,7 +118,7 @@ PROMPT = base + discipline_base + adapter
        + [capabilities] + [runtime]
 ```
 
-Las capas en `[corchetes]` son opcionales. Se activan con `EXT=` o con flags específicos (p. ej. `RUNTIME=`).
+Las capas en `[corchetes]` son opcionales. Se activan con `EXT=` o con flags específicos (p. ej. `RUNTIME=`). Para usar una base distinta de la por defecto: `BASE=<base>` (ej. `BASE=streaming`).
 
 ```bash
 DISC=engineering \
@@ -127,13 +127,26 @@ EXT="knowledge/security-awareness techniques/security/injection-analysis modifie
 ./compose.sh python audit/0001_security/_index
 ```
 
+### Bases disponibles
+
+La capa 1 (`base`) elige el **contrato de salida**. Por defecto se usa `slave`. Con `BASE=<nombre>` o con `compose.base` en un alma se puede elegir otro modo:
+
+| Base | Uso principal |
+|------|----------------|
+| `slave` | Informes de auditoría, compliance, trazabilidad SFIA (un resultado al final, plantilla de hallazgo) |
+| `streaming` | Feedback en vivo: emite cada hallazgo en cuanto está listo; cancelación y pipelines incrementales |
+| `conversational` | Tutor, exploración guiada, discovery, FAQ (turnos de conversación, formato libre) |
+| `lightweight` | Borradores, brainstorming, prototipos (menos rigor, suposiciones marcadas) |
+| `pedagogical` | Onboarding, documentación didáctica (cada resultado + bloque de explicación) |
+| `regulated` | Sectores regulados, auditorías con estándar fijo (universal + refs normativas, lenguaje controlado) |
+
 ---
 
 ## Glosario
 
 | Término | Significado |
 | ------- | ----------- |
-| **Base** | Contrato universal (`layers/01_modes/slave.md`): anti-alucinación, razonamiento y plantilla de hallazgo. |
+| **Base** | Capa de contrato de salida/ejecución (`layers/01_modes/`). Se elige entre varias: `slave` (universal, por defecto), `streaming`, `conversational`, `lightweight`, `pedagogical`, `regulated`. Define formato de output, nivel de rigor y si hay plantilla de hallazgo. |
 | **Disciplina** | Área profesional: engineering, content, design, business, management. Cada una tiene su `_base.md` en `layers/02_disciplines/<disc>/` y sus roles en `06_roles/`. |
 | **Adaptador** | Contexto concreto dentro de una disciplina: lenguaje (python, bash), plataforma (web, mobile), metodología (agile, waterfall), etc. |
 | **Rol** | Persona funcional que realiza una tarea (auditar seguridad, generar documentación, planificar proyecto). La instrucción activa del prompt. |
@@ -211,7 +224,7 @@ Adaptadores: `agile`, `waterfall`
 ```text
 partera/
 ├── layers/                     # Capas de composición (orden numérico)
-│   ├── 01_modes/slave.md      # Capa 1: base universal
+│   ├── 01_modes/               # Capa 1: bases (slave, streaming, conversational, …)
 │   ├── 02_disciplines/         # Capa 2: disciplinas
 │   │   ├── engineering/
 │   │   │   ├── _base.md

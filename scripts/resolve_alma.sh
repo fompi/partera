@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # resolve_alma.sh — Lee un .alma.yaml, resuelve herencia y emite variables para compose.sh
 # Uso: eval "$(scripts/resolve_alma.sh <alma_name>)"
-# Emite: DISC, ROLE, EXT, RUNTIME, INJECT_BEFORE, INJECT_AFTER, MODEL_SUGGESTED, MODEL_TEMPERATURE, MODEL_MAX_TOKENS
+# Emite: DISC, ROLE, BASE (si compose.base), EXT, RUNTIME, INJECT_*, MODEL_*
 # NO emite ADAPTER (se pasa al invocar compose.sh)
 set -euo pipefail
 
@@ -74,6 +74,7 @@ read_array() {
 
 DISC=$(read_field '.compose.discipline')
 ROLE=$(read_field '.compose.role')
+BASE=$(read_field '.compose.base')
 RUNTIME=$(read_field '.compose.runtime')
 
 if [[ -z "$DISC" ]]; then
@@ -129,6 +130,7 @@ emit_var() {
 
 emit_var "DISC" "$DISC"
 emit_var "ROLE" "$ROLE"
+emit_var "BASE" "${BASE:-}"
 emit_var "EXT" "$EXT"
 emit_var "RUNTIME" "${RUNTIME:-}"
 emit_var "INJECT_BEFORE" "${INJECT_BEFORE:-}"
