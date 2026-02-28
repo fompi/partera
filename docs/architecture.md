@@ -141,6 +141,8 @@ make alma ALMA=v02/security-deep ADAPTER=python
 
 ### Estructura
 
+La lista siguiente es indicativa; para ver todas las almas disponibles: `make list-almas`.
+
 ```text
 almas/
   _schema.yaml              # JSON Schema del formato alma
@@ -153,12 +155,22 @@ almas/
     implementer-claude.alma.yaml
     architecture-teaching.alma.yaml
     security-deep-ollama.alma.yaml
+    ...
   content/                   # Disciplina: Content
     copywriter-deep.alma.yaml
+    doc-writer.alma.yaml
+    ...
   design/                    # Disciplina: Design
     web-with-eng.alma.yaml
+    ux-researcher.alma.yaml
+    ...
   business/                  # Disciplina: Business
     presales-research.alma.yaml
+    presales-fintech.alma.yaml
+    ...
+  management/                # Disciplina: Management
+    project-manager.alma.yaml
+    project-manager-executive.alma.yaml
 ```
 
 ### Herencia
@@ -358,7 +370,7 @@ Este sistema puede **generar definiciones CrewAI** via `make generate-crewai`.
 
 ## Extensión del Sistema
 
-Para añadir una nueva disciplina, adaptador, rol o técnica, ver los meta-prompts en `meta/`:
+Para añadir una nueva disciplina, adaptador, rol o técnica, se usan los meta-prompts en `meta/`. Listado completo: `make list-meta`.
 
 ```bash
 # Generar un nuevo rol
@@ -370,6 +382,12 @@ cat meta/_base_meta.md meta/generate_adapter.md > /tmp/meta-adapter.txt
 
 # Generar una nueva disciplina completa
 cat meta/_base_meta.md meta/generate_discipline.md > /tmp/meta-discipline.txt
+
+# Generar una nueva técnica
+cat meta/_base_meta.md meta/generate_technique.md > /tmp/meta-technique.txt
+
+# Mejorar un prompt existente
+./compose.sh --meta improve_prompt [--clipboard]
 
 # Evaluar cobertura del sistema
 cat meta/_base_meta.md meta/evaluate_coverage.md > /tmp/meta-coverage.txt
@@ -384,3 +402,6 @@ cat meta/_base_meta.md meta/evaluate_coverage.md > /tmp/meta-coverage.txt
 - [migration-guide.md](migration-guide.md): cambios que afectan a la sintaxis de uso.
 - [cross-discipline-compatibility.md](cross-discipline-compatibility.md): combinaciones válidas entre disciplinas y adaptadores.
 - [sfia-mapping.md](sfia-mapping.md): correspondencia con el framework SFIA 9.
+- [almas-swarm.md](almas-swarm.md): uso de almas en modo swarm (múltiples agentes).
+
+Los scripts de listado y validación viven en `scripts/` (p. ej. `scripts/list_by_type.sh`, `scripts/validate_frontmatter.sh`); el Makefile expone targets como `make list-disciplines`, `make validate`, `make list-almas`. Para flujos multi-paso: `make chain CHAIN=<nombre>` (véase `chains/` y `scripts/run_chain.sh`).
