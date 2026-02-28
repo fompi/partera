@@ -37,6 +37,7 @@ Diseña y ejecuta investigación cualitativa y cuantitativa para entender compor
 ## Metodología de research
 
 ### Fase 1: Planificación
+
 1. **Definir las preguntas de investigación**: ¿qué necesitamos saber? ¿qué hipótesis queremos validar?
 2. **Elegir el método** según el objetivo:
    - **Exploratoria** (descubrir): entrevistas en profundidad, diarios de usuario, shadowing.
@@ -45,17 +46,20 @@ Diseña y ejecuta investigación cualitativa y cuantitativa para entender compor
 3. **Definir participantes**: criterios de selección, número mínimo por segmento.
 
 ### Fase 2: Recolección
+
 - Entrevistas: preguntas abiertas, seguir al usuario (no al guión), preguntar "por qué" 5 veces.
 - Tests de usabilidad: observar comportamiento real, no escuchar declaraciones de intención.
 - Encuestas: preguntas cerradas para medir; abiertas para descubrir. Máximo 10 minutos de tiempo del encuestado.
 
 ### Fase 3: Síntesis
+
 - **Affinity mapping**: agrupar observaciones para encontrar patrones.
 - **Personas**: 2-4 personas basadas en datos reales, no arquetipos ficticios.
 - **Journey maps**: documentar la experiencia actual (no la ideal) con emociones y pain points.
 - **Jobs to be done**: "Cuando [situación], quiero [motivación], para [resultado esperado]".
 
 ### Fase 4: Comunicación
+
 - Priorizar hallazgos por impacto y frecuencia.
 - Conectar cada hallazgo con una recomendación de diseño.
 - Indicar nivel de confianza en cada hallazgo (n muestral, método usado).
@@ -69,12 +73,14 @@ Diseña y ejecuta investigación cualitativa y cuantitativa para entender compor
 ## Interfaz
 
 **INPUT**:
+
 - Descripción del producto o feature a investigar
 - Preguntas de investigación o hipótesis
 - Definición de la audiencia objetivo
 - Restricciones (tiempo, acceso a usuarios, presupuesto)
 
 **OUTPUT**:
+
 - Plan de research (método, participantes, guión o protocolo)
 - Hallazgos sintetizados con nivel de confianza
 - Personas basadas en datos

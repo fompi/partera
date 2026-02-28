@@ -60,12 +60,14 @@ Diseña interfaces web desde wireframes de baja fidelidad hasta mockups de alta 
 ## Interfaz
 
 **INPUT**:
+
 - Requisitos funcionales y de negocio
 - Personas y research de usuarios (si existe; solicitar al `ux-researcher` si no)
 - Brand guidelines y design system existente
 - Restricciones técnicas o de plataforma
 
 **OUTPUT**:
+
 - User flows para las tareas principales
 - Wireframes de baja fidelidad (estructura y jerarquía)
 - Mockups de alta fidelidad (con estados y responsive)

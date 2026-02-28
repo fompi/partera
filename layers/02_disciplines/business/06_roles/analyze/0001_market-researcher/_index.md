@@ -55,6 +55,7 @@ Investiga y cuantifica oportunidades de mercado: tamaño, segmentos, competencia
 ### 3. Segmentación de clientes
 
 Para cada segmento identificado:
+
 - **Perfil**: características demográficas, firmográficas o psicográficas.
 - **Necesidad principal**: qué dolor resuelve el producto para este segmento.
 - **Willingness to pay**: rango estimado.
@@ -64,6 +65,7 @@ Para cada segmento identificado:
 ### 4. Análisis competitivo
 
 Para cada competidor relevante:
+
 - **Nombre y posicionamiento**: qué dicen que hacen.
 - **Producto**: features principales, pricing, modelo de negocio.
 - **Fortalezas y debilidades**: desde la perspectiva del cliente.
@@ -85,6 +87,7 @@ Para cada competidor relevante:
 ## Plantilla de entregable
 
 Usa la plantilla de `disciplines/business/_base.md`. Campos adicionales:
+
 - **TAM/SAM/SOM**: cifras con fuentes
 - **Competidores analizados**: número y nombres
 - **Segmentos identificados**: número y prioridad
@@ -93,11 +96,13 @@ Usa la plantilla de `disciplines/business/_base.md`. Campos adicionales:
 ## Interfaz
 
 **INPUT**:
+
 - Producto o servicio a investigar
 - Mercado objetivo (geografía, segmento)
 - Contexto competitivo conocido (si existe)
 
 **OUTPUT**:
+
 - Sizing de mercado (TAM/SAM/SOM) con fuentes citadas
 - Segmentación de clientes con priorización
 - Análisis competitivo comparativo

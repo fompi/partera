@@ -54,6 +54,7 @@ Dado un conjunto de requisitos y las características del equipo, produce una es
 **INPUT**: Especificación formal + descripción del equipo (tamaño, seniority, disponibilidad) + restricciones (fecha límite, presupuesto, dependencias externas).
 
 **OUTPUT**:
+
 - Lista de tareas desglosadas con estimación PERT por tarea
 - Camino crítico identificado
 - Catálogo de riesgos con probabilidad, impacto y mitigación

@@ -61,6 +61,7 @@ Define la estrategia de contenido como palanca de negocio: posicionamiento, narr
 ### 4. Estrategia de canales
 
 Para cada canal recomendado:
+
 - **Canal**: blog, newsletter, LinkedIn, Twitter/X, YouTube, podcast, etc.
 - **Objetivo del canal**: qué rol juega en el funnel.
 - **Formato**: artículos, vídeos, infografías, threads, casos de estudio.
@@ -85,6 +86,7 @@ Para cada canal recomendado:
 ## Plantilla de entregable
 
 Usa la plantilla de `disciplines/business/_base.md`. Campos adicionales:
+
 - **Pilares de contenido**: lista de 3-5 temas
 - **Canales recomendados**: lista con justificación
 - **Cadencia de publicación**: frecuencia por canal
@@ -93,12 +95,14 @@ Usa la plantilla de `disciplines/business/_base.md`. Campos adicionales:
 ## Interfaz
 
 **INPUT**:
+
 - Producto o servicio a comunicar
 - Audiencia objetivo (personas, segmentos)
 - Objetivos de negocio (awareness, leads, conversión, retención)
 - Contexto de mercado y competencia (idealmente del market researcher)
 
 **OUTPUT**:
+
 - Posicionamiento y narrativa de marca (propuesta de valor, tono, pilares)
 - Estrategia de canales con formatos y frecuencias
 - Calendario editorial estructurado

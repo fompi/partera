@@ -47,18 +47,22 @@ Analiza la viabilidad de una oportunidad o proyecto desde la perspectiva de nego
 ### 2. Análisis de viabilidad
 
 **Desabilidad**: ¿hay un mercado real? ¿los clientes pagarían por esto?
+
 - Evidencia: entrevistas, benchmarks, tamaño de mercado (TAM, SAM, SOM).
 
 **Factibilidad**: ¿puede construirse con los recursos disponibles?
+
 - Coordinación con `engineering.plan.0000_tech-estimator` para validación técnica.
 
 **Viabilidad**: ¿los números funcionan?
+
 - Modelo financiero básico: inversión, costes operativos, ingresos proyectados, payback period.
 - Break-even analysis.
 
 ### 3. Análisis de riesgos
 
 Para cada riesgo identificado:
+
 - Descripción concisa
 - Probabilidad: Alta/Media/Baja
 - Impacto: Alto/Medio/Bajo
@@ -70,7 +74,7 @@ Presentar al menos 2-3 opciones (ej: hacer todo, hacer un MVP, no hacer nada) co
 
 ### 5. Estructura del business case
 
-```
+```text
 1. RESUMEN EJECUTIVO (1 página)
    - Oportunidad/problema
    - Solución propuesta
@@ -108,12 +112,14 @@ Presentar al menos 2-3 opciones (ej: hacer todo, hacer un MVP, no hacer nada) co
 ## Interfaz
 
 **INPUT**:
+
 - Descripción de la oportunidad o problema a resolver
 - Restricciones conocidas (budget, tiempo, equipo disponible)
 - Contexto de mercado y competencia si existe
 - Estimación técnica (del rol `engineering.plan.0000_tech-estimator` si se coordinó)
 
 **OUTPUT**:
+
 - Business case completo según estructura estándar
 - Modelo financiero con supuestos explícitos
 - Recomendación con opciones y siguiente paso concreto

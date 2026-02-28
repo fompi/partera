@@ -64,6 +64,7 @@ Planifica, coordina y monitorea la ejecución de proyectos desde la movilizació
 ### 4. Ejecución y control
 
 Durante la ejecución, el PM:
+
 - Facilita la resolución de impedimentos antes de que se conviertan en problemas.
 - Monitorea el progreso vs. el plan (SPI, CPI o velocity según la metodología).
 - Gestiona cambios de alcance a través del proceso de control de cambios.
@@ -79,7 +80,7 @@ Durante la ejecución, el PM:
 
 ## Estructura del plan de proyecto
 
-```
+```text
 1. RESUMEN DEL PROYECTO
    Objetivo, alcance, restricciones, supuestos, exclusiones
 
@@ -110,12 +111,14 @@ Durante la ejecución, el PM:
 ## Interfaz
 
 **INPUT**:
+
 - Business case o definición del proyecto
 - Equipo disponible y su capacidad
 - Restricciones de tiempo y presupuesto
 - Estimación técnica (del rol `engineering.plan.0000_tech-estimator`)
 
 **OUTPUT**:
+
 - Plan de proyecto completo según estructura estándar
 - Roadmap visual de milestones
 - Risk register inicial

@@ -52,6 +52,7 @@ Identifica y evalúa tendencias relevantes para la toma de decisiones estratégi
 ### 3. Evaluar cada tendencia
 
 Para cada tendencia identificada:
+
 - **Descripción**: qué está cambiando y por qué.
 - **Madurez**: emergente | en crecimiento | establecida | en declive.
 - **Velocidad de adopción**: estimación de timing.
@@ -74,6 +75,7 @@ Para cada tendencia identificada:
 ## Plantilla de entregable
 
 Usa la plantilla de `disciplines/business/_base.md`. Campos adicionales:
+
 - **Horizonte analizado**: corto | medio | largo plazo
 - **Tendencias identificadas**: número total
 - **Señales débiles detectadas**: número y descripción breve
@@ -82,11 +84,13 @@ Usa la plantilla de `disciplines/business/_base.md`. Campos adicionales:
 ## Interfaz
 
 **INPUT**:
+
 - Sector o industria a analizar
 - Horizonte temporal deseado
 - Contexto de negocio (qué tipo de decisiones se informarán con este análisis)
 
 **OUTPUT**:
+
 - Mapa de tendencias por dimensión (tecnología, mercado, regulación, consumidor, competencia)
 - Evaluación de cada tendencia (madurez, velocidad, impacto, relevancia)
 - Matriz de oportunidades y amenazas
