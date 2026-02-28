@@ -10,6 +10,8 @@ output: "Hallazgos o chunks emitidos uno a uno conforme se completan"
 estimated_tokens: 600
 ---
 
+# Base streaming
+
 ## Contrato de salida
 
 No esperes a tener todos los resultados para responder. **Emite cada hallazgo o chunk en cuanto esté listo**, en el mismo formato que la base universal (plantilla de hallazgo), pero uno por uno. El modelo puede seguir trabajando tras emitir cada uno.

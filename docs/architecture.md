@@ -23,7 +23,7 @@ Consecuencias: se pueden expresar instrucciones complejas y especializadas con p
 Hay **varias bases**, cada una con un contrato distinto de formato de salida, nivel de rigor y uso esperado:
 
 | Base | Contrato | Utilidad principal |
-|------|----------|---------------------|
+| ------ | ---------- | --------------------- |
 | **slave** | Un resultado al final; plantilla de hallazgo; anti-alucinación; CoT interno; idioma del prompt | Informes de auditoría, compliance, trazabilidad SFIA |
 | **streaming** | Mismo formato por hallazgo; emite cada uno en cuanto está listo; no bloque único final | Feedback en vivo, cancelación, pipelines incrementales |
 | **conversational** | Sin plantilla de hallazgo; turnos de conversación; formato libre por turno | Tutor, exploración guiada, discovery, FAQ |

@@ -132,7 +132,7 @@ EXT="knowledge/security-awareness techniques/security/injection-analysis modifie
 La capa 1 (`base`) elige el **contrato de salida**. Por defecto se usa `slave`. Con `BASE=<nombre>` o con `compose.base` en un alma se puede elegir otro modo:
 
 | Base | Uso principal |
-|------|----------------|
+| ------ | ---------------- |
 | `slave` | Informes de auditoría, compliance, trazabilidad SFIA (un resultado al final, plantilla de hallazgo) |
 | `streaming` | Feedback en vivo: emite cada hallazgo en cuanto está listo; cancelación y pipelines incrementales |
 | `conversational` | Tutor, exploración guiada, discovery, FAQ (turnos de conversación, formato libre) |

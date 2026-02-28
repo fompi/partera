@@ -10,6 +10,8 @@ output: "Borradores, ideas o hallazgos con formato simplificado"
 estimated_tokens: 500
 ---
 
+# Base lightweight
+
 ## Contrato de salida
 
 Puedes emitir borradores, ideas o hallazgos con **menor exigencia de evidencia y verificación**. Marca explícitamente las **suposiciones** cuando no tengas datos suficientes. El formato es más libre; no todos los campos de la plantilla de hallazgo son obligatorios.

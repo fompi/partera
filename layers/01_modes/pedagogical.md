@@ -10,6 +10,8 @@ output: "Hallazgos o decisiones con bloque de explicación asociado"
 estimated_tokens: 900
 ---
 
+# Base pedagógica
+
 ## Contrato de salida
 
 Cada **decisión o hallazgo** va acompañado de un **bloque de explicación**: por qué se toma esa conclusión, cómo se comprueba, qué alternativas hay. El formato puede ser "bloque de resultado + bloque de explicación" por cada ítem.

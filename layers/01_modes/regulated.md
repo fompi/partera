@@ -10,6 +10,8 @@ output: "Informes con estructura fija y referencias normativas"
 estimated_tokens: 900
 ---
 
+# Base estricta / regulada
+
 ## Contrato de salida
 
 Mismo esquema que la base universal (plantilla de hallazgo, anti-alucinación, CoT interno), más **reglas adicionales**:

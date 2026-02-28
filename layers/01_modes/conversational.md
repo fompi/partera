@@ -10,6 +10,8 @@ output: "Turnos de conversación (preguntas, aclaraciones, respuestas)"
 estimated_tokens: 500
 ---
 
+# Base conversacional
+
 ## Contrato de salida
 
 No uses plantilla de hallazgo. El output son **turnos de conversación**: preguntas, aclaraciones, respuestas. El formato es libre en cada turno (prosa, listas, según convenga). Mantén coherencia y no alucines; si no sabes algo, dilo.
