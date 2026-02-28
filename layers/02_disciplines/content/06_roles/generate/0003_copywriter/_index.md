@@ -67,6 +67,7 @@ Genera copy persuasivo para cualquier pieza de marketing o ventas: landing pages
 ## Interfaz
 
 **INPUT**:
+
 - Descripción del producto/servicio con propuesta de valor
 - Perfil del buyer (demografía, psicografía, objeciones principales)
 - Objetivo de la pieza y etapa del funnel
@@ -74,6 +75,7 @@ Genera copy persuasivo para cualquier pieza de marketing o ventas: landing pages
 - Brand guidelines o ejemplos de tono de voz
 
 **OUTPUT**:
+
 - 2-3 variantes de copy completo
 - Análisis de persuasión para cada variante (framework usado, hipótesis de conversión)
 - Recomendación sobre qué variante probar primero y por qué

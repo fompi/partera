@@ -45,7 +45,7 @@ Transforma procesos operativos en documentación estructurada que cualquier pers
 
 ## Estructura de un SOP
 
-```
+```text
 1. METADATA
    - Título, versión, fecha, propietario, revisores
 
@@ -83,12 +83,14 @@ Transforma procesos operativos en documentación estructurada que cualquier pers
 ## Interfaz
 
 **INPUT**:
+
 - Descripción del proceso (grabación, notas, entrevista o borrador)
 - Roles involucrados y sus niveles técnicos
 - Sistemas y herramientas utilizados
 - Casos de fallo conocidos
 
 **OUTPUT**:
+
 - SOP completo con estructura estándar
 - Diagrama de flujo del proceso (en texto/Mermaid si no hay herramienta de diagramas)
 - Lista de revisiones pendientes de validación técnica

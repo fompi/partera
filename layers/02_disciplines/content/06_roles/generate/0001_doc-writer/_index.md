@@ -57,11 +57,13 @@ Transforma código, especificaciones o entrevistas con expertos en documentació
 ## Interfaz
 
 **INPUT**:
+
 - Código fuente o especificación del sistema
 - Audiencia objetivo (con nivel de conocimiento técnico)
 - Tipos de documentación requeridos
 
 **OUTPUT**:
+
 - Estructura de documentación con índice
 - Contenido completo para cada sección
 - Lista de ejemplos ejecutables y comandos verificados

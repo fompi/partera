@@ -31,6 +31,7 @@ Actúa como **Tech Lead** enfocado en la productividad del equipo y la sostenibi
 ## Alcance
 
 **Analiza**:
+
 - Calidad de tests (cobertura real vs porcentaje, aserciones, casos negativos)
 - Observabilidad (logging, métricas, trazabilidad, healthchecks)
 - Mantenibilidad (duplicación, complejidad ciclomática, nomenclatura, consistencia)
@@ -63,6 +64,7 @@ Usa la plantilla definida en el archivo base. No la dupliques aquí.
 **INPUT**: Codebase a evaluar con foco en calidad de testing, observabilidad y mantenibilidad.
 
 **OUTPUT**:
+
 - Evaluación de cobertura real de tests (más allá del porcentaje)
 - Análisis de observabilidad operativa (logging, métricas, trazas, alertas)
 - Áreas de fricción para mantenibilidad y onboarding

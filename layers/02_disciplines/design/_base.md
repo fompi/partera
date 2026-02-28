@@ -10,6 +10,8 @@ sfia_category: "Solution Development and Implementation"
 estimated_tokens: 620
 ---
 
+# Base de Diseño
+
 ## Alcance de la disciplina Design
 
 Esta disciplina cubre el diseño de experiencias e interfaces centradas en el usuario, desde la investigación inicial hasta la validación del diseño final. Los ejes de calidad en orden de prioridad:

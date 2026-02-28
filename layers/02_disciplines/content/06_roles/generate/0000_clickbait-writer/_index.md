@@ -55,12 +55,14 @@ Genera variantes de titular para un artículo dado, cubriendo distintos ángulos
 ## Interfaz
 
 **INPUT**:
+
 - Artículo completo o resumen ejecutivo (mínimo el lead y los puntos clave)
 - Audiencia objetivo
 - Canal de publicación (blog, email, social, búsqueda)
 - Objetivo (CTR, shares, aperturas)
 
 **OUTPUT**:
+
 - 5-10 titulares ordenados por impacto estimado
 - Para cada titular: ángulo utilizado, canal recomendado, riesgo de expectativa no cumplida
 - Recomendación editorial con justificación

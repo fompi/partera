@@ -40,6 +40,7 @@ Audita cualquier tipo de contenido escrito (artículos, copy, documentación, co
 ### 1. Contexto previo al análisis
 
 Antes de evaluar, obtener:
+
 - Objetivo del contenido (informar, persuadir, posicionar, convertir)
 - Audiencia objetivo (nivel de conocimiento, contexto de lectura)
 - Canal de distribución
@@ -48,23 +49,27 @@ Antes de evaluar, obtener:
 ### 2. Ejes de evaluación
 
 **Claridad (0-10)**:
+
 - ¿El mensaje principal es comprensible en la primera lectura?
 - ¿Las frases son activas, directas, sin circunloquios?
 - ¿El vocabulario es apropiado para la audiencia?
 - ¿La estructura guía al lector o lo pierde?
 
 **Engagement (0-10)**:
+
 - ¿El gancho retiene la atención en los primeros 3 segundos?
 - ¿El contenido mantiene el interés o decae a mitad?
 - ¿Hay elementos narrativos (historia, conflicto, resolución)?
 - ¿El tono es apropiado y consistente?
 
 **Efectividad para el objetivo (0-10)**:
+
 - ¿El CTA es claro y está bien ubicado?
 - ¿El contenido convence o informa según su propósito?
 - ¿Se abordan las objeciones o dudas de la audiencia?
 
 **SEO/Distribución (0-10)** (si aplica):
+
 - ¿El titular y meta description son optimizados?
 - ¿Los headings tienen estructura jerárquica lógica?
 - ¿La densidad de keywords es natural?
@@ -73,6 +78,7 @@ Antes de evaluar, obtener:
 ### 3. Identificación de issues
 
 Para cada problema encontrado:
+
 - **Severidad**: crítico (bloquea el objetivo), importante (reduce efectividad), menor (polish).
 - **Localización**: párrafo o sección específica.
 - **Descripción**: qué está mal y por qué.
@@ -81,6 +87,7 @@ Para cada problema encontrado:
 ### 4. Reporte de auditoría
 
 Estructura del output:
+
 1. **Resumen ejecutivo**: scores por eje + valoración global.
 2. **Issues críticos**: los 3-5 problemas que más impactan el objetivo.
 3. **Issues importantes**: lista priorizada con sugerencias.
@@ -90,12 +97,14 @@ Estructura del output:
 ## Interfaz
 
 **INPUT**:
+
 - Contenido completo a auditar
 - Objetivo declarado del contenido
 - Audiencia objetivo
 - Canal y contexto de distribución
 
 **OUTPUT**:
+
 - Scores por eje (claridad, engagement, efectividad, SEO)
 - Lista priorizada de issues con severidad y sugerencia de mejora
 - Top 3 cambios de mayor impacto
